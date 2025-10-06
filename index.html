@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evangelos-Marios Nikolados</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #22d3ee;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 0.5rem 0;
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-shift 3s ease infinite;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(30deg); }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 5rem 2rem 2rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text {
+            animation: slideInLeft 1s ease;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-text .subtitle {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.875rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .hero-image {
+            position: relative;
+            animation: slideInRight 1s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .profile-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            animation: shimmer 2s ease infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .profile-pic {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            position: relative;
+            animation: pulse 2s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--primary);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-5px) rotate(360deg);
+            border-color: var(--primary);
+        }
+
+        /* Sections */
+        section {
+            padding: 5rem 2rem;
+            background: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+            color: var(--dark);
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .skill-card {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .skill-card:hover::before {
+            left: 100%;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .skill-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .skill-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .skill-card p {
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-image::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: width 0.5s ease, height 0.5s ease;
+        }
+
+        .project-card:hover .project-image::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .project-content p {
+            color: var(--gray);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-links a {
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: var(--light);
+            color: var(--primary);
+        }
+
+        .project-links a:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        /* Contact Section */
+        #contact {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        #contact h2 {
+            color: white;
+        }
+
+        #contact h2::after {
+            background: white;
+        }
+
+        .contact-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-item a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .contact-item a:hover {
+            opacity: 0.8;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        footer p {
+            opacity: 0.8;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--dark);
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 3px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background: white;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                padding: 2rem 0;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-text .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .cta-buttons {
+                justify-content: center;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Floating animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .floating {
+            animation: float 3s ease infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">E-M Nikolados</div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#research">Research</a></li>
+                <li><a href="#publications">Publications</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="mobile-menu-toggle" id="mobileMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Evangelos-Marios Nikolados</h1>
+                <p class="subtitle">Head of AI at Myria Biosciences</p>
+                <p>PhD in Quantitative Biology | Deep Learning for Protein Expression | Computational Optimization Expert</p>
+                <div class="cta-buttons">
+                    <a href="#publications" class="btn btn-primary">View Publications</a>
+                    <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="profile-card floating">
+                    <div class="profile-pic">🧬</div>
+                    <h3>E-M Nikolados, PhD</h3>
+                    <p>AI & Biotech Leader</p>
+                    <div class="social-links">
+                        <a href="https://github.com" target="_blank" title="GitHub">
+                            <span>📦</span>
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" title="LinkedIn">
+                            <span>💼</span>
+                        </a>
+                        <a href="https://scholar.google.com" target="_blank" title="Google Scholar">
+                            <span>📚</span>
+                        </a>
+                        <a href="mailto:your.email@example.com" title="Email">
+                            <span>✉️</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2>About Me</h2>
+            <div style="max-width: 800px; margin: 0 auto; text-align: center; color: var(--gray); line-height: 1.8; font-size: 1.1rem;">
+                <p class="fade-in">
+                    I am currently the <strong>Head of AI at Myria Biosciences</strong>, where I lead cutting-edge initiatives at the intersection of artificial intelligence and biotechnology. With a PhD in Quantitative Biology from the University of Edinburgh, I specialize in next-generation computational optimization of protein expression systems and deep learning applications in biological contexts.
+                </p>
+                <p class="fade-in" style="margin-top: 1.5rem;">
+                    My research has been published in <em>Nature Communications</em> and other leading journals, focusing on accuracy and data efficiency in deep learning models of protein expression. I'm also an active contributor to Web 3.0 initiatives in biotech, including GenomesDAO, LabDAO, and psyDAO, working towards democratized and decentralized scientific research.
+                </p>
+                <p class="fade-in" style="margin-top: 1.5rem;">
+                    With expertise spanning from Harvard University to Imperial College London, I bring a unique blend of computational prowess and biological insight to solve complex challenges in modern biotechnology.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" style="background: var(--light);">
+        <div class="container">
+            <h2>Professional Experience</h2>
+            <div class="skills-grid">
+                <div class="skill-card fade-in">
+                    <div class="skill-icon">🚀</div>
+                    <h3>Head of AI</h3>
+                    <p><strong>Myria Biosciences</strong><br>Nov 2024 - Present<br>Leading AI initiatives for next-generation biotechnology solutions</p>
+                </div>
+                <div class="skill-card fade-in">
+                    <div class="skill-icon">🔬</div>
+                    <h3>Research Assistant</h3>
+                    <p><strong>Weisse Group, U of Edinburgh</strong><br>Jun 2023 - Nov 2023<br>Mechanistic models of bacterial growth in Julia, code base optimization</p>
+                </div>
+                <div class="skill-card fade-in">
+                    <div class="skill-icon">🌐</div>
+                    <h3>Web 3.0 Contributor</h3>
+                    <p><strong>Multiple DAOs</strong><br>Sep 2021 - Present<br>GenomesDAO, LabDAO, psyDAO - democratizing scientific research</p>
+                </div>
+                <div class="skill-card fade-in">
+                    <div class="skill-icon">👨‍🏫</div>
+                    <h3>Project Supervisor</h3>
+                    <p><strong>University of Edinburgh</strong><br>Sep 2020 - May 2023<br>ML & Biology projects guidance for undergraduate and PhD students</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Research Section -->
+    <section id="research">
+        <div class="container">
+            <h2>Research Focus</h2>
+            <div class="projects-grid">
+                <div class="project-card fade-in">
+                    <div class="project-image">🧪</div>
+                    <div class="project-content">
+                        <h3>Deep Learning for Protein Expression</h3>
+                        <p>Developing next-generation computational optimization systems for protein expression, achieving breakthrough accuracy and data efficiency in predictive models.</p>
+                        <div class="project-links">
+                            <a href="#">Nature Communications</a>
+                            <a href="#">Current Opinion</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card fade-in">
+                    <div class="project-image">🧬</div>
+                    <div class="project-content">
+                        <h3>Synthetic Gene Circuits</h3>
+                        <p>Investigating growth defects and loss-of-function in synthetic gene circuits, with focus on host-circuit model predictions for cellular burden optimization.</p>
+                        <div class="project-links">
+                            <a href="#">ACS Synthetic Biology</a>
+                            <a href="#">Methods</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card fade-in">
+                    <div class="project-image">💊</div>
+                    <div class="project-content">
+                        <h3>T Cell Engineering</h3>
+                        <p>Design of novel synthetic promoters to tune gene expression in T cells, advancing immunotherapy applications through computational design.</p>
+                        <div class="project-links">
+                            <a href="#">bioRxiv 2025</a>
+                            <a href="#">Research</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Publications Section -->
+    <section id="publications" style="background: var(--light);">
+        <div class="container">
+            <h2>Selected Publications</h2>
+            <div style="max-width: 900px; margin: 0 auto;">
+                <div style="background: white; padding: 2rem; border-radius: 15px; margin-bottom: 1.5rem; box-shadow: 0 5px 20px rgba(0,0,0,0.1);" class="fade-in">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">2025</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 1rem; padding-left: 1.5rem; border-left: 3px solid var(--primary);">
+                            <strong>Can protein expression be 'solved'?</strong><br>
+                            Baranowski C, Martin HG, Oyarzún DA, ..., <u>Nikolados E-M</u>, et al.<br>
+                            <em>Trends in Biotechnology</em>, 2025
+                        </li>
+                        <li style="margin-bottom: 1rem; padding-left: 1.5rem; border-left: 3px solid var(--primary);">
+                            <strong>Design of novel synthetic promoters to tune gene expression in T cells</strong><br>
+                            Bonfá G, Martino G, ..., <u>Nikolados E-M</u>, et al.<br>
+                            <em>bioRxiv</em>, 2025
+                        </li>
+                    </ul>
+                </div>
+                <div style="background: white; padding: 2rem; border-radius: 15px; margin-bottom: 1.5rem; box-shadow: 0 5px 20px rgba(0,0,0,0.1);" class="fade-in">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">2022-2023</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 1rem; padding-left: 1.5rem; border-left: 3px solid var(--secondary);">
+                            <strong>Deep learning for optimization of protein expression</strong><br>
+                            <u>Nikolados E-M</u>, Oyarzún DA<br>
+                            <em>Current Opinion in Biotechnology</em>, 2023
+                        </li>
+                        <li style="margin-bottom: 1rem; padding-left: 1.5rem; border-left: 3px solid var(--secondary);">
+                            <strong>Accuracy and data efficiency in deep learning models of protein expression</strong><br>
+                            <u>Nikolados E-M</u>, Wongprommoon A, Aodha OM, Cambray G, Oyarzún DA<br>
+                            <em>Nature Communications</em>, 2022
+                        </li>
+                    </ul>
+                </div>
+                <div style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);" class="fade-in">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">2019-2021</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 1rem; padding-left: 1.5rem; border-left: 3px solid var(--gray);">
+                            <strong>Prediction of cellular burden with host-circuit models</strong><br>
+                            <u>Nikolados E-M</u>, Weiße AY, Oyarzún DA<br>
+                            <em>Synthetic Gene Circuits, Methods in Molecular Biology</em>, 2021
+                        </li>
+                        <li style="margin-bottom: 1rem; padding-left: 1.5rem; border-left: 3px solid var(--gray);">
+                            <strong>Growth defects and loss-of-function in synthetic gene circuits</strong><br>
+                            <u>Nikolados E-M</u>, Weiße AY, Ceroni F, Oyarzún DA<br>
+                            <em>ACS Synthetic Biology</em>, 2019
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Skills Section -->
+    <section id="skills" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);">
+        <div class="container">
+            <h2>Technical Expertise</h2>
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
+                    <span style="background: var(--primary); color: white; padding: 0.5rem 1.5rem; border-radius: 25px; font-weight: 600;">Python (Advanced)</span>
+                    <span style="background: var(--primary); color: white; padding: 0.5rem 1.5rem; border-radius: 25px; font-weight: 600;">Deep Learning</span>
+                    <span style="background: var(--primary); color: white; padding: 0.5rem 1.5rem; border-radius: 25px; font-weight: 600;">Machine Learning</span>
+                    <span style="background: var(--secondary); color: white; padding: 0.5rem 1.5rem; border-radius: 25px; font-weight: 600;">Julia</span>
+                    <span style="background: var(--secondary); color: white; padding: 0.5rem 1.5rem; border-radius: 25px; font-weight: 600;">MATLAB</span>
+                    <span style="background: var(--secondary); color: white; padding: 0.5rem 1.5rem; border-radius: 25px; font-weight: 600;">Computational Biology</span>
+                    <span style="background: var(--gray); color: white; padding: 0.5rem 1.5rem; border-radius: 25px; font-weight: 600;">Protein Engineering</span>
+                    <span style="background: var(--gray); color: white; padding: 0.5rem 1.5rem; border-radius: 25px; font-weight: 600;">Systems Biology</span>
+                    <span style="background: var(--gray); color: white; padding: 0.5rem 1.5rem; border-radius: 25px; font-weight: 600;">Synthetic Biology</span>
+                    <span style="background: var(--dark); color: white; padding: 0.5rem 1.5rem; border-radius: 25px; font-weight: 600;">Research Leadership</span>
+                    <span style="background: var(--dark); color: white; padding: 0.5rem 1.5rem; border-radius: 25px; font-weight: 600;">Scientific Writing</span>
+                    <span style="background: var(--dark); color: white; padding: 0.5rem 1.5rem; border-radius: 25px; font-weight: 600;">Data Analysis</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education & Awards Section -->
+    <section id="education">
+        <div class="container">
+            <h2>Education & Awards</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; max-width: 1000px; margin: 0 auto;">
+                <div class="fade-in">
+                    <h3 style="color: var(--primary); margin-bottom: 1.5rem;">Education</h3>
+                    <div style="margin-bottom: 1.5rem; padding: 1rem; background: var(--light); border-radius: 10px;">
+                        <strong>PhD in Quantitative Biology</strong><br>
+                        University of Edinburgh (2019-2024)<br>
+                        <em style="font-size: 0.9rem;">Darwin Trust Studentship</em>
+                    </div>
+                    <div style="margin-bottom: 1.5rem; padding: 1rem; background: var(--light); border-radius: 10px;">
+                        <strong>MRes Systems & Synthetic Biology</strong><br>
+                        Imperial College London (2017-2018)<br>
+                        <em style="font-size: 0.9rem;">Distinction • Centenary Prize</em>
+                    </div>
+                    <div style="margin-bottom: 1.5rem; padding: 1rem; background: var(--light); border-radius: 10px;">
+                        <strong>Bachelor of Liberal Arts, Biology</strong><br>
+                        Harvard University Extension (2015-2017)<br>
+                        <em style="font-size: 0.9rem;">GPA: 3.87 • Dean's List</em>
+                    </div>
+                </div>
+                <div class="fade-in">
+                    <h3 style="color: var(--secondary); margin-bottom: 1.5rem;">Key Achievements</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 1rem; padding: 1rem; background: var(--light); border-radius: 10px; border-left: 4px solid var(--secondary);">
+                            🏆 <strong>Nature Communications</strong> lead author publication (2022)
+                        </li>
+                        <li style="margin-bottom: 1rem; padding: 1rem; background: var(--light); border-radius: 10px; border-left: 4px solid var(--secondary);">
+                            🥇 <strong>Best Poster Award</strong> at MOMI22 Conference (€300)
+                        </li>
+                        <li style="margin-bottom: 1rem; padding: 1rem; background: var(--light); border-radius: 10px; border-left: 4px solid var(--secondary);">
+                            💡 <strong>KOIOS NLP Pipeline</strong> - DDE Venture Builder Grant (£2000)
+                        </li>
+                        <li style="margin-bottom: 1rem; padding: 1rem; background: var(--light); border-radius: 10px; border-left: 4px solid var(--secondary);">
+                            🌍 <strong>International Speaker</strong> - Darwin Trust, Turing Workshop, ICSB
+                        </li>
+                        <li style="margin-bottom: 1rem; padding: 1rem; background: var(--light); border-radius: 10px; border-left: 4px solid var(--secondary);">
+                            🧬 <strong>Web 3.0 Pioneer</strong> - GenomesDAO, LabDAO, psyDAO contributor
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2>Get In Touch</h2>
+            <div class="contact-content">
+                <p>Interested in AI applications in biotechnology, protein engineering, or collaborative research opportunities?</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span>📧</span>
+                        <a href="mailto:your.email@example.com">your.email@example.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <span>🏢</span>
+                        <span>Myria Biosciences</span>
+                    </div>
+                    <div class="contact-item">
+                        <span>📍</span>
+                        <span>Athens, Greece / Remote</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Evangelos-Marios Nikolados. PhD in Quantitative Biology | Head of AI at Myria Biosciences</p>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenu = document.getElementById('mobileMenu');
+        const navLinks = document.getElementById('navLinks');
+        
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when link is clicked
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+        });
+
+        // Add typing effect for subtitle
+        const subtitle = document.querySelector('.subtitle');
+        const text = subtitle.textContent;
+        subtitle.textContent = '';
+        let i = 0;
+
+        function typeWriter() {
+            if (i < text.length) {
+                subtitle.textContent += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 50);
+            }
+        }
+
+        // Start typing effect when page loads
+        window.addEventListener('load', () => {
+            setTimeout(typeWriter, 500);
+        });
+    </script>
+</body>
+</html>
