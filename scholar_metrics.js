@@ -5,7 +5,7 @@
 const scholarMetrics = {
     hIndex: 4,
     i10Index: 4,
-    totalCitations: 183,
+    totalCitations: 185,
     publicationsCount: 9,
     lastUpdated: "2025-10-07",
     scholarId: "H8fc2JgAAAAJ",
