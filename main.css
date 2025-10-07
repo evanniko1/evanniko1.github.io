@@ -1,0 +1,348 @@
+body {
+  font: normal 16px 'PT Serif', serif;
+  color: #000000;
+  margin: 0;
+  padding: 0;
+  line-height: 1.2em;
+}
+ .resume p {
+   margin-bottom: 0px;
+   margin-top: 0px;
+ }
+
+.page-title {
+  text-align: center;
+}
+
+.page-title h1 {
+  font: 34px "Avenir", sans-serif;
+  margin-bottom: 0;
+  margin-top: 100px;
+}
+
+.credit {
+  text-align: center;
+  padding: 36px 0px;
+}
+
+a:hover{
+  border-bottom: 1px dashed #000000;
+}
+
+a{
+  color: #000000;
+  text-decoration: none;
+}
+
+h2 {
+  font: 18px "Avenir", sans-serif;
+  color:  #2B7A78;
+  text-align: center;
+  letter-spacing: 4px;
+  margin-top: 50px;
+}
+
+#readmore h3 {
+  font: 18px "Avenir", sans-serif;
+  color:  #2B7A78;
+  text-align: center;
+  letter-spacing: 4px;
+  margin-bottom: 0px;
+  margin-top: 30px;
+}
+
+#readmore a {
+  color:  #2B7A78;
+}
+
+#readmore {
+  text-align: center;
+}
+
+#readmore a:hover {
+  color: #2B7A78;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+#readmore img {
+  max-width: 30px;
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 0px;
+}
+
+.page-title h2 {
+  margin-bottom: 30px;
+  margin-top: 0;
+}
+
+.container .small {
+  margin: auto;
+  max-width: 800px;
+  box-sizing: border-box
+}
+
+.column .left-column {
+  vertical-align: top;
+  width: 49%;
+  display: inline-block;
+  padding-right: 30px;
+  box-sizing: border-box;
+  line-height: 1.3em;
+}
+
+.column .right-column {
+  vertical-align: top;
+  width: 50%;
+  display: inline-block;
+  padding-left: 30px;
+  box-sizing: border-box
+}
+
+.column .right-column-author {
+  vertical-align: top;
+  width: 50%;
+  display: inline-block;
+  padding-left: 30px;
+  padding-top: 10px;
+  box-sizing: border-box
+}
+
+.socials {
+  text-align: center;
+}
+
+.socials a:hover {
+  color: #000000;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.socials img {
+  max-width: 30px;
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 20px;
+}
+
+.resume .left-resume {
+  vertical-align: top;
+  width: 49%;
+  display: inline-block;
+  padding-right: 30px;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.resume .right-resume {
+  vertical-align: top;
+  width: 50%;
+  display: inline-block;
+  padding-left: 30px;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.resume .time {
+  color: #808080;
+}
+
+.resume .coursework {
+  color: #2B7A78;
+}
+
+.resume .resume-description {
+  font: 16px 'PT Serif', serif;
+  margin-left: 20px;
+  margin-bottom: 5px;
+}
+
+
+.resume .title {
+  font: bold 16px 'PT Serif', serif;
+}
+
+.award{
+  font: italic 16px 'PT Serif', serif;
+  color: #808080;
+}
+
+.projects h2 {
+  margin-bottom: 30px;
+}
+
+.projects .title {
+  font: bold 16px 'PT Serif', serif;
+  color: #000000;
+  text-decoration: none;
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.projects .description{
+  font: regular 16px 'PT Serif', serif;
+  color: #808080;
+  margin-top:0;
+  margin-bottom: 20px;
+}
+
+.projects {
+  margin-top:0;
+
+}
+
+.projects .left-projects {
+  vertical-align: top;
+  width: 49%;
+  display: inline-block;
+  padding-right: 30px;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.projects .right-projects {
+  vertical-align: top;
+  width: 50%;
+  display: inline-block;
+  padding-left: 30px;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.skills .left-skills {
+  vertical-align: top;
+  width: 49%;
+  display: inline-block;
+  padding-right: 30px;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.skills .left-left-skills {
+  vertical-align: top;
+  width: 49%;
+  display: inline-block;
+  padding-right: 30px;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.skills .right-left-skills {
+  vertical-align: top;
+  width: 49%;
+  display: inline-block;
+  padding-right: 0px;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.skills .right-skills {
+  vertical-align: top;
+  width: 50%;
+  display: inline-block;
+  padding-left: 0px;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.skills .left-right-skills {
+  vertical-align: top;
+  width: 49%;
+  display: inline-block;
+  padding-right: 0px;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.skills .right-right-skills {
+  vertical-align: top;
+  width: 49%;
+  display: inline-block;
+  padding-right: 0px;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+#blank {
+  color: #FFFFFF;
+}
+
+.skills .title {
+  font: 18px "Avenir", sans-serif;
+  text-align: center;
+  letter-spacing: 4px;
+}
+
+
+.skills h2 {
+  margin-bottom: 0px;
+  border-top: 20px;
+}
+
+.skills .skill {
+  font: italic 16px 'PT Serif', serif;
+  margin-left: 10px;
+  margin-bottom: 2px;
+  margin-top: 0px;
+}
+
+
+.skills .right-right-skills .skill{
+  padding-left: 10px;
+}
+
+.skills .left-right-skills .skill{
+  padding-left: 40px;
+}
+
+
+
+.left-column a {
+  text-decoration: none;
+  color: #2B7A78;
+}
+
+.left-column a:hover{
+  border-bottom: 1px dashed #2B7A78;
+}
+
+.projects a:hover{
+  border-bottom: 1px dashed #000000;
+}
+
+.projects a{
+  color: #000000;
+  text-decoration: none;
+}
+
+.notebook .title {
+  font: bold 16px 'PT Serif', serif;
+  color: #000000;
+  text-decoration: none;
+  margin-top: 0;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-bottom: 5px;
+}
+
+.notebook .subtitle {
+  font: italic 16px 'PT Serif', serif;
+  color: #2B7A78;
+  text-decoration: none;
+  margin-top: 0;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-bottom: 5px;
+}
+
+.notebook .description{
+  font: regular 16px 'PT Serif', serif;
+  color: #808080;
+  margin-top:0;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-bottom: 20px;
+}
