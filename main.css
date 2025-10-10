@@ -1,5 +1,5 @@
 /* =========================================================
-   main.css — Evangelos Nikolados Personal Website
+   main.css — Evangelos-Marios Nikolados Personal Website
    ========================================================= */
 
 /* --------- GLOBAL RESET & BASE --------- */
@@ -21,10 +21,12 @@ body {
 a {
   color: #008b8b; /* teal accent */
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 a:hover {
   text-decoration: underline;
+  color: #007070;
 }
 
 h1, h2, h3, h4 {
@@ -99,7 +101,7 @@ header {
   text-align: center;
 }
 
-/* Make the profile photo square and balanced with text */
+/* Profile photo */
 .intro-photo img,
 .profile-pic {
   width: 320px;
@@ -164,7 +166,7 @@ header {
   margin-bottom: 0.4em;
 }
 
-/* --------- EDUCATION + EXPERIENCE SECTION --------- */
+/* --------- EDUCATION + EXPERIENCE --------- */
 .edu-exp {
   display: flex;
   flex-wrap: wrap;
@@ -196,7 +198,7 @@ header {
   color: #000;
 }
 
-/* --------- PROJECTS SECTION --------- */
+/* --------- PROJECTS --------- */
 .projects {
   margin-top: 3em;
   margin-bottom: 4em;
@@ -228,7 +230,7 @@ header {
   margin-bottom: 0.5em;
 }
 
-/* --------- PUBLICATIONS SECTION --------- */
+/* --------- PUBLICATIONS --------- */
 #publications {
   margin-top: 3em;
 }
@@ -236,19 +238,72 @@ header {
 .pub-card {
   background-color: #fafafa;
   border-left: 3px solid #008b8b;
-  padding: 0.6rem 1.2rem;     /* reduced internal padding */
-  margin-bottom: 0.4rem;       /* reduced vertical gap between entries */
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.3rem;
   border-radius: 5px;
 }
 
 .pub-card p {
-  margin: 0.4em 0;
+  margin: 0.2em 0;
   font-size: 0.95rem;
   color: #222;
 }
 
 #publications em {
   color: #333;
+}
+
+/* --------- CONTACT FORM --------- */
+#contact {
+  margin-top: 3em;
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.contact-form {
+  max-width: 480px;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.contact-form label {
+  font-weight: 500;
+  color: #333;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.contact-form textarea {
+  resize: vertical;
+}
+
+.contact-form button {
+  margin-top: 0.5rem;
+  background-color: #008b8b;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: 0.3s ease;
+}
+
+.contact-form button:hover {
+  background-color: #007070;
 }
 
 /* --------- FOOTER --------- */
@@ -295,7 +350,11 @@ footer a {
   }
 
   #publications .pub-card {
-    padding: 0.8rem 1rem;
+    padding: 0.6rem 0.8rem;
+  }
+
+  #contact {
+    padding: 1rem;
   }
 }
 
