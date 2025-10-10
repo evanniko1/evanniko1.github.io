@@ -1,6 +1,5 @@
 /* =========================================================
    main.css — Evangelos Nikolados Personal Website
-   Based on cjmerzbacher.github.io, modernized and extended
    ========================================================= */
 
 /* --------- GLOBAL RESET & BASE --------- */
@@ -96,19 +95,19 @@ header {
 }
 
 .intro-photo {
-  flex: 0 0 260px;
+  flex: 0 0 320px;
   text-align: center;
 }
 
-/* Make the profile photo square and slightly larger */
+/* Make the profile photo square and balanced with text */
 .intro-photo img,
 .profile-pic {
-  width: 240px;
-  height: 240px;
+  width: 320px;
+  height: 320px;
   object-fit: cover;
   border-radius: 12px; /* soft-rounded square */
   border: 3px solid #008b8b;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* --------- SOCIAL ICONS --------- */
@@ -267,6 +266,13 @@ footer a {
 }
 
 /* --------- RESPONSIVE DESIGN --------- */
+@media (max-width: 900px) {
+  .intro-photo img {
+    width: 260px;
+    height: 260px;
+  }
+}
+
 @media (max-width: 800px) {
   .intro {
     flex-direction: column;
@@ -274,8 +280,8 @@ footer a {
   }
 
   .intro-photo img {
-    width: 180px;
-    height: 180px;
+    width: 200px;
+    height: 200px;
     margin-top: 1em;
     border-radius: 10px;
   }
