@@ -1,6 +1,6 @@
 /* =========================================================
-   main.css — Evangelos-Marios Nikolados Personal Website
-   Based on cjmerzbacher.github.io, modernized for clarity
+   main.css — Evangelos Nikolados Personal Website
+   Based on cjmerzbacher.github.io, modernized and extended
    ========================================================= */
 
 /* --------- GLOBAL RESET & BASE --------- */
@@ -92,18 +92,23 @@ header {
 
 .intro-text p {
   margin-bottom: 1.1em;
+  max-width: 720px;
 }
 
 .intro-photo {
-  flex: 0 0 240px;
+  flex: 0 0 260px;
   text-align: center;
 }
 
-.intro-photo img {
-  max-width: 220px;
-  border-radius: 50%;
+/* Make the profile photo square and slightly larger */
+.intro-photo img,
+.profile-pic {
+  width: 240px;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 12px; /* soft-rounded square */
   border: 3px solid #008b8b;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* --------- SOCIAL ICONS --------- */
@@ -113,12 +118,12 @@ header {
 
 .social-icons a {
   display: inline-block;
-  margin-right: 10px;
+  margin-right: 14px;
 }
 
 .social-icons img {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   filter: grayscale(100%);
   transition: 0.3s ease;
 }
@@ -147,12 +152,12 @@ header {
   border-radius: 8px;
   border: 1px solid #e2e2e2;
   padding: 1rem 1.2rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
   transition: 0.2s ease;
 }
 
 .skills-columns > div:hover {
-  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
 
 .skills-columns h4 {
@@ -175,7 +180,7 @@ header {
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 1.8rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .edu-exp p {
@@ -210,18 +215,41 @@ header {
   border-radius: 8px;
   border: 1px solid #e2e2e2;
   padding: 1.3rem 1.5rem;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
   transition: 0.25s ease;
 }
 
 .projects-grid > div:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
 .projects h4 {
   color: #008b8b;
   margin-bottom: 0.5em;
+}
+
+/* --------- PUBLICATIONS SECTION --------- */
+#publications {
+  margin-top: 3em;
+}
+
+.pub-card {
+  background-color: #fafafa;
+  border-left: 3px solid #008b8b;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+}
+
+.pub-card p {
+  margin: 0.4em 0;
+  font-size: 0.95rem;
+  color: #222;
+}
+
+#publications em {
+  color: #333;
 }
 
 /* --------- FOOTER --------- */
@@ -246,8 +274,10 @@ footer a {
   }
 
   .intro-photo img {
-    max-width: 160px;
+    width: 180px;
+    height: 180px;
     margin-top: 1em;
+    border-radius: 10px;
   }
 
   .edu-exp {
@@ -256,6 +286,10 @@ footer a {
 
   .skills-columns {
     flex-direction: column;
+  }
+
+  #publications .pub-card {
+    padding: 0.8rem 1rem;
   }
 }
 
@@ -274,5 +308,10 @@ footer a {
 
   h2 {
     font-size: 1.2rem;
+  }
+
+  .intro-photo img {
+    width: 160px;
+    height: 160px;
   }
 }
