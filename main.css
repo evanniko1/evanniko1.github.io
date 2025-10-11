@@ -2,6 +2,27 @@
    main.css — Evangelos-Marios Nikolados Personal Website
    ========================================================= */
 
+/* --------- COLOR VARIABLES --------- */
+:root {
+  --bg-color: #fafafa;
+  --text-color: #1e1e1e;
+  --card-bg: #ffffff;
+  --border-color: #e2e2e2;
+  --accent: #008b8b;
+  --accent-hover: #007070;
+  --shadow-light: rgba(0, 0, 0, 0.05);
+}
+
+body.dark-mode {
+  --bg-color: #121212;
+  --text-color: #e5e5e5;
+  --card-bg: #1e1e1e;
+  --border-color: #2a2a2a;
+  --accent: #00c2c2;
+  --accent-hover: #00a5a5;
+  --shadow-light: rgba(0, 0, 0, 0.6);
+}
+
 /* --------- GLOBAL RESET & BASE --------- */
 * {
   margin: 0;
@@ -9,30 +30,36 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background-color: #fafafa;
-  color: #1e1e1e;
+  background-color: var(--bg-color);
+  color: var(--text-color);
   font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
   line-height: 1.6;
   font-size: 17px;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 a {
-  color: #008b8b; /* teal accent */
+  color: var(--accent);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 a:hover {
   text-decoration: underline;
-  color: #007070;
+  color: var(--accent-hover);
 }
 
 h1, h2, h3, h4 {
   font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
   font-weight: 600;
-  color: #111;
+  color: var(--text-color);
+  transition: color 0.3s ease;
 }
 
 h1 {
@@ -43,14 +70,14 @@ h1 {
 h2 {
   font-size: 1.5rem;
   font-weight: 400;
-  color: #444;
+  color: #666;
   margin-bottom: 1.5em;
 }
 
 h3 {
   font-size: 1.3rem;
   margin-bottom: 1em;
-  border-bottom: 2px solid #008b8b;
+  border-bottom: 2px solid var(--accent);
   display: inline-block;
   padding-bottom: 0.2em;
 }
@@ -75,6 +102,24 @@ p {
 header {
   text-align: center;
   margin-bottom: 3em;
+  position: relative;
+}
+
+#theme-toggle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: transparent;
+  border: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  color: var(--accent);
+}
+
+#theme-toggle:hover {
+  transform: scale(1.15);
+  color: var(--accent-hover);
 }
 
 /* --------- INTRO SECTION --------- */
@@ -101,15 +146,15 @@ header {
   text-align: center;
 }
 
-/* Profile photo */
 .intro-photo img,
 .profile-pic {
   width: 320px;
   height: 320px;
   object-fit: cover;
-  border-radius: 12px; /* soft-rounded square */
-  border: 3px solid #008b8b;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  border: 3px solid var(--accent);
+  box-shadow: 0 4px 12px var(--shadow-light);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* --------- SOCIAL ICONS --------- */
@@ -149,20 +194,20 @@ header {
 .skills-columns > div {
   flex: 1;
   min-width: 200px;
-  background: #ffffff;
+  background: var(--card-bg);
   border-radius: 8px;
-  border: 1px solid #e2e2e2;
+  border: 1px solid var(--border-color);
   padding: 1rem 1.2rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-  transition: 0.2s ease;
+  box-shadow: 0 2px 4px var(--shadow-light);
+  transition: box-shadow 0.2s ease, background-color 0.3s ease;
 }
 
 .skills-columns > div:hover {
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
 .skills-columns h4 {
-  color: #008b8b;
+  color: var(--accent);
   margin-bottom: 0.4em;
 }
 
@@ -177,11 +222,12 @@ header {
 
 .edu-exp .column {
   flex: 1 1 480px;
-  background: #fff;
-  border: 1px solid #e0e0e0;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1.8rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 6px var(--shadow-light);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .edu-exp p {
@@ -191,11 +237,11 @@ header {
 
 .edu-exp em {
   font-style: italic;
-  color: #666;
+  color: #888;
 }
 
 .edu-exp b {
-  color: #000;
+  color: var(--text-color);
 }
 
 /* --------- PROJECTS --------- */
@@ -212,21 +258,21 @@ header {
 }
 
 .projects-grid > div {
-  background: #ffffff;
+  background: var(--card-bg);
   border-radius: 8px;
-  border: 1px solid #e2e2e2;
+  border: 1px solid var(--border-color);
   padding: 1.3rem 1.5rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 5px var(--shadow-light);
   transition: 0.25s ease;
 }
 
 .projects-grid > div:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .projects h4 {
-  color: #008b8b;
+  color: var(--accent);
   margin-bottom: 0.5em;
 }
 
@@ -236,34 +282,37 @@ header {
 }
 
 .pub-card {
-  background-color: #fafafa;
-  border-left: 3px solid #008b8b;
+  background-color: var(--card-bg);
+  border-left: 3px solid var(--accent);
   padding: 0.5rem 1rem;
   margin-bottom: 0.3rem;
   border-radius: 5px;
+  box-shadow: 0 1px 2px var(--shadow-light);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .pub-card p {
   margin: 0.2em 0;
   font-size: 0.95rem;
-  color: #222;
+  color: var(--text-color);
 }
 
 #publications em {
-  color: #333;
+  color: #ccc;
 }
 
 /* --------- CONTACT FORM --------- */
 #contact {
   margin: 3em auto;
-  background: #fff;
-  border: 1px solid #e2e2e2;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 2rem 2.5rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 6px var(--shadow-light);
   max-width: 640px;
   text-align: center;
-  border-top: 3px solid #008b8b;
+  border-top: 3px solid var(--accent);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .contact-form {
@@ -277,7 +326,7 @@ header {
 
 .contact-form label {
   font-weight: 500;
-  color: #333;
+  color: var(--text-color);
   text-align: left;
 }
 
@@ -288,6 +337,9 @@ header {
   border: 1px solid #ccc;
   font-family: inherit;
   font-size: 1rem;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .contact-form textarea {
@@ -296,7 +348,7 @@ header {
 
 .contact-form button {
   margin-top: 0.8rem;
-  background-color: #008b8b;
+  background-color: var(--accent);
   color: white;
   border: none;
   padding: 0.7rem 1rem;
@@ -304,11 +356,11 @@ header {
   cursor: pointer;
   font-size: 1rem;
   font-weight: 500;
-  transition: 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 .contact-form button:hover {
-  background-color: #007070;
+  background-color: var(--accent-hover);
 }
 
 /* --------- FOOTER --------- */
@@ -317,12 +369,13 @@ footer {
   text-align: center;
   color: #666;
   font-size: 0.9rem;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid var(--border-color);
   padding-top: 1em;
+  transition: color 0.3s ease;
 }
 
 footer a {
-  color: #008b8b;
+  color: var(--accent);
 }
 
 /* --------- RESPONSIVE DESIGN --------- */
@@ -383,5 +436,10 @@ footer a {
   .intro-photo img {
     width: 160px;
     height: 160px;
+  }
+
+  #theme-toggle {
+    top: -5px;
+    right: 5px;
   }
 }
