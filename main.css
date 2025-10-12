@@ -229,11 +229,11 @@ body.dark-mode #theme-toggle {
   width: 18px;
   height: 18px;
   display: inline-block;
-  background-color: var(--accent);
+  background-color: var(--text-color); /* monochrome to match GitHub/LinkedIn/Scholar look */
   -webkit-mask: url('images/orcid.logo.icon.svg') no-repeat center / contain;
   mask: url('images/orcid.logo.icon.svg') no-repeat center / contain;
   vertical-align: -3px;
-  opacity: 0.95;
+  opacity: 0.9;
 }
 
 /* Fallback if the icon is inserted as an <img class="orcid-icon" ...> */
