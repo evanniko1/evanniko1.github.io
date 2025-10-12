@@ -23,7 +23,7 @@
     <header>
       <h1>Evangelos Nikolados</h1>
       <h2>Head of AI · Myria Biosciences</h2>
-      <button id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+      <button id="theme-toggle" aria-label="Toggle dark mode" aria-pressed="false">Dark mode</button>
     </header>
 
     <!-- ===== INTRO ===== -->
@@ -56,8 +56,7 @@
             <img src="images/linkedin.png" alt="LinkedIn icon"></a>
           <a href="https://scholar.google.com/citations?user=YOUR_ID" title="Google Scholar" target="_blank" rel="noopener noreferrer">
             <img src="images/gscholar.png" alt="Google Scholar icon"></a>
-          <a href="mailto:evangelos.nikolados@gmail.com" title="Email" rel="noopener noreferrer">
-            <img src="images/email.png" alt="Email icon"></a>
+          <!-- Email icon removed per request -->
         </div>
       </div>
 
@@ -97,8 +96,8 @@
         <em>Imperial College London</em> · 2017–2018<br>
         Project: Growth defects and loss-of-function in synthetic gene circuits.</p>
 
-        <p><b>B.L.A., Biological Sciences</b><br>
-        <em>Harvard University Extension School</em> · 2015–2017<br>
+        <p><b>B.L.A., Biological Sciences (GPA: 3.87)</b><br>
+        <em>Harvard University, Extension School</em> · 2015–2017<br>
         Thesis: Intrusion Prevention & Detection Models for DNA Data Storage Systems.</p>
 
         <p><b>B.Sc., Molecular Biology & Genetics</b><br>
@@ -237,20 +236,27 @@
     // Smooth scroll
     document.documentElement.style.scrollBehavior = 'smooth';
 
-    // Dark mode toggle
+    // Dark mode toggle (text-based, persistent)
     const toggleButton = document.getElementById('theme-toggle');
     const body = document.body;
     const storedTheme = localStorage.getItem('theme');
 
+    function setToggleLabel(isDark) {
+      toggleButton.textContent = isDark ? 'Light mode' : 'Dark mode';
+      toggleButton.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+    }
+
     if (storedTheme === 'dark') {
       body.classList.add('dark-mode');
-      toggleButton.textContent = '☀️';
+      setToggleLabel(true);
+    } else {
+      setToggleLabel(false);
     }
 
     toggleButton.addEventListener('click', () => {
-      body.classList.toggle('dark-mode');
-      const isDark = body.classList.contains('dark-mode');
-      toggleButton.textContent = isDark ? '☀️' : '🌙';
+      const isDark = !body.classList.contains('dark-mode');
+      body.classList.toggle('dark-mode', isDark);
+      setToggleLabel(isDark);
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
     });
   </script>
