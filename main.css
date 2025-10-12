@@ -18,9 +18,8 @@ body.dark-mode {
   --text-color: #e5e5e5;
   --card-bg: #1e1e1e;
   --border-color: #2a2a2a;
-  /* UPDATED: slightly brighter accent for contrast in dark mode */
-  --accent: #00c9c9;          /* was #00c2c2 */
-  --accent-hover: #00aeb0;    /* was #00a5a5 */
+  --accent: #00c9c9;           /* brighter teal for pro contrast */
+  --accent-hover: #00aeb0;
   --shadow-light: rgba(0, 0, 0, 0.6);
 }
 
@@ -106,31 +105,33 @@ header {
   position: relative;
 }
 
-/* UPDATED: text-based pill button for the theme toggle */
+/* --------- UPDATED FLOATING THEME TOGGLE --------- */
 #theme-toggle {
   position: absolute;
-  right: 0;
-  top: 0;
-  padding: 6px 12px;
-  background: transparent;
+  right: 12px;
+  top: calc(12px + env(safe-area-inset-top));
+  z-index: 10;
+  padding: 8px 14px;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   border: 1px solid var(--border-color);
   border-radius: 999px;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   color: var(--accent);
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 12px var(--shadow-light);
+  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
-
-#theme-toggle:hover {
-  background-color: var(--card-bg);
-  color: var(--accent-hover);
-  transform: translateY(-1px);
+body.dark-mode #theme-toggle {
+  background-color: rgba(18, 18, 18, 0.7);
+  border-color: #2e2e2e;
+  color: var(--accent);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45);
 }
-
-#theme-toggle:active {
-  transform: translateY(0);
-}
+#theme-toggle:hover { transform: translateY(-1px); }
+#theme-toggle:active { transform: translateY(0); }
 
 /* --------- INTRO SECTION --------- */
 .intro {
@@ -195,32 +196,6 @@ header {
   margin-bottom: 3em;
 }
 
-.skills-columns {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-}
-
-.skills-columns > div {
-  flex: 1;
-  min-width: 200px;
-  background: var(--card-bg);
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
-  padding: 1rem 1.2rem;
-  box-shadow: 0 2px 4px var(--shadow-light);
-  transition: box-shadow 0.2s ease, background-color 0.3s ease;
-}
-
-.skills-columns > div:hover {
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-}
-
-.skills-columns h4 {
-  color: var(--accent);
-  margin-bottom: 0.4em;
-}
-
 /* --------- EDUCATION + EXPERIENCE --------- */
 .edu-exp {
   display: flex;
@@ -228,62 +203,6 @@ header {
   gap: 3rem;
   margin-top: 3em;
   margin-bottom: 3em;
-}
-
-.edu-exp .column {
-  flex: 1 1 480px;
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 1.8rem;
-  box-shadow: 0 2px 6px var(--shadow-light);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.edu-exp p {
-  margin-bottom: 1em;
-  font-size: 0.97rem;
-}
-
-.edu-exp em {
-  font-style: italic;
-  color: #888;
-}
-
-.edu-exp b {
-  color: var(--text-color);
-}
-
-/* --------- PROJECTS --------- */
-.projects {
-  margin-top: 3em;
-  margin-bottom: 4em;
-}
-
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1.5em;
-}
-
-.projects-grid > div {
-  background: var(--card-bg);
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
-  padding: 1.3rem 1.5rem;
-  box-shadow: 0 2px 5px var(--shadow-light);
-  transition: 0.25s ease;
-}
-
-.projects-grid > div:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-.projects h4 {
-  color: var(--accent);
-  margin-bottom: 0.5em;
 }
 
 /* --------- PUBLICATIONS --------- */
@@ -307,10 +226,6 @@ header {
   color: var(--text-color);
 }
 
-#publications em {
-  color: #ccc;
-}
-
 /* --------- CONTACT FORM --------- */
 #contact {
   margin: 3em auto;
@@ -322,55 +237,6 @@ header {
   max-width: 640px;
   text-align: center;
   border-top: 3px solid var(--accent);
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-.contact-form {
-  max-width: 480px;
-  margin: 1.5rem auto;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  align-items: stretch;
-}
-
-.contact-form label {
-  font-weight: 500;
-  color: var(--text-color);
-  text-align: left;
-}
-
-.contact-form input,
-.contact-form textarea {
-  padding: 0.6rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-family: inherit;
-  font-size: 1rem;
-  background-color: var(--card-bg);
-  color: var(--text-color);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.contact-form textarea {
-  resize: vertical;
-}
-
-.contact-form button {
-  margin-top: 0.8rem;
-  background-color: var(--accent);
-  color: white;
-  border: none;
-  padding: 0.7rem 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 500;
-  transition: background-color 0.3s ease;
-}
-
-.contact-form button:hover {
-  background-color: var(--accent-hover);
 }
 
 /* --------- FOOTER --------- */
@@ -381,11 +247,6 @@ footer {
   font-size: 0.9rem;
   border-top: 1px solid var(--border-color);
   padding-top: 1em;
-  transition: color 0.3s ease;
-}
-
-footer a {
-  color: var(--accent);
 }
 
 /* --------- RESPONSIVE DESIGN --------- */
@@ -396,23 +257,29 @@ footer a {
   }
 }
 
-/* UPDATED: mobile-first refinements for tablets/phones */
 @media (max-width: 800px) {
   .intro {
     flex-direction: column;
+    align-items: center;
     text-align: center;
+    gap: 1.2rem;
   }
 
-  /* UPDATED: slightly larger portrait + tighter spacing */
+  .intro-photo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
   .intro-photo img {
-    width: 260px;   /* was 200px earlier in development */
-    height: 260px;  /* was 200px earlier in development */
-    margin-top: 0.5em;           /* was 1em */
-    margin-bottom: 1.2em;        /* new: reduce big gap to next section */
+    width: 260px;
+    height: 260px;
+    margin-top: 0;
+    margin-bottom: 1rem;
     border-radius: 10px;
   }
 
-  /* OPTIONAL polish: make social row feel lighter */
   .social-icons { margin-top: 0.8em; }
 
   .edu-exp { flex-direction: column; }
@@ -422,11 +289,10 @@ footer a {
   #contact { padding: 1rem; }
 }
 
-/* UPDATED: phone-specific tuning */
 @media (max-width: 480px) {
   body {
     font-size: 16px;
-    line-height: 1.45;       /* tighter, more app-like reading on phones */
+    line-height: 1.45;
   }
 
   .content { padding: 35px 15px; }
@@ -434,37 +300,17 @@ footer a {
   h1 { font-size: 2rem; }
   h2 { font-size: 1.2rem; }
 
-  /* UPDATED: bigger portrait on phones */
   .intro-photo img {
-    width: 240px;   /* was 160px earlier */
-    height: 240px;  /* was 160px earlier */
-    margin-top: 0.5em;     /* keep tight */
-    margin-bottom: 1.2em;
+    width: 240px;
+    height: 240px;
+    margin-top: 0;
+    margin-bottom: 1rem;
   }
 
-  /* UPDATED: smaller social icons for better balance */
   .social-icons img {
     width: 28px;
     height: 28px;
   }
 
-  /* UPDATED: tidy up skills transition on phones */
-  .skills {
-    border-top: 1px solid var(--border-color);
-    padding-top: 1rem;
-  }
-
-  /* UPDATED: make the toggle less intrusive on phones */
-  #theme-toggle {
-    top: 10px;
-    right: 10px;
-    font-size: 0.85rem;
-    padding: 5px 10px;
-    background-color: rgba(255, 255, 255, 0.7);
-    border-color: transparent;
-  }
-  body.dark-mode #theme-toggle {
-    background-color: rgba(18, 18, 18, 0.5);
-    color: var(--accent);
-  }
+  header { padding-top: 42px; } /* reserves space for floating toggle */
 }
