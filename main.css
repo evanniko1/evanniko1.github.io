@@ -217,6 +217,34 @@ body.dark-mode #theme-toggle {
 }
 .pub-card p { margin: 0.2em 0; font-size: 0.95rem; color: var(--text-color); }
 
+/* ✅ Title-with-icon layout (for ORCID beside "Selected Publications") */
+.section-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Prefer this: a mask-painted badge that always matches site colors */
+.orcid-badge {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  background-color: var(--accent);
+  -webkit-mask: url('images/orcid.logo.icon.svg') no-repeat center / contain;
+  mask: url('images/orcid.logo.icon.svg') no-repeat center / contain;
+  vertical-align: -3px;
+  opacity: 0.95;
+}
+
+/* Fallback if the icon is inserted as an <img class="orcid-icon" ...> */
+.orcid-icon {
+  width: 18px;
+  height: 18px;
+  vertical-align: -3px;
+  filter: grayscale(1) contrast(1.05);
+  opacity: 0.9;
+}
+
 /* --------- CONTACT SECTION & FORM --------- */
 #contact {
   margin: 3em auto;
