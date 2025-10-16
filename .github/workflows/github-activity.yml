@@ -37,10 +37,9 @@ jobs:
 
       - name: Extract the <svg> only and create light/dark variants
         run: |
-          # Extract the first <svg>…</svg> block from the HTML
-          sed -n '/<svg[[:space:]]/ , /<\/svg>/p' images/_tmp/contrib.html > images/github-activity-light.svg
+          awk '/<svg/{f=1} f; /<\/svg>/{exit}' images/_tmp/contrib.html > images/github-activity-light.svg
 
-          # Ensure it’s a valid standalone SVG (optional XML header)
+          # Add XML header if missing
           if ! head -n1 images/github-activity-light.svg | grep -q '<?xml'; then
             sed -i '1s|^|<?xml version="1.0" encoding="UTF-8"?>\n|' images/github-activity-light.svg
           fi
