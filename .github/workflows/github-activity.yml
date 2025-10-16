@@ -1,103 +1,59 @@
-name: Refresh GitHub contributions calendar
+name: github-activity
 
 on:
   workflow_dispatch:
   schedule:
-    # Daily update (03:21 UTC). Adjust as you like.
-    - cron: '21 3 * * *'
-  repository_dispatch:
+    - cron: "7 2 * * *"   # daily at 02:07 UTC (off-peak)
+  push:
+    paths:
+      - ".github/workflows/github-activity.yml"
+      - "scripts/generate-gh-contribs.js"
 
 permissions:
   contents: write
 
-concurrency:
-  group: gh-activity-${{ github.ref }}
-  cancel-in-progress: false
+env:
+  LOGIN: "evanniko1"
+  OUT_DIR: "images"
+  LIGHT_NAME: "github-activity-light.svg"
+  DARK_NAME: "github-activity-dark.svg"
+  TITLE: "GitHub contributions calendar for Evangelos Nikolados"
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      GH_USER: evanniko1
-      DEST: images
-      LIGHT_OUT: images/github-activity-light.svg
-      DARK_OUT: images/github-activity-dark.svg
-      UA: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout repo
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Ensure destination folder exists
-        run: mkdir -p "${DEST}"
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
 
-      - name: Compute date range (1 year window)
-        id: dates
+      - name: Generate SVGs via GitHub GraphQL API
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LOGIN: ${{ env.LOGIN }}
+          OUT_DIR: ${{ env.OUT_DIR }}
+          LIGHT_NAME: ${{ env.LIGHT_NAME }}
+          DARK_NAME: ${{ env.DARK_NAME }}
+          TITLE: ${{ env.TITLE }}
         run: |
-          # Last 365 days keeps SVG reasonably sized and consistent with GitHub’s UI
-          FROM="$(date -u -d '365 days ago' +%Y-%m-%d)"
-          TO="$(date -u +%Y-%m-%d)"
-          echo "from=${FROM}" >> "$GITHUB_OUTPUT"
-          echo "to=${TO}"   >> "$GITHUB_OUTPUT"
-
-      - name: Fetch contributions SVG (direct endpoint, not HTML)
-        run: |
-          set -euo pipefail
-          TMP="${DEST}/_tmp"; mkdir -p "$TMP"
-
-          URL="https://github.com/users/${GH_USER}/contributions?from=${{ steps.dates.outputs.from }}&to=${{ steps.dates.outputs.to }}"
-          echo "Fetching: $URL"
-          curl -fsSL -A "${UA}" \
-            -H 'Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp' \
-            --retry 3 --retry-delay 2 \
-            "$URL" -o "${TMP}/contrib.svg"
-
-          # Basic sanity checks
-          test -s "${TMP}/contrib.svg"
-          grep -q '<svg'  "${TMP}/contrib.svg"
-          grep -q '<rect' "${TMP}/contrib.svg" || echo "⚠️  Could not find <rect> elements (calendar may be empty)."
-
-          # Ensure XML header present
-          if ! head -n1 "${TMP}/contrib.svg" | grep -q '^<\?xml'; then
-            sed -i '1s|^|<?xml version="1.0" encoding="UTF-8"?>\n|' "${TMP}/contrib.svg"
-          fi
-
-          # Normalize fills to currentColor so site CSS can theme it.
-          # Keep month/day labels readable by preserving non-rect fills.
-          awk '
-            /<rect/ {
-              # replace any explicit fill on rects to currentColor
-              gsub(/fill="#[0-9A-Fa-f]{3,6}"/, "fill=\"currentColor\"")
-            }
-            { print }
-          ' "${TMP}/contrib.svg" > "${TMP}/normalized.svg"
-
-          # Light + Dark variants (identical markup; themed via CSS filters/classes)
-          cp "${TMP}/normalized.svg" "${LIGHT_OUT}"
-          cp "${TMP}/normalized.svg" "${DARK_OUT}"
-
-      - name: Debug — show headers, hashes, git status
-        run: |
-          set -e
-          head -n 3 "${LIGHT_OUT}" || true
-          echo '---'
-          head -n 3 "${DARK_OUT}" || true
-          echo '--- git status (pre-commit) ---'
-          git status --porcelain
-
-      - name: Rebase on latest main (avoid non-fast-forward)
-        run: |
-          set -e
-          git fetch origin main
-          git checkout main
-          git rebase origin/main || true
+          node scripts/generate-gh-contribs.js \
+            --login "$LOGIN" \
+            --out "$OUT_DIR" \
+            --light "$LIGHT_NAME" \
+            --dark "$DARK_NAME" \
+            --title "$TITLE"
 
       - name: Commit & push if changed
         run: |
           set -e
-          git add "${LIGHT_OUT}" "${DARK_OUT}"
+          git add "${{ env.OUT_DIR }}/${{ env.LIGHT_NAME }}" "${{ env.OUT_DIR }}/${{ env.DARK_NAME }}"
           if ! git diff --staged --quiet; then
             git config user.name  "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -106,6 +62,3 @@ jobs:
           else
             echo "No changes to commit"
           fi
-
-      - name: Cleanup temp
-        run: rm -rf "${DEST}/_tmp" || true
