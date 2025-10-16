@@ -11,6 +11,10 @@
   --accent: #008b8b;
   --accent-hover: #007070;
   --shadow-light: rgba(0, 0, 0, 0.05);
+
+  /* extras for the GitHub activity backdrop pattern */
+  --grid-dot: rgba(0,0,0,0.06);
+  --grid-line: rgba(0,0,0,0.04);
 }
 
 body.dark-mode {
@@ -21,6 +25,9 @@ body.dark-mode {
   --accent: #00c9c9;           /* brighter teal for pro contrast in dark mode */
   --accent-hover: #00aeb0;
   --shadow-light: rgba(0, 0, 0, 0.6);
+
+  --grid-dot: rgba(255,255,255,0.10);
+  --grid-line: rgba(255,255,255,0.06);
 }
 
 /* --------- GLOBAL RESET & BASE --------- */
@@ -218,6 +225,24 @@ body.dark-mode #theme-toggle {
   border-radius: 8px;
   padding: 1rem;
   box-shadow: 0 2px 6px var(--shadow-light);
+
+  /* 🔧 Visual polish */
+  border-top: 3px solid var(--accent);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.3s ease, background 0.3s ease;
+
+  /* Optional soft grid pattern behind the SVG (subtle, theme-aware) */
+  background-image:
+    radial-gradient(circle at 1px 1px, var(--grid-dot) 1px, transparent 0),
+    linear-gradient(var(--grid-line), var(--grid-line));
+  background-size: 18px 18px, 100% 100%;
+  background-blend-mode: overlay;
+}
+#github-activity img:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+@media (prefers-reduced-motion: reduce) {
+  #github-activity img { transition: none; }
 }
 
 /* --------- PUBLICATIONS --------- */
