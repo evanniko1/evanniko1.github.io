@@ -36,7 +36,7 @@ jobs:
 
       - name: Generate SVGs via GitHub GraphQL API
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LOGIN: ${{ env.LOGIN }}
           OUT_DIR: ${{ env.OUT_DIR }}
           LIGHT_NAME: ${{ env.LIGHT_NAME }}
