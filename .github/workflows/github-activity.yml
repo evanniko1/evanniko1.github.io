@@ -1,24 +1,28 @@
-name: Update GitHub Activity SVG
+name: Refresh GitHub contributions calendar
 
 on:
-  schedule:
-    - cron: "11 3 * * *"     # daily at 03:11 UTC
   workflow_dispatch:
+  schedule:
+    # Daily update (03:21 UTC). Adjust as you like.
+    - cron: '21 3 * * *'
+  repository_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: github-activity
+  group: gh-activity-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     env:
       GH_USER: evanniko1
       DEST: images
+      LIGHT_OUT: images/github-activity-light.svg
+      DARK_OUT: images/github-activity-dark.svg
+      UA: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36
 
     steps:
       - name: Checkout repository
@@ -26,94 +30,76 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Prepare folders
+      - name: Ensure destination folder exists
+        run: mkdir -p "${DEST}"
+
+      - name: Compute date range (1 year window)
+        id: dates
         run: |
-          mkdir -p "$DEST/_tmp"
+          # Last 365 days keeps SVG reasonably sized and consistent with GitHub’s UI
+          FROM="$(date -u -d '365 days ago' +%Y-%m-%d)"
+          TO="$(date -u +%Y-%m-%d)"
+          echo "from=${FROM}" >> "$GITHUB_OUTPUT"
+          echo "to=${TO}"   >> "$GITHUB_OUTPUT"
 
-      - name: Download contributions page (HTML)
-        run: |
-          set -euo pipefail
-          curl -fsSL \
-            -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0 Safari/537.36" \
-            -H "Accept: text/html,*/*" \
-            -H "Accept-Language: en" \
-            "https://github.com/users/${GH_USER}/contributions" \
-            -o "$DEST/_tmp/contrib.html"
-
-          # Basic sanity check that we didn't get an error page
-          test -s "$DEST/_tmp/contrib.html"
-          grep -qi "<svg" "$DEST/_tmp/contrib.html" || (echo "ERROR: No <svg> found in downloaded HTML" && exit 1)
-
-      - name: Extract ONLY the calendar <svg> block
-        shell: bash
+      - name: Fetch contributions SVG (direct endpoint, not HTML)
         run: |
           set -euo pipefail
-          SRC="$DEST/_tmp/contrib.html"
-          OUT_L="$DEST/github-activity-light.svg"
-          OUT_D="$DEST/github-activity-dark.svg"
+          TMP="${DEST}/_tmp"; mkdir -p "$TMP"
 
-          # Anchor near the calendar SVG (robust against minor DOM changes)
-          start_line=$(grep -n 'js-calendar-graph-svg' "$SRC" | head -n1 | cut -d: -f1 || true)
-          if [ -z "${start_line}" ]; then
-            start_line=$(grep -n 'data-color-scale' "$SRC" | head -n1 | cut -d: -f1 || true)
-          fi
-          if [ -z "${start_line}" ]; then
-            start_line=$(grep -n 'role="img"' "$SRC" | head -n1 | cut -d: -f1 || true)
-          fi
-          if [ -z "${start_line}" ]; then
-            start_line=$(grep -n '<svg' "$SRC" | head -n1 | cut -d: -f1 || true)
-          fi
-          [ -n "${start_line}" ] || { echo "ERROR: Could not locate calendar SVG anchor in HTML"; exit 1; }
+          URL="https://github.com/users/${GH_USER}/contributions?from=${{ steps.dates.outputs.from }}&to=${{ steps.dates.outputs.to }}"
+          echo "Fetching: $URL"
+          curl -fsSL -A "${UA}" \
+            -H 'Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp' \
+            --retry 3 --retry-delay 2 \
+            "$URL" -o "${TMP}/contrib.svg"
 
-          # From the anchor forward, emit exactly one <svg>…</svg> block
-          tail -n +"${start_line}" "$SRC" \
-            | awk 'match($0,/<svg[^>]*>/){p=1} p{print} /<\/svg>/{exit}' \
-            > "${OUT_L}"
+          # Basic sanity checks
+          test -s "${TMP}/contrib.svg"
+          grep -q '<svg'  "${TMP}/contrib.svg"
+          grep -q '<rect' "${TMP}/contrib.svg" || echo "⚠️  Could not find <rect> elements (calendar may be empty)."
 
-          # Add XML header if missing (helps some viewers)
-          if ! head -n1 "${OUT_L}" | grep -q '^<\?xml'; then
-            sed -i '1s|^|<?xml version="1.0" encoding="UTF-8"?>\n|' "${OUT_L}"
+          # Ensure XML header present
+          if ! head -n1 "${TMP}/contrib.svg" | grep -q '^<\?xml'; then
+            sed -i '1s|^|<?xml version="1.0" encoding="UTF-8"?>\n|' "${TMP}/contrib.svg"
           fi
 
-          # Basic SVG sanity checks
-          test -s "${OUT_L}" || (echo "ERROR: Extracted SVG is empty" && exit 1)
-          grep -q '<svg' "${OUT_L}" || (echo "ERROR: Extracted file does not contain <svg" && exit 1)
+          # Normalize fills to currentColor so site CSS can theme it.
+          # Keep month/day labels readable by preserving non-rect fills.
+          awk '
+            /<rect/ {
+              # replace any explicit fill on rects to currentColor
+              gsub(/fill="#[0-9A-Fa-f]{3,6}"/, "fill=\"currentColor\"")
+            }
+            { print }
+          ' "${TMP}/contrib.svg" > "${TMP}/normalized.svg"
 
-          # Create dark variant (you can recolor in a later step if desired)
-          cp "${OUT_L}" "${OUT_D}"
-
-      - name: (Optional) Recolor palettes
-        if: ${{ false }}  # flip to true if/when you want recolor-by-hex
-        run: |
-          # Example palette remap:
-          # sed -i 's/#ebedf0/#e7f2f2/g; s/#9be9a8/#bfe6e6/g; s/#40c463/#77c9c9/g; s/#30a14e/#2aa5a5/g; s/#216e39/#0e6d6d/g' "${DEST}/github-activity-light.svg"
-          # sed -i 's/#ebedf0/#0f1b1b/g; s/#9be9a8/#1f5c5c/g; s/#40c463/#2f8c8c/g; s/#30a14e/#46b5b5/g; s/#216e39/#7cdcdc/g' "${DEST}/github-activity-dark.svg"
-          true
+          # Light + Dark variants (identical markup; themed via CSS filters/classes)
+          cp "${TMP}/normalized.svg" "${LIGHT_OUT}"
+          cp "${TMP}/normalized.svg" "${DARK_OUT}"
 
       - name: Debug — show headers, hashes, git status
         run: |
           set -e
-          for f in "${DEST}/github-activity-light.svg" "${DEST}/github-activity-dark.svg"; do
-            echo "==> $f"
-            head -n 2 "$f" | sed -e 's/[<>]/_/g'
-            sha256sum "$f"
-            file "$f" || true
-            grep -q "<svg" "$f" || (echo "ERROR: $f does not contain <svg" && exit 1)
-          done
-          echo "--- git status (pre-commit) ---"
-          git status --porcelain || true
+          head -n 3 "${LIGHT_OUT}" || true
+          echo '---'
+          head -n 3 "${DARK_OUT}" || true
+          echo '--- git status (pre-commit) ---'
+          git status --porcelain
 
       - name: Rebase on latest main (avoid non-fast-forward)
         run: |
+          set -e
           git fetch origin main
-          git pull --rebase origin main
+          git checkout main
+          git rebase origin/main || true
 
       - name: Commit & push if changed
         run: |
           set -e
-          git add "${DEST}/github-activity-light.svg" "${DEST}/github-activity-dark.svg"
+          git add "${LIGHT_OUT}" "${DARK_OUT}"
           if ! git diff --staged --quiet; then
-            git config user.name "github-actions[bot]"
+            git config user.name  "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git commit -m "chore(gh-activity): refresh contributions calendar SVGs"
             git push
@@ -122,5 +108,4 @@ jobs:
           fi
 
       - name: Cleanup temp
-        if: always()
         run: rm -rf "${DEST}/_tmp" || true
