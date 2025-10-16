@@ -2,33 +2,59 @@ name: Update GitHub Activity SVG
 
 on:
   schedule:
-    - cron: "5 2 * * *"    # daily at 02:05 UTC
-  workflow_dispatch:       # allow manual run
+    # Update daily at 03:37 UTC (staggered to avoid rate-limit contention)
+    - cron: "37 3 * * *"
+  workflow_dispatch:
 
 permissions:
-  contents: write          # needed to commit the SVGs
+  contents: write
+
+concurrency:
+  group: github-activity
+  cancel-in-progress: false
 
 jobs:
   build:
+    name: Fetch & recolor contributions calendar
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
-      - name: Fetch latest contributions SVG (light)
-        run: |
-          mkdir -p images
-          curl -fsSL "https://github.com/users/evanniko1/contributions" -o images/github-activity-light.svg
+      - name: Create temp dir
+        run: mkdir -p images/_tmp
 
-      - name: Fetch latest contributions SVG (dark)
+      - name: Fetch raw contributions page (HTML)
         run: |
-          # Same fetch, we’ll recolor separately for dark mode
-          curl -fsSL "https://github.com/users/evanniko1/contributions" -o images/github-activity-dark.svg
+          curl -fsSL \
+            -H "Accept: text/html" \
+            -H "User-Agent: Mozilla/5.0 (compatible; GitHubActions)" \
+            -L "https://github.com/users/evanniko1/contributions" \
+            -o images/_tmp/contrib.html
 
-      - name: Recolor (light theme palette)
+      - name: Extract the <svg> only and create light/dark variants
         run: |
-          # GitHub’s default greens (empty → darkest):
-          # #ebedf0 #9be9a8 #40c463 #30a14e #216e39
+          # Extract the first <svg>…</svg> block from the HTML
+          sed -n '/<svg[[:space:]]/ , /<\/svg>/p' images/_tmp/contrib.html > images/github-activity-light.svg
+
+          # Ensure it’s a valid standalone SVG (optional XML header)
+          if ! head -n1 images/github-activity-light.svg | grep -q '<?xml'; then
+            sed -i '1s|^|<?xml version="1.0" encoding="UTF-8"?>\n|' images/github-activity-light.svg
+          fi
+
+          # Duplicate for dark theme
+          cp images/github-activity-light.svg images/github-activity-dark.svg
+
+      - name: Recolor SVGs to site palette
+        shell: bash
+        run: |
+          # Original GitHub heatmap colors (for reference):
+          # #ebedf0 (empty), #9be9a8, #40c463, #30a14e, #216e39 (highest)
+
+          # Light theme → teal scale
           sed -i \
             -e 's/#ebedf0/#e7f2f2/g' \
             -e 's/#9be9a8/#bfe6e6/g' \
@@ -37,9 +63,7 @@ jobs:
             -e 's/#216e39/#0e6d6d/g' \
             images/github-activity-light.svg
 
-      - name: Recolor (dark theme palette)
-        run: |
-          # Use a darker scale for dark mode
+          # Dark theme → darker teal scale + higher-contrast labels if present
           sed -i \
             -e 's/#ebedf0/#0f1b1b/g' \
             -e 's/#9be9a8/#1f5c5c/g' \
@@ -47,14 +71,19 @@ jobs:
             -e 's/#30a14e/#46b5b5/g' \
             -e 's/#216e39/#7cdcdc/g' \
             images/github-activity-dark.svg
-          # Also flip axis/label colors to be visible on dark background
+
+          # Improve text/axis contrast on dark
           sed -i \
             -e 's/fill="#24292e"/fill="#e6e6e6"/g' \
             -e 's/fill="#57606a"/fill="#c9c9c9"/g' \
             images/github-activity-dark.svg
 
-      - name: Commit changes
+          rm -rf images/_tmp
+
+      - name: Commit updated SVGs
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: refresh GitHub activity SVGs"
+          commit_message: "chore(gh-activity): refresh contributions calendar SVGs"
           file_pattern: images/github-activity-*.svg
+          commit_user_name: "GitHub Actions"
+          commit_user_email: "actions@github.com"
