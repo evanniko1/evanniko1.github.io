@@ -204,6 +204,22 @@ body.dark-mode #theme-toggle {
 }
 .projects h4 { color: var(--accent); margin-bottom: 0.5em; }
 
+/* --------- GITHUB ACTIVITY WIDGET --------- */
+#github-activity { margin-top: 3em; }
+#github-activity picture,
+#github-activity img {
+  display: block;
+  width: 100%;
+}
+
+#github-activity img {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px var(--shadow-light);
+}
+
 /* --------- PUBLICATIONS --------- */
 #publications { margin-top: 3em; }
 .pub-card {

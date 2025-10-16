@@ -1,0 +1,60 @@
+name: Update GitHub Activity SVG
+
+on:
+  schedule:
+    - cron: "5 2 * * *"    # daily at 02:05 UTC
+  workflow_dispatch:       # allow manual run
+
+permissions:
+  contents: write          # needed to commit the SVGs
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch latest contributions SVG (light)
+        run: |
+          mkdir -p images
+          curl -fsSL "https://github.com/users/evanniko1/contributions" -o images/github-activity-light.svg
+
+      - name: Fetch latest contributions SVG (dark)
+        run: |
+          # Same fetch, we’ll recolor separately for dark mode
+          curl -fsSL "https://github.com/users/evanniko1/contributions" -o images/github-activity-dark.svg
+
+      - name: Recolor (light theme palette)
+        run: |
+          # GitHub’s default greens (empty → darkest):
+          # #ebedf0 #9be9a8 #40c463 #30a14e #216e39
+          sed -i \
+            -e 's/#ebedf0/#e7f2f2/g' \
+            -e 's/#9be9a8/#bfe6e6/g' \
+            -e 's/#40c463/#77c9c9/g' \
+            -e 's/#30a14e/#2aa5a5/g' \
+            -e 's/#216e39/#0e6d6d/g' \
+            images/github-activity-light.svg
+
+      - name: Recolor (dark theme palette)
+        run: |
+          # Use a darker scale for dark mode
+          sed -i \
+            -e 's/#ebedf0/#0f1b1b/g' \
+            -e 's/#9be9a8/#1f5c5c/g' \
+            -e 's/#40c463/#2f8c8c/g' \
+            -e 's/#30a14e/#46b5b5/g' \
+            -e 's/#216e39/#7cdcdc/g' \
+            images/github-activity-dark.svg
+          # Also flip axis/label colors to be visible on dark background
+          sed -i \
+            -e 's/fill="#24292e"/fill="#e6e6e6"/g' \
+            -e 's/fill="#57606a"/fill="#c9c9c9"/g' \
+            images/github-activity-dark.svg
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: refresh GitHub activity SVGs"
+          file_pattern: images/github-activity-*.svg
