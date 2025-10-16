@@ -2,87 +2,83 @@ name: Update GitHub Activity SVG
 
 on:
   schedule:
-    # Update daily at 03:37 UTC (staggered to avoid rate-limit contention)
-    - cron: "37 3 * * *"
+    # Run daily (03:07 UTC) — tweak as you like
+    - cron: "7 3 * * *"
   workflow_dispatch:
 
 permissions:
   contents: write
 
-concurrency:
-  group: github-activity
-  cancel-in-progress: false
-
 jobs:
   build:
-    name: Fetch & recolor contributions calendar
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
 
-      - name: Create temp dir
-        run: mkdir -p images/_tmp
+      - name: Set variables
+        run: |
+          echo "GH_USER=evanniko1" >> $GITHUB_ENV
+          echo "DEST=images" >> $GITHUB_ENV
 
-      - name: Fetch raw contributions page (HTML)
+      - name: Ensure folders exist
+        run: |
+          mkdir -p "$DEST/_tmp"
+
+      - name: Download GitHub contributions page
         run: |
           curl -fsSL \
-            -H "Accept: text/html" \
-            -H "User-Agent: Mozilla/5.0 (compatible; GitHubActions)" \
-            -L "https://github.com/users/evanniko1/contributions" \
-            -o images/_tmp/contrib.html
+            -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0 Safari/537.36" \
+            -H "Accept: text/html,*/*" \
+            -H "Accept-Language: en" \
+            "https://github.com/users/${GH_USER}/contributions" \
+            -o "$DEST/_tmp/contrib.html"
 
-      - name: Extract the <svg> only and create light/dark variants
-        run: |
-          awk '/<svg/{f=1} f; /<\/svg>/{exit}' images/_tmp/contrib.html > images/github-activity-light.svg
-
-          # Add XML header if missing
-          if ! head -n1 images/github-activity-light.svg | grep -q '<?xml'; then
-            sed -i '1s|^|<?xml version="1.0" encoding="UTF-8"?>\n|' images/github-activity-light.svg
-          fi
-
-          # Duplicate for dark theme
-          cp images/github-activity-light.svg images/github-activity-dark.svg
-
-      - name: Recolor SVGs to site palette
+      - name: Extract ONLY the calendar <svg>
         shell: bash
         run: |
-          # Original GitHub heatmap colors (for reference):
-          # #ebedf0 (empty), #9be9a8, #40c463, #30a14e, #216e39 (highest)
+          set -euo pipefail
+          SRC="$DEST/_tmp/contrib.html"
+          OUT_L="$DEST/github-activity-light.svg"
+          OUT_D="$DEST/github-activity-dark.svg"
 
-          # Light theme → teal scale
-          sed -i \
-            -e 's/#ebedf0/#e7f2f2/g' \
-            -e 's/#9be9a8/#bfe6e6/g' \
-            -e 's/#40c463/#77c9c9/g' \
-            -e 's/#30a14e/#2aa5a5/g' \
-            -e 's/#216e39/#0e6d6d/g' \
-            images/github-activity-light.svg
+          # 1) Primary anchor (most stable on GitHub):
+          start_line=$(grep -n 'js-calendar-graph-svg' "$SRC" | head -n1 | cut -d: -f1 || true)
 
-          # Dark theme → darker teal scale + higher-contrast labels if present
-          sed -i \
-            -e 's/#ebedf0/#0f1b1b/g' \
-            -e 's/#9be9a8/#1f5c5c/g' \
-            -e 's/#40c463/#2f8c8c/g' \
-            -e 's/#30a14e/#46b5b5/g' \
-            -e 's/#216e39/#7cdcdc/g' \
-            images/github-activity-dark.svg
+          # 2) Fallbacks if class changes:
+          if [ -z "${start_line}" ]; then
+            start_line=$(grep -n 'data-color-scale' "$SRC" | head -n1 | cut -d: -f1 || true)
+          fi
+          if [ -z "${start_line}" ]; then
+            start_line=$(grep -n 'role="img"' "$SRC" | head -n1 | cut -d: -f1 || true)
+          fi
+          if [ -z "${start_line}" ]; then
+            start_line=$(grep -n '<svg' "$SRC" | head -n1 | cut -d: -f1 || true)
+          fi
 
-          # Improve text/axis contrast on dark
-          sed -i \
-            -e 's/fill="#24292e"/fill="#e6e6e6"/g' \
-            -e 's/fill="#57606a"/fill="#c9c9c9"/g' \
-            images/github-activity-dark.svg
+          if [ -z "${start_line}" ]; then
+            echo "ERROR: Could not locate the calendar SVG in the GitHub HTML."
+            exit 1
+          fi
 
-          rm -rf images/_tmp
+          # Emit exactly one <svg>…</svg> block from the anchor line forward
+          tail -n +"${start_line}" "$SRC" \
+            | awk 'match($0,/<svg[^>]*>/){p=1} p{print} /<\/svg>/{exit}' \
+            > "$OUT_L"
+
+          # Add XML header if missing (some viewers choke without it)
+          if ! head -n1 "$OUT_L" | grep -q '^<\?xml'; then
+            sed -i '1s|^|<?xml version="1.0" encoding="UTF-8"?>\n|' "$OUT_L"
+          fi
+
+          # Create a dark variant you can theme-switch if desired.
+          cp "$OUT_L" "$OUT_D"
 
       - name: Commit updated SVGs
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore(gh-activity): refresh contributions calendar SVGs"
-          file_pattern: images/github-activity-*.svg
-          commit_user_name: "GitHub Actions"
-          commit_user_email: "actions@github.com"
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$DEST/github-activity-light.svg" "$DEST/github-activity-dark.svg"
+          git commit -m "chore: refresh GitHub activity SVGs" || echo "No changes to commit"
+          git push
