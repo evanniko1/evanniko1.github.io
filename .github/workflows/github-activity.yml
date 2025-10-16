@@ -2,40 +2,49 @@ name: Update GitHub Activity SVG
 
 on:
   schedule:
-    # Run daily (03:07 UTC) — tweak as you like
-    - cron: "7 3 * * *"
+    - cron: "11 3 * * *"     # daily at 03:11 UTC
   workflow_dispatch:
 
 permissions:
   contents: write
 
+concurrency:
+  group: github-activity
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      GH_USER: evanniko1
+      DEST: images
+
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Set variables
-        run: |
-          echo "GH_USER=evanniko1" >> $GITHUB_ENV
-          echo "DEST=images" >> $GITHUB_ENV
-
-      - name: Ensure folders exist
+      - name: Prepare folders
         run: |
           mkdir -p "$DEST/_tmp"
 
-      - name: Download GitHub contributions page
+      - name: Download contributions page (HTML)
         run: |
+          set -euo pipefail
           curl -fsSL \
-            -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0 Safari/537.36" \
+            -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0 Safari/537.36" \
             -H "Accept: text/html,*/*" \
             -H "Accept-Language: en" \
             "https://github.com/users/${GH_USER}/contributions" \
             -o "$DEST/_tmp/contrib.html"
 
-      - name: Extract ONLY the calendar <svg>
+          # Basic sanity check that we didn't get an error page
+          test -s "$DEST/_tmp/contrib.html"
+          grep -qi "<svg" "$DEST/_tmp/contrib.html" || (echo "ERROR: No <svg> found in downloaded HTML" && exit 1)
+
+      - name: Extract ONLY the calendar <svg> block
         shell: bash
         run: |
           set -euo pipefail
@@ -43,10 +52,8 @@ jobs:
           OUT_L="$DEST/github-activity-light.svg"
           OUT_D="$DEST/github-activity-dark.svg"
 
-          # 1) Primary anchor (most stable on GitHub):
+          # Anchor near the calendar SVG (robust against minor DOM changes)
           start_line=$(grep -n 'js-calendar-graph-svg' "$SRC" | head -n1 | cut -d: -f1 || true)
-
-          # 2) Fallbacks if class changes:
           if [ -z "${start_line}" ]; then
             start_line=$(grep -n 'data-color-scale' "$SRC" | head -n1 | cut -d: -f1 || true)
           fi
@@ -56,29 +63,64 @@ jobs:
           if [ -z "${start_line}" ]; then
             start_line=$(grep -n '<svg' "$SRC" | head -n1 | cut -d: -f1 || true)
           fi
+          [ -n "${start_line}" ] || { echo "ERROR: Could not locate calendar SVG anchor in HTML"; exit 1; }
 
-          if [ -z "${start_line}" ]; then
-            echo "ERROR: Could not locate the calendar SVG in the GitHub HTML."
-            exit 1
-          fi
-
-          # Emit exactly one <svg>…</svg> block from the anchor line forward
+          # From the anchor forward, emit exactly one <svg>…</svg> block
           tail -n +"${start_line}" "$SRC" \
             | awk 'match($0,/<svg[^>]*>/){p=1} p{print} /<\/svg>/{exit}' \
-            > "$OUT_L"
+            > "${OUT_L}"
 
-          # Add XML header if missing (some viewers choke without it)
-          if ! head -n1 "$OUT_L" | grep -q '^<\?xml'; then
-            sed -i '1s|^|<?xml version="1.0" encoding="UTF-8"?>\n|' "$OUT_L"
+          # Add XML header if missing (helps some viewers)
+          if ! head -n1 "${OUT_L}" | grep -q '^<\?xml'; then
+            sed -i '1s|^|<?xml version="1.0" encoding="UTF-8"?>\n|' "${OUT_L}"
           fi
 
-          # Create a dark variant you can theme-switch if desired.
-          cp "$OUT_L" "$OUT_D"
+          # Basic SVG sanity checks
+          test -s "${OUT_L}" || (echo "ERROR: Extracted SVG is empty" && exit 1)
+          grep -q '<svg' "${OUT_L}" || (echo "ERROR: Extracted file does not contain <svg" && exit 1)
 
-      - name: Commit updated SVGs
+          # Create dark variant (you can recolor in a later step if desired)
+          cp "${OUT_L}" "${OUT_D}"
+
+      - name: (Optional) Recolor palettes
+        if: ${{ false }}  # flip to true if/when you want recolor-by-hex
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "$DEST/github-activity-light.svg" "$DEST/github-activity-dark.svg"
-          git commit -m "chore: refresh GitHub activity SVGs" || echo "No changes to commit"
-          git push
+          # Example palette remap:
+          # sed -i 's/#ebedf0/#e7f2f2/g; s/#9be9a8/#bfe6e6/g; s/#40c463/#77c9c9/g; s/#30a14e/#2aa5a5/g; s/#216e39/#0e6d6d/g' "${DEST}/github-activity-light.svg"
+          # sed -i 's/#ebedf0/#0f1b1b/g; s/#9be9a8/#1f5c5c/g; s/#40c463/#2f8c8c/g; s/#30a14e/#46b5b5/g; s/#216e39/#7cdcdc/g' "${DEST}/github-activity-dark.svg"
+          true
+
+      - name: Debug — show headers, hashes, git status
+        run: |
+          set -e
+          for f in "${DEST}/github-activity-light.svg" "${DEST}/github-activity-dark.svg"; do
+            echo "==> $f"
+            head -n 2 "$f" | sed -e 's/[<>]/_/g'
+            sha256sum "$f"
+            file "$f" || true
+            grep -q "<svg" "$f" || (echo "ERROR: $f does not contain <svg" && exit 1)
+          done
+          echo "--- git status (pre-commit) ---"
+          git status --porcelain || true
+
+      - name: Rebase on latest main (avoid non-fast-forward)
+        run: |
+          git fetch origin main
+          git pull --rebase origin main
+
+      - name: Commit & push if changed
+        run: |
+          set -e
+          git add "${DEST}/github-activity-light.svg" "${DEST}/github-activity-dark.svg"
+          if ! git diff --staged --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "chore(gh-activity): refresh contributions calendar SVGs"
+            git push
+          else
+            echo "No changes to commit"
+          fi
+
+      - name: Cleanup temp
+        if: always()
+        run: rm -rf "${DEST}/_tmp" || true
