@@ -2,15 +2,33 @@
   "skills": [
     {
       "title": "Languages",
-      "items": ["Python", "Julia", "C", "MATLAB"]
+      "items": [
+        "Python",
+        "Julia",
+        "C",
+        "MATLAB"
+      ]
     },
     {
       "title": "Analysis",
-      "items": ["Machine Learning", "Systems Biology", "Dynamical Modelling"]
+      "items": [
+        "Machine Learning",
+        "Systems Biology",
+        "Dynamical Modelling"
+      ]
     },
     {
       "title": "Tools",
-      "items": ["Git", "SQL", "Bash", "PyTorch", "TensorFlow", "Ollama", "OpenRouter", "MCP"]
+      "items": [
+        "Git",
+        "SQL",
+        "Bash",
+        "PyTorch",
+        "TensorFlow",
+        "Ollama",
+        "OpenRouter",
+        "MCP"
+      ]
     },
     {
       "title": "LLMs & Agents",
