@@ -1,29 +1,27 @@
-<!DOCTYPE html>
+"use strict";
+
+module.exports = function renderEditorPage() {
+  return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="robots" content="noindex,nofollow" />
-  <title>Content editor · Evangelos-Marios Nikolados</title>
-  <link rel="icon" href="images/favicon.ico" sizes="any" />
+  <title>Private content editor | Evangelos-Marios Nikolados</title>
   <meta id="theme-color" name="theme-color" content="#fafafa" />
-
+  <link rel="icon" href="favicon.ico" sizes="any" />
   <script>
     (() => {
-      let theme = 'light';
+      let theme = "light";
       try {
-        const storedTheme = localStorage.getItem('theme');
-        theme = storedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        const storedTheme = localStorage.getItem("theme");
+        theme = storedTheme || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
       } catch (_) {
-        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
       }
       document.documentElement.dataset.theme = theme;
     })();
   </script>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="main.css" />
   <link rel="stylesheet" href="editor.css" />
 </head>
@@ -31,30 +29,28 @@
   <main class="editor-shell">
     <header class="editor-header">
       <nav class="editor-nav" aria-label="Editor navigation">
-        <a href="/">View portfolio</a>
+        <a href="https://emnikolados.dev/" target="_blank" rel="noopener">View live portfolio</a>
         <button id="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">Dark mode</button>
       </nav>
-      <h1>Content editor</h1>
-      <p>Edit the portfolio content using ordinary text fields. Nothing is sent to a third party.</p>
+      <h1>Private content editor</h1>
+      <p>This editor is running only on your computer. It uses your local Git credentials when you publish.</p>
     </header>
 
     <section class="editor-guide" aria-labelledby="editor-guide-title">
       <div>
         <h2 id="editor-guide-title">How publishing works</h2>
-        <p>Load the published content or open your local <strong>content/site.json</strong>, make changes, then save or download the updated file.</p>
+        <p>Edit the repository's <strong>content/site.json</strong> through the fields below, then publish when it is ready.</p>
       </div>
       <ol>
-        <li>Edit and validate the fields below.</li>
-        <li>Save directly to an opened local file, or download <strong>site.json</strong>.</li>
-        <li>Commit and push <strong>content/site.json</strong>. GitHub Actions rebuilds the website.</li>
+        <li>Edit and validate the content.</li>
+        <li>Select <strong>Publish website</strong>.</li>
+        <li>The editor builds, commits, and pushes the update. GitHub Actions then republishes the site.</li>
       </ol>
     </section>
 
     <div class="editor-toolbar" aria-label="Content source controls">
-      <button id="load-published" class="editor-button editor-button--secondary" type="button">Reload published content</button>
-      <button id="open-local" class="editor-button editor-button--secondary" type="button">Open local site.json</button>
-      <input id="file-input" type="file" accept="application/json,.json" hidden />
-      <span id="source-label" class="editor-source">Loading published content…</span>
+      <button id="load-published" class="editor-button editor-button--secondary" type="button">Reload repository content</button>
+      <span id="source-label" class="editor-source">Loading repository content...</span>
     </div>
 
     <form id="content-form" novalidate>
@@ -93,17 +89,18 @@
     </form>
 
     <div class="editor-actions">
-      <p id="editor-status" class="editor-status" role="status" aria-live="polite">Loading content…</p>
+      <p id="editor-status" class="editor-status" role="status" aria-live="polite">Loading content...</p>
       <div class="editor-actions__buttons">
         <button id="validate-content" class="editor-button editor-button--secondary" type="button">Validate</button>
         <button id="copy-json" class="editor-button editor-button--secondary" type="button">Copy JSON</button>
-        <button id="download-json" class="editor-button" type="button">Download site.json</button>
-        <button id="save-local" class="editor-button" type="button" disabled>Save to opened file</button>
+        <button id="download-json" class="editor-button editor-button--secondary" type="button">Download backup</button>
+        <button id="publish-content" class="editor-button" type="button">Publish website</button>
       </div>
     </div>
   </main>
 
-  <script src="scripts/theme.js"></script>
-  <script src="scripts/content-editor.js"></script>
+  <script src="theme.js"></script>
+  <script src="content-editor.js"></script>
 </body>
-</html>
+</html>`;
+};

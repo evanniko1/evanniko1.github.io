@@ -19,17 +19,17 @@ Commit both **content/site.json** and the generated **index.html**. If the data 
 
 Do not edit the HTML between CONTENT START and CONTENT END comments in index.html; those blocks are generated from the JSON data.
 
-## Browser content editor
+## Private content editor
 
-Open **https://emnikolados.dev/editor.html** to update the content through text fields instead of editing JSON manually. The editor:
+The editor is deliberately not deployed to GitHub Pages. It runs on the loopback interface of your computer and uses a new unguessable session URL every time it starts.
 
-- Loads the currently published skills, models, projects, and publications.
-- Supports adding, removing, and reordering entries.
-- Validates required fields and publication URLs.
-- Can save directly to a local **content/site.json** selected through a supported browser.
-- Can copy or download **site.json** as a fallback.
+From the repository directory, run:
 
-The editor runs entirely in the browser and is excluded from search indexing. It does not store a GitHub token or write directly to the repository. Commit and push the updated **content/site.json** to publish; the existing GitHub Action rebuilds **index.html**.
+    npm run content:edit
+
+Open the URL printed in the terminal. The editor loads **content/site.json** and provides text fields for skills, models, projects, and publications. **Publish website** validates the data, rebuilds **index.html**, commits both generated files, and pushes **main** using your existing local GitHub credentials. The GitHub Actions content-build workflow then republishes the site.
+
+Stop the editor with **Ctrl+C**. There is no public **/editor.html** route and no password or GitHub token is stored in frontend code.
 
 ## Google Scholar citations
 

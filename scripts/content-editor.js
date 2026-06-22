@@ -4,15 +4,15 @@
   const form = document.getElementById("content-form");
   const status = document.getElementById("editor-status");
   const sourceLabel = document.getElementById("source-label");
-  const saveButton = document.getElementById("save-local");
-  const fileInput = document.getElementById("file-input");
+  const publishButton = document.getElementById("publish-content");
+  const sessionBase = window.location.pathname.replace(/\/+$/, "");
   const containers = {
     skill: document.getElementById("skills-list"),
     project: document.getElementById("projects-list"),
     publication: document.getElementById("publications-list"),
   };
 
-  let openedFileHandle = null;
+  let sourceRevision = null;
   let fieldId = 0;
   let dirty = false;
 
@@ -296,53 +296,14 @@
   }
 
   async function loadPublished() {
-    setStatus("Loading published content…");
-    const response = await fetch("content/site.json", { cache: "no-store" });
+    setStatus("Loading repository content...");
+    const response = await fetch(sessionBase + "/api/content", { cache: "no-store" });
+    const payload = await response.json();
     if (!response.ok) {
-      throw new Error("Could not load content/site.json.");
+      throw new Error(payload.error || "Could not load content/site.json.");
     }
-    const data = await response.json();
-    openedFileHandle = null;
-    saveButton.disabled = true;
-    renderData(data, "Published content/site.json");
-  }
-
-  async function readFile(file, sourceName) {
-    const text = await file.text();
-    const data = JSON.parse(text);
-    renderData(data, sourceName);
-  }
-
-  async function openLocalFile() {
-    if ("showOpenFilePicker" in window) {
-      const handles = await window.showOpenFilePicker({
-        multiple: false,
-        types: [{
-          description: "Portfolio content JSON",
-          accept: { "application/json": [".json"] },
-        }],
-      });
-      openedFileHandle = handles[0];
-      const file = await openedFileHandle.getFile();
-      await readFile(file, file.name);
-      saveButton.disabled = false;
-      setStatus("Local file opened. Changes can be saved directly.", "success");
-      return;
-    }
-
-    fileInput.click();
-  }
-
-  async function saveLocalFile() {
-    if (!openedFileHandle) {
-      setStatus("Open a local site.json file before saving directly.", "error");
-      return;
-    }
-    const writable = await openedFileHandle.createWritable();
-    await writable.write(jsonText());
-    await writable.close();
-    dirty = false;
-    setStatus("Saved to the opened site.json file.", "success");
+    sourceRevision = payload.revision;
+    renderData(payload.content, "Local content/site.json on " + payload.branch);
   }
 
   async function copyJson() {
@@ -361,8 +322,33 @@
     link.click();
     link.remove();
     URL.revokeObjectURL(url);
-    dirty = false;
-    setStatus("Downloaded site.json.", "success");
+    setStatus("Downloaded a backup site.json.", "success");
+  }
+
+  async function publishContent() {
+    const content = collectData();
+    if (!window.confirm("Commit these changes and push them to GitHub?")) {
+      return;
+    }
+
+    publishButton.disabled = true;
+    setStatus("Building, committing, and pushing the update...");
+    try {
+      const response = await fetch(sessionBase + "/api/publish", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content, revision: sourceRevision }),
+      });
+      const payload = await response.json();
+      if (!response.ok) {
+        throw new Error(payload.error || "Publishing failed.");
+      }
+      sourceRevision = payload.revision;
+      dirty = false;
+      setStatus(payload.message, "success");
+    } finally {
+      publishButton.disabled = false;
+    }
   }
 
   document.querySelectorAll("[data-add]").forEach((button) => {
@@ -374,25 +360,6 @@
 
   document.getElementById("load-published").addEventListener("click", () => {
     loadPublished().catch((error) => setStatus(error.message, "error"));
-  });
-
-  document.getElementById("open-local").addEventListener("click", () => {
-    openLocalFile().catch((error) => {
-      if (error.name !== "AbortError") {
-        setStatus(error.message, "error");
-      }
-    });
-  });
-
-  fileInput.addEventListener("change", () => {
-    const file = fileInput.files[0];
-    if (!file) {
-      return;
-    }
-    openedFileHandle = null;
-    saveButton.disabled = true;
-    readFile(file, file.name).catch((error) => setStatus(error.message, "error"));
-    fileInput.value = "";
   });
 
   document.getElementById("validate-content").addEventListener("click", () => {
@@ -416,8 +383,8 @@
     }
   });
 
-  saveButton.addEventListener("click", () => {
-    saveLocalFile().catch((error) => setStatus(error.message, "error"));
+  publishButton.addEventListener("click", () => {
+    publishContent().catch((error) => setStatus(error.message, "error"));
   });
 
   window.addEventListener("beforeunload", (event) => {
