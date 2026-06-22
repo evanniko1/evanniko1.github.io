@@ -4,6 +4,6 @@
   "scripts": {
     "build": "node scripts/build-site.js",
     "citations:update": "node scripts/update-scholar-citations.js",
-    "test": "node scripts/build-site.js && node scripts/check-site.js"
+    "test": "node scripts/build-site.js && node scripts/check-site.js && node --check scripts/content-editor.js"
   }
 }

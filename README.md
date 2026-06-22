@@ -19,6 +19,18 @@ Commit both **content/site.json** and the generated **index.html**. If the data 
 
 Do not edit the HTML between CONTENT START and CONTENT END comments in index.html; those blocks are generated from the JSON data.
 
+## Browser content editor
+
+Open **https://emnikolados.dev/editor.html** to update the content through text fields instead of editing JSON manually. The editor:
+
+- Loads the currently published skills, models, projects, and publications.
+- Supports adding, removing, and reordering entries.
+- Validates required fields and publication URLs.
+- Can save directly to a local **content/site.json** selected through a supported browser.
+- Can copy or download **site.json** as a fallback.
+
+The editor runs entirely in the browser and is excluded from search indexing. It does not store a GitHub token or write directly to the repository. Commit and push the updated **content/site.json** to publish; the existing GitHub Action rebuilds **index.html**.
+
 ## Google Scholar citations
 
 The scholar-citations workflow runs every Monday at 03:17 UTC and can also be run manually from GitHub Actions. It updates **content/citations.json**, rebuilds index.html, and commits the result.
