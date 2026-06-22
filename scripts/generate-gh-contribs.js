@@ -45,7 +45,6 @@ const THEMES = {
     textMuted: "#4C615D",
     // more neutral “0” bucket for definition
     levels: ["#DCE7E5", "#A9DDD4", "#6FC8BE", "#35B1A1", "#00897B"],
-    accent: "#0EA293",
     gridDot: "rgba(0,0,0,0.08)",
   },
   dark: {
@@ -56,7 +55,6 @@ const THEMES = {
     text: "#E6F2EF",
     textMuted: "#9FB6B1",
     levels: ["#19332F", "#0D5D54", "#0E8B7E", "#21B7A8", "#4FE2D2"],
-    accent: "#21B7A8",
     gridDot: "rgba(255,255,255,0.08)",
   },
 };
@@ -158,9 +156,6 @@ function drawCalendarSVG(data, theme) {
     // card
     svgRect(0.5, 0.5, width - 1, height - 1, 10, theme.card, `stroke="${theme.cardBorder}" stroke-width="1"`),
   );
-
-  // Accent bar (thin) on top for continuity with site
-  parts.push(svgRect(0, 0, width, 4, 10, theme.accent));
 
   // Month labels
   monthLabels.forEach(({ col, text }) => {

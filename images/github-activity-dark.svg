@@ -1,7 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="782" height="148" viewBox="0 0 782 148" role="img" aria-label="GitHub contributions calendar for evanniko1">
 <rect x="0" y="0" width="782" height="148" rx="10" fill="#0D1117" />
 <rect x="0.5" y="0.5" width="781" height="147" rx="10" fill="#0B1514" stroke="#16302C" stroke-width="1"/>
-<rect x="0" y="0" width="782" height="4" rx="10" fill="#21B7A8" />
 <text x="28" y="16" fill="#9FB6B1" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial" font-size="10" text-rendering="geometricPrecision">Jun</text>
 <text x="56" y="16" fill="#9FB6B1" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial" font-size="10" text-rendering="geometricPrecision">Jul</text>
 <text x="112" y="16" fill="#9FB6B1" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial" font-size="10" text-rendering="geometricPrecision">Aug</text>

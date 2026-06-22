@@ -156,11 +156,18 @@ header {
 }
 
 /* --------- SOCIAL ICONS & SCHOLAR METRIC --------- */
+.profile-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5em;
+}
 .social-icons {
   display: flex;
   align-items: center;
   gap: 14px;
-  margin-top: 1.5em;
+  margin: 0;
 }
 .social-icons a {
   display: inline-flex;
@@ -189,7 +196,7 @@ header {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  margin-top: 1.15rem;
+  margin: 0;
   padding: 0.65rem 0.85rem;
   color: var(--text-color);
   background: var(--card-bg);
@@ -303,8 +310,6 @@ header {
   padding: 1rem;
   box-shadow: 0 2px 6px var(--shadow-light);
 
-  /* 🔧 Visual polish */
-  border-top: 3px solid var(--accent);
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.3s ease, background 0.3s ease;
 
   /* Optional soft grid pattern behind the SVG (subtle, theme-aware) */
@@ -457,7 +462,7 @@ footer a { color: var(--accent); }
     border-radius: 10px;
   }
 
-  .social-icons { justify-content: center; margin-top: 0.8em; }
+  .profile-links { justify-content: center; margin-top: 0.8em; }
 
   .edu-exp { flex-direction: column; }
   .skills-columns { grid-template-columns: 1fr; }
@@ -482,5 +487,28 @@ footer a { color: var(--accent); }
     height: 240px;
   }
 
+  .profile-links {
+    flex-wrap: nowrap;
+    gap: 0.75rem;
+  }
+  .social-icons {
+    flex: 0 0 auto;
+    gap: 12px;
+  }
   .social-icon { width: 28px; height: 28px; }
+  .scholar-metric {
+    flex: 1 1 auto;
+    min-width: 0;
+    gap: 0.5rem;
+    padding: 0.55rem 0.65rem;
+  }
+  .scholar-metric__count { font-size: 1.25rem; }
+  .scholar-metric__label {
+    min-width: 0;
+    font-size: 0.78rem;
+  }
+  .scholar-metric__label small {
+    font-size: 0.62rem;
+    white-space: normal;
+  }
 }
