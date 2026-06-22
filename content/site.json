@@ -1,0 +1,107 @@
+{
+  "skills": [
+    {
+      "title": "Languages",
+      "items": ["Python", "Julia", "C", "MATLAB"]
+    },
+    {
+      "title": "Analysis",
+      "items": ["Machine Learning", "Systems Biology", "Dynamical Modelling"]
+    },
+    {
+      "title": "Tools",
+      "items": ["Git", "SQL", "Bash", "PyTorch", "TensorFlow", "Ollama", "OpenRouter", "MCP"]
+    },
+    {
+      "title": "LLMs & Agents",
+      "items": [
+        "Claude Sonnet 4.6",
+        "GPT-4.1",
+        "Qwen 2.5 Coder",
+        "Llama 3.2"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "title": "Digital Twin for Myria Biosciences",
+      "description": "Developing an integrated data-modeling pipeline linking wet-lab automation, mass-spectrometry, and machine learning to enable end-to-end operational insight."
+    },
+    {
+      "title": "Agentic NRPS Graph Assistant",
+      "description": "Built a Model Context Protocol (MCP) server exposing a graph of NRPS modules and their transition statistics. Enables LLM-driven exploration of module connectivity, motif discovery, and path scoring, forming a foundation for agentic, ML-guided NRPS design."
+    },
+    {
+      "title": "Learning the Koopman Operator with Attention-Free Transformers",
+      "description": "Introduced an attention-free latent memory and adaptive re-encoding to stabilize long-horizon Koopman forecasts across nonlinear dynamical systems."
+    },
+    {
+      "title": "Deep Learning for Protein Expression",
+      "description": "Built neural models predicting protein expression levels from DNA sequences, guiding construct optimization in synthetic biology."
+    },
+    {
+      "title": "Growth Defects in Synthetic Circuits",
+      "description": "Quantified cellular burden using host-circuit models; explored non-linear feedback in E. coli expression systems."
+    },
+    {
+      "title": "Mechanistic Models of Bacterial Growth",
+      "description": "Implemented Julia-based dynamical models linking ribosome allocation and nutrient uptake."
+    }
+  ],
+  "publications": [
+    {
+      "authors": "Bonfá G., Martino G., Sellitto A., Rinaldi A., Tedeschi F., Caliendo F., Melchiorri L., Perna D., Starkey F., Nikolados E. et al.",
+      "year": 2025,
+      "title": "Design of novel synthetic promoters to tune gene expression in T cells",
+      "url": "https://www.biorxiv.org/content/10.1101/2025.01.09.632034v1.abstract",
+      "venue": "bioRxiv",
+      "venuePrefix": "",
+      "details": "."
+    },
+    {
+      "authors": "Baranowski C., Martin H. G., Oyarzún D. A., Spinner A., Desai B., Petzold C. J., Nikolados E.-M., Jaaks-Kraatz S., Gaber A., Chalkley R. J. et al.",
+      "year": 2025,
+      "title": "Can protein expression be ‘solved’?",
+      "url": "https://www.cell.com/trends/biotechnology/fulltext/S0167-7799(25)00166-0",
+      "venue": "Trends in Biotechnology",
+      "venuePrefix": "",
+      "details": "."
+    },
+    {
+      "authors": "Nikolados E.-M., Oyarzún D. A.",
+      "year": 2023,
+      "title": "Deep learning for optimization of protein expression",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0958166923000514",
+      "venue": "Current Opinion in Biotechnology",
+      "venuePrefix": "",
+      "details": " 81: 102941."
+    },
+    {
+      "authors": "Nikolados E.-M., Wongprommoon A., Mac Aodha Ó., Cambray G., Oyarzún D. A.",
+      "year": 2022,
+      "title": "Accuracy and data efficiency in deep learning models of protein expression",
+      "url": "https://www.nature.com/articles/s41467-022-34902-5",
+      "venue": "Nature Communications",
+      "venuePrefix": "",
+      "details": " 13(1): 7755."
+    },
+    {
+      "authors": "Nikolados E.-M., Weiße A. Y., Oyarzún D. A.",
+      "year": 2021,
+      "title": "Prediction of cellular burden with host–circuit models",
+      "url": "https://link.springer.com/protocol/10.1007/978-1-0716-1032-9_13",
+      "venue": "Synthetic Gene Circuits: Methods and Protocols",
+      "venuePrefix": "In: ",
+      "details": ". Springer, pp. 267–291."
+    },
+    {
+      "authors": "Nikolados E.-M., Weiße A. Y., Ceroni F., Oyarzún D. A.",
+      "year": 2019,
+      "title": "Growth defects and loss-of-function in synthetic gene circuits",
+      "url": "https://pubs.acs.org/doi/full/10.1021/acssynbio.8b00531",
+      "venue": "ACS Synthetic Biology",
+      "venuePrefix": "",
+      "details": " 8(6): 1231–1240."
+    }
+  ]
+}

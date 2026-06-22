@@ -10,24 +10,30 @@
   --border-color: #e2e2e2;
   --accent: #008b8b;
   --accent-hover: #007070;
+  --muted-text: #5f6368;
+  --icon-color: #293238;
   --shadow-light: rgba(0, 0, 0, 0.05);
+  color-scheme: light;
 
   /* extras for the GitHub activity backdrop pattern */
   --grid-dot: rgba(0,0,0,0.06);
   --grid-line: rgba(0,0,0,0.04);
 }
 
-body.dark-mode {
+:root[data-theme="dark"] {
   --bg-color: #121212;
   --text-color: #e5e5e5;
   --card-bg: #1e1e1e;
   --border-color: #2a2a2a;
   --accent: #00c9c9;           /* brighter teal for pro contrast in dark mode */
   --accent-hover: #00aeb0;
+  --muted-text: #b8c0c0;
+  --icon-color: #e5e5e5;
   --shadow-light: rgba(0, 0, 0, 0.6);
 
   --grid-dot: rgba(255,255,255,0.10);
   --grid-line: rgba(255,255,255,0.06);
+  color-scheme: dark;
 }
 
 /* --------- GLOBAL RESET & BASE --------- */
@@ -55,6 +61,13 @@ a {
   transition: color 0.2s ease;
 }
 a:hover { text-decoration: underline; color: var(--accent-hover); }
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 38%, transparent);
+  outline-offset: 3px;
+}
 
 h1, h2, h3, h4 {
   font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
@@ -63,7 +76,7 @@ h1, h2, h3, h4 {
   transition: color 0.3s ease;
 }
 h1 { font-size: 2.4rem; margin-bottom: 0.3em; }
-h2 { font-size: 1.5rem; font-weight: 400; color: #666; margin-bottom: 1.5em; }
+h2 { font-size: 1.5rem; font-weight: 400; color: var(--muted-text); margin-bottom: 1.5em; }
 h3 {
   font-size: 1.3rem;
   margin-bottom: 1em;
@@ -107,7 +120,7 @@ header {
   box-shadow: 0 4px 12px var(--shadow-light);
   transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
-body.dark-mode #theme-toggle {
+:root[data-theme="dark"] #theme-toggle {
   background-color: rgba(18, 18, 18, 0.7);
   border-color: #2e2e2e;
   color: var(--accent);
@@ -142,22 +155,85 @@ body.dark-mode #theme-toggle {
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* --------- SOCIAL ICONS --------- */
-.social-icons { margin-top: 1.5em; }
-.social-icons a { display: inline-block; margin-right: 14px; }
-.social-icons img {
-  width: 32px; height: 32px;
-  filter: grayscale(100%);
-  transition: 0.3s ease;
+/* --------- SOCIAL ICONS & SCHOLAR METRIC --------- */
+.social-icons {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 1.5em;
 }
-.social-icons img:hover { filter: none; transform: scale(1.1); }
+.social-icons a {
+  display: inline-flex;
+  color: var(--icon-color);
+  border-radius: 6px;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.social-icons a:hover {
+  color: var(--accent);
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+.social-icon {
+  display: block;
+  width: 30px;
+  height: 30px;
+  background-color: currentColor;
+  -webkit-mask: var(--icon-mask) no-repeat center / contain;
+  mask: var(--icon-mask) no-repeat center / contain;
+}
+.social-icon--github { --icon-mask: url('images/github.svg'); }
+.social-icon--linkedin { --icon-mask: url('images/linkedin.svg'); }
+.social-icon--scholar { --icon-mask: url('images/google-scholar.svg'); }
+
+.scholar-metric {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.15rem;
+  padding: 0.65rem 0.85rem;
+  color: var(--text-color);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--accent);
+  border-radius: 7px;
+  box-shadow: 0 2px 5px var(--shadow-light);
+  transition: border-color 0.2s ease, transform 0.2s ease, background-color 0.3s ease;
+}
+.scholar-metric:hover {
+  color: var(--text-color);
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+.scholar-metric__count {
+  min-width: 2.6ch;
+  color: var(--accent);
+  font-size: 1.45rem;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+}
+.scholar-metric__label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.scholar-metric__label small {
+  margin-top: 0.2rem;
+  color: var(--muted-text);
+  font-size: 0.7rem;
+  font-weight: 400;
+}
 
 /* --------- SKILLS SECTION --------- */
 .skills { margin-top: 3em; margin-bottom: 3em; }
-.skills-columns { display: flex; flex-wrap: wrap; gap: 2rem; }
-.skills-columns > div {
-  flex: 1;
-  min-width: 200px;
+.skills-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+.skill-card {
   background: var(--card-bg);
   border-radius: 8px;
   border: 1px solid var(--border-color);
@@ -165,7 +241,7 @@ body.dark-mode #theme-toggle {
   box-shadow: 0 2px 4px var(--shadow-light);
   transition: box-shadow 0.2s ease, background-color 0.3s ease;
 }
-.skills-columns > div:hover { box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
+.skill-card:hover { box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
 .skills-columns h4 { color: var(--accent); margin-bottom: 0.4em; }
 
 /* --------- EDUCATION + EXPERIENCE --------- */
@@ -186,7 +262,7 @@ body.dark-mode #theme-toggle {
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 .edu-exp p { margin-bottom: 1em; font-size: 0.97rem; }
-.edu-exp em { font-style: italic; color: #888; }
+.edu-exp em { font-style: italic; color: var(--muted-text); }
 .edu-exp b { color: var(--text-color); }
 
 /* --------- PROJECTS --------- */
@@ -197,7 +273,7 @@ body.dark-mode #theme-toggle {
   gap: 1.5rem;
   margin-top: 1.5em;
 }
-.projects-grid > div {
+.project-card {
   background: var(--card-bg);
   border-radius: 8px;
   border: 1px solid var(--border-color);
@@ -205,7 +281,7 @@ body.dark-mode #theme-toggle {
   box-shadow: 0 2px 5px var(--shadow-light);
   transition: 0.25s ease;
 }
-.projects-grid > div:hover {
+.project-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
@@ -213,13 +289,14 @@ body.dark-mode #theme-toggle {
 
 /* --------- GITHUB ACTIVITY WIDGET --------- */
 #github-activity { margin-top: 3em; }
-#github-activity picture,
-#github-activity img {
+.github-activity-visual,
+.github-activity-image {
   display: block;
   width: 100%;
 }
 
-#github-activity img {
+.github-activity-image {
+  height: auto;
   background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 8px;
@@ -237,12 +314,15 @@ body.dark-mode #theme-toggle {
   background-size: 18px 18px, 100% 100%;
   background-blend-mode: overlay;
 }
-#github-activity img:hover {
+.github-activity-image:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 14px rgba(0,0,0,0.12);
 }
+.github-activity-image--dark { display: none; }
+:root[data-theme="dark"] .github-activity-image--light { display: none; }
+:root[data-theme="dark"] .github-activity-image--dark { display: block; }
 @media (prefers-reduced-motion: reduce) {
-  #github-activity img { transition: none; }
+  .github-activity-image { transition: none; }
 }
 
 /* --------- PUBLICATIONS --------- */
@@ -258,32 +338,19 @@ body.dark-mode #theme-toggle {
 }
 .pub-card p { margin: 0.2em 0; font-size: 0.95rem; color: var(--text-color); }
 
-/* ✅ Title-with-icon layout (for ORCID beside "Selected Publications") */
+/* Title-with-icon layout for the ORCID vector. */
 .section-title {
   display: inline-flex;
   align-items: center;
   gap: 8px;
 }
 
-/* Prefer this: a mask-painted badge that always matches site colors */
-.orcid-badge {
-  width: 18px;
-  height: 18px;
-  display: inline-block;
-  background-color: var(--text-color); /* monochrome to match GitHub/LinkedIn/Scholar look */
-  -webkit-mask: url('images/orcid.logo.icon.svg') no-repeat center / contain;
-  mask: url('images/orcid.logo.icon.svg') no-repeat center / contain;
-  vertical-align: -3px;
-  opacity: 0.9;
-}
-
-/* Fallback if the icon is inserted as an <img class="orcid-icon" ...> */
+/* The source SVG retains the official ORCID colours in both themes. */
 .orcid-icon {
   width: 18px;
   height: 18px;
   vertical-align: -3px;
-  filter: grayscale(1) contrast(1.05);
-  opacity: 0.9;
+  opacity: 0.95;
 }
 
 /* --------- CONTACT SECTION & FORM --------- */
@@ -354,7 +421,7 @@ body.dark-mode #theme-toggle {
 footer {
   margin-top: 2em;
   text-align: center;
-  color: #666;
+  color: var(--muted-text);
   font-size: 0.9rem;
   border-top: 1px solid var(--border-color);
   padding-top: 1em;
@@ -390,10 +457,10 @@ footer a { color: var(--accent); }
     border-radius: 10px;
   }
 
-  .social-icons { margin-top: 0.8em; }
+  .social-icons { justify-content: center; margin-top: 0.8em; }
 
   .edu-exp { flex-direction: column; }
-  .skills-columns { flex-direction: column; }
+  .skills-columns { grid-template-columns: 1fr; }
 
   #publications .pub-card { padding: 0.6rem 0.8rem; }
   #contact { padding: 1rem; }
@@ -415,5 +482,5 @@ footer a { color: var(--accent); }
     height: 240px;
   }
 
-  .social-icons img { width: 28px; height: 28px; }
+  .social-icon { width: 28px; height: 28px; }
 }

@@ -1,0 +1,52 @@
+name: scholar-citations
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 3 * * 1"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/scholar-citations.yml"
+      - "scripts/update-scholar-citations.js"
+
+permissions:
+  contents: write
+
+env:
+  SCHOLAR_USER_ID: "H8fc2JgAAAAJ"
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Refresh Google Scholar count
+        env:
+          ALLOW_STALE: "true"
+        run: node scripts/update-scholar-citations.js
+
+      - name: Rebuild citation display
+        run: node scripts/build-site.js
+
+      - name: Commit refreshed count if changed
+        run: |
+          git add content/citations.json index.html
+          if ! git diff --staged --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "chore(scholar): refresh citation count"
+            git push
+          else
+            echo "Citation count is already current"
+          fi
