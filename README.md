@@ -33,7 +33,7 @@ Stop the editor with **Ctrl+C**. There is no public **/editor.html** route and n
 
 ## Google Scholar citations
 
-The scholar-citations workflow runs every Monday at 03:17 UTC and can also be run manually from GitHub Actions. It updates **content/citations.json**, rebuilds index.html, and commits the result.
+The scholar-citations workflow runs every day at 17:17 UTC and can also be run manually from GitHub Actions. It updates **content/citations.json**, rebuilds index.html, and commits the result.
 
 Google Scholar does not provide an official public citation API. The updater therefore reads the public profile page on a best-effort basis. If Google rate-limits a scheduled run, the workflow keeps the last successfully recorded value instead of replacing it with zero.
 
