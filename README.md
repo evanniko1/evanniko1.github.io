@@ -27,7 +27,7 @@ From the repository directory, run:
 
     npm run content:edit
 
-Open the URL printed in the terminal. The editor loads **content/site.json** and provides text fields for skills, models, projects, and publications. **Publish website** validates the data, rebuilds **index.html**, commits both generated files, and pushes **main** using your existing local GitHub credentials. The GitHub Actions content-build workflow then republishes the site.
+Open the URL printed in the terminal. The editor loads **content/site.json** and provides text fields for skills, models, projects, and publications. **Publish website** fetches **origin/main**, fast-forwards or rebases local commits when possible, validates the data, rebuilds **index.html**, commits both generated files, and pushes **main** using your existing local GitHub credentials. The GitHub Actions content-build workflow then republishes the site.
 
 Stop the editor with **Ctrl+C**. There is no public **/editor.html** route and no password or GitHub token is stored in frontend code.
 

@@ -56,6 +56,9 @@ const editorServer = fs.readFileSync(path.join(ROOT, "scripts", "content-editor-
 const editorPage = fs.readFileSync(path.join(ROOT, "scripts", "content-editor-page.js"), "utf8");
 assert(editorServer.includes('const HOST = "127.0.0.1";'), "Editor server must bind to loopback.");
 assert(editorServer.includes('crypto.randomBytes(32)'), "Editor server must use an unguessable session path.");
+assert(editorServer.includes('git", ["fetch", "origin", "main"]'), "Editor publishing must fetch origin/main before pushing.");
+assert(editorServer.includes('git", ["merge", "--ff-only", "origin/main"]'), "Editor publishing must fast-forward when local main is behind.");
+assert(editorServer.includes('git", ["rebase", "origin/main"]'), "Editor publishing must rebase local commits when main diverges.");
 assert(editorServer.includes('git", ["push", "origin", "main"]'), "Editor publishing must push main.");
 assert(editorPage.includes('id="skills-list"'), "Skills editor is missing.");
 assert(editorPage.includes('id="projects-list"'), "Projects editor is missing.");

@@ -146,6 +146,87 @@ function run(command, args) {
   return (result.stdout || "").trim();
 }
 
+function gitStatePath(name) {
+  return path.join(ROOT, ".git", name);
+}
+
+function hasUnfinishedGitOperation() {
+  return fs.existsSync(gitStatePath("MERGE_HEAD"))
+    || fs.existsSync(gitStatePath("REBASE_HEAD"))
+    || fs.existsSync(gitStatePath("rebase-apply"))
+    || fs.existsSync(gitStatePath("rebase-merge"));
+}
+
+function ensureGitCanSync() {
+  if (hasUnfinishedGitOperation()) {
+    throw new Error("Git has an unfinished merge or rebase. Resolve it before publishing from the editor.");
+  }
+
+  const status = run("git", ["status", "--porcelain"]);
+  if (status) {
+    throw new Error("Cannot update from GitHub because the working tree has uncommitted changes. Commit, stash, or discard those changes before publishing from the editor.");
+  }
+}
+
+function abortRebaseIfNeeded() {
+  if (!fs.existsSync(gitStatePath("rebase-apply")) && !fs.existsSync(gitStatePath("rebase-merge"))) {
+    return;
+  }
+
+  const result = spawnSync("git", ["rebase", "--abort"], {
+    cwd: ROOT,
+    encoding: "utf8",
+    maxBuffer: 10 * 1024 * 1024,
+    windowsHide: true,
+  });
+  if (result.error || result.status !== 0) {
+    const detail = result.error ? result.error.message : (result.stderr || result.stdout || "").trim();
+    throw new Error("Automatic rebase failed, and the editor could not abort it. " + detail);
+  }
+}
+
+function syncWithOrigin() {
+  ensureGitCanSync();
+  run("git", ["fetch", "origin", "main"]);
+
+  const local = run("git", ["rev-parse", "HEAD"]);
+  const remote = run("git", ["rev-parse", "origin/main"]);
+  if (local === remote) {
+    return "up-to-date";
+  }
+
+  const base = run("git", ["merge-base", "HEAD", "origin/main"]);
+  if (base === local) {
+    run("git", ["merge", "--ff-only", "origin/main"]);
+    return "fast-forwarded";
+  }
+  if (base === remote) {
+    return "ahead";
+  }
+
+  try {
+    run("git", ["rebase", "origin/main"]);
+    return "rebased";
+  } catch (error) {
+    abortRebaseIfNeeded();
+    throw new Error("GitHub has new commits, and the editor could not automatically rebase your local commits. Resolve the conflict manually, then publish again. " + error.message);
+  }
+}
+
+function pushToOrigin(commit) {
+  syncWithOrigin();
+  try {
+    run("git", ["push", "origin", "main"]);
+  } catch (error) {
+    syncWithOrigin();
+    try {
+      run("git", ["push", "origin", "main"]);
+    } catch (retryError) {
+      throw new Error("The update was committed locally as " + commit + ", but GitHub rejected the push after an automatic sync. " + retryError.message);
+    }
+  }
+}
+
 function runChecks() {
   run(process.execPath, ["scripts/build-site.js"]);
   run(process.execPath, ["scripts/check-site.js"]);
@@ -189,6 +270,8 @@ async function publish(req, res) {
       throw new Error("Publishing is allowed only from the main branch. Current branch: " + (branch || "detached HEAD"));
     }
 
+    syncWithOrigin();
+
     const payload = JSON.parse(await readRequestBody(req));
     validateContent(payload.content);
 
@@ -225,11 +308,7 @@ async function publish(req, res) {
       commit = run("git", ["rev-parse", "--short", "HEAD"]);
     }
 
-    try {
-      run("git", ["push", "origin", "main"]);
-    } catch (error) {
-      throw new Error("The update was committed locally as " + commit + ", but GitHub rejected the push. " + error.message);
-    }
+    pushToOrigin(commit);
 
     const saved = readContent();
     sendJson(res, 200, {
