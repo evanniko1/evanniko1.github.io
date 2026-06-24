@@ -185,10 +185,14 @@
     });
   }
 
-  function appendCard(kind, data, shouldMarkDirty) {
+  function appendCard(kind, data, shouldMarkDirty, position) {
     const card = createCard(kind, data);
     const container = containers[kind];
-    container.append(card);
+    if (position === "top") {
+      container.prepend(card);
+    } else {
+      container.append(card);
+    }
     renumber(container);
 
     if (shouldMarkDirty) {
@@ -354,7 +358,8 @@
   document.querySelectorAll("[data-add]").forEach((button) => {
     button.addEventListener("click", () => {
       const kind = button.dataset.add;
-      appendCard(kind, defaultEntry(kind), true);
+      const position = kind === "project" || kind === "publication" ? "top" : "bottom";
+      appendCard(kind, defaultEntry(kind), true, position);
     });
   });
 

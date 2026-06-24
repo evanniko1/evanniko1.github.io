@@ -64,6 +64,8 @@ assert(editorPage.includes('id="skills-list"'), "Skills editor is missing.");
 assert(editorPage.includes('id="projects-list"'), "Projects editor is missing.");
 assert(editorPage.includes('id="publications-list"'), "Publications editor is missing.");
 assert(editorPage.includes('id="publish-content"'), "Publish control is missing.");
+const editorClient = fs.readFileSync(path.join(ROOT, "scripts", "content-editor.js"), "utf8");
+assert(editorClient.includes('kind === "project" || kind === "publication" ? "top" : "bottom"'), "New projects and publications must be inserted at the top.");
 
 const jsonLdMatch = html.match(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/);
 assert(jsonLdMatch, "Structured data block is missing.");
