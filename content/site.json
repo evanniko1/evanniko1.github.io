@@ -118,6 +118,15 @@
       "venue": "ACS Synthetic Biology",
       "venuePrefix": "",
       "details": "8(6): 1231–1240."
+    },
+    {
+      "authors": "Mohammed Nagdi, Evangelos-Marios Nikolados, Alexey Yermakov, Mars Gao, Nathan Kutz, Filippo Menolascina",
+      "year": 2026,
+      "title": "Learning the Koopman Operator using Attention Free Transformers",
+      "url": "https://arxiv.org/abs/2606.23957",
+      "venue": "arXiv",
+      "venuePrefix": "",
+      "details": "."
     }
   ]
 }
