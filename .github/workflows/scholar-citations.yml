@@ -32,8 +32,6 @@ jobs:
           node-version: "20"
 
       - name: Refresh Google Scholar count
-        env:
-          ALLOW_STALE: "true"
         run: node scripts/update-scholar-citations.js
 
       - name: Rebuild citation display
