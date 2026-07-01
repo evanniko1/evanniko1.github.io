@@ -36,7 +36,7 @@ function delay(milliseconds) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
-async function fetchProfile() {
+async function fetchCitationCount() {
   const errors = [];
 
   for (let attempt = 1; attempt <= 3; attempt += 1) {
@@ -49,9 +49,12 @@ async function fetchProfile() {
             throw new Error(new URL(profileUrl).host + " returned HTTP " + response.status + ".");
           }
 
-          return await response.text();
+          const html = await response.text();
+          const totalCitations = parseCitationCount(html);
+          console.log("Scholar citation source: " + new URL(profileUrl).host);
+          return totalCitations;
         } catch (error) {
-          errors.push(error.message);
+          errors.push(new URL(profileUrl).host + ": " + error.message);
         }
       }
     }
@@ -61,27 +64,46 @@ async function fetchProfile() {
     }
   }
 
-  throw new Error("Scholar fetch failed after retries: " + errors.slice(-6).join(" | "));
+  throw new Error("Scholar refresh failed after retries: " + errors.slice(-6).join(" | "));
 }
 
 function parseCitationCount(html) {
-  const match = html.match(/<td[^>]*class="gsc_rsb_std"[^>]*>([0-9,]+)<\/td>/i);
-  if (!match) {
-    throw new Error("Could not find the total citation count in the Scholar profile.");
+  const totalMatch = html.match(/<td[^>]*class="gsc_rsb_std"[^>]*>([0-9,]+)<\/td>/i);
+  if (totalMatch) {
+    return normalizeCount(totalMatch[1], "Scholar total citation count");
   }
 
-  const total = Number(match[1].replaceAll(",", ""));
+  const articleCitationCounts = [...html.matchAll(/<a[^>]*class="gsc_a_ac[^"']*"[^>]*>([0-9,]+)<\/a>/gi)]
+    .map((match) => normalizeCount(match[1], "article citation count"));
+  if (articleCitationCounts.length > 0) {
+    return articleCitationCounts.reduce((sum, count) => sum + count, 0);
+  }
+
+  throw new Error(describeUnparseableScholarHtml(html));
+}
+
+function normalizeCount(value, label) {
+  const total = Number(String(value).replaceAll(",", ""));
   if (!Number.isInteger(total) || total < 0) {
-    throw new Error("Scholar returned an invalid citation count.");
+    throw new Error("Scholar returned an invalid " + label + ".");
   }
-
   return total;
+}
+
+function describeUnparseableScholarHtml(html) {
+  const title = (html.match(/<title>(.*?)<\/title>/i) || [])[1];
+  if (/recaptcha|captcha|unusual traffic|sorry\/index/i.test(html)) {
+    return "Scholar returned an anti-bot or unusual-traffic page" + (title ? " titled " + JSON.stringify(title) : "") + ".";
+  }
+  if (/consent\.google|Before you continue|cookies/i.test(html)) {
+    return "Scholar returned a consent page" + (title ? " titled " + JSON.stringify(title) : "") + ".";
+  }
+  return "Could not find citation counts in the Scholar profile" + (title ? " titled " + JSON.stringify(title) : "") + ".";
 }
 
 async function main() {
   try {
-    const html = await fetchProfile();
-    const totalCitations = parseCitationCount(html);
+    const totalCitations = await fetchCitationCount();
     const payload = {
       totalCitations,
       updatedAt: new Date().toISOString().slice(0, 10),
