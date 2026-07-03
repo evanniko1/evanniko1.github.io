@@ -35,7 +35,9 @@ Stop the editor with **Ctrl+C**. There is no public **/editor.html** route and n
 
 The scholar-citations workflow runs every day at 17:17 UTC and can also be run manually from GitHub Actions. It updates **content/citations.json**, rebuilds index.html, and commits the result.
 
-Google Scholar does not provide an official public citation API. The updater therefore reads the public profile page on a best-effort basis. If Google rate-limits a scheduled run, the workflow fails visibly and leaves the last successfully recorded value on the website.
+Google Scholar blocks GitHub-hosted runners often enough that direct scraping is not a reliable automation strategy. The scheduled workflow therefore uses SerpApi's Google Scholar Author API and requires a repository secret named **SERPAPI_KEY**. If that secret is missing or the provider fails, the workflow fails visibly and leaves the last successfully recorded value on the website.
+
+Direct Scholar scraping remains available only for local/manual checks where your own network can access the profile.
 
 To refresh locally:
 

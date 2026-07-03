@@ -4,7 +4,7 @@
   "scripts": {
     "build": "node scripts/build-site.js",
     "citations:update": "node scripts/update-scholar-citations.js",
-    "test": "node scripts/build-site.js && node scripts/check-site.js && node --check scripts/content-editor.js && node --check scripts/content-editor-page.js && node --check scripts/content-editor-server.js",
+    "test": "node scripts/build-site.js && node scripts/check-site.js && node --check scripts/content-editor.js && node --check scripts/content-editor-page.js && node --check scripts/content-editor-server.js && node scripts/test-scholar-citations.js",
     "content:edit": "node scripts/content-editor-server.js"
   }
 }

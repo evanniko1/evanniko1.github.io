@@ -54,6 +54,11 @@ assert(!activityGenerator.includes("width, 4, 10, theme.accent"), "GitHub activi
 assert(!fs.existsSync(path.join(ROOT, "editor.html")), "The private editor must not be deployed as a public page.");
 const editorServer = fs.readFileSync(path.join(ROOT, "scripts", "content-editor-server.js"), "utf8");
 const editorPage = fs.readFileSync(path.join(ROOT, "scripts", "content-editor-page.js"), "utf8");
+const scholarWorkflow = fs.readFileSync(path.join(ROOT, ".github", "workflows", "scholar-citations.yml"), "utf8");
+const scholarUpdater = fs.readFileSync(path.join(ROOT, "scripts", "update-scholar-citations.js"), "utf8");
+assert(scholarWorkflow.includes('SCHOLAR_CITATION_PROVIDER: "serpapi"'), "Scheduled Scholar workflow must use the SerpApi provider, not direct Scholar scraping.");
+assert(scholarWorkflow.includes("SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}"), "Scheduled Scholar workflow must read SERPAPI_KEY from GitHub Actions secrets.");
+assert(scholarUpdater.includes("SERPAPI_KEY is required"), "Scholar updater must fail clearly when the SerpApi key is missing.");
 assert(editorServer.includes('const HOST = "127.0.0.1";'), "Editor server must bind to loopback.");
 assert(editorServer.includes('crypto.randomBytes(32)'), "Editor server must use an unguessable session path.");
 assert(editorServer.includes('git", ["fetch", "origin", "main"]'), "Editor publishing must fetch origin/main before pushing.");
