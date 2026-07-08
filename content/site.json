@@ -2,66 +2,76 @@
   "skills": [
     {
       "title": "Languages",
-      "items": [
-        "Python",
-        "Julia",
-        "C",
-        "MATLAB"
-      ]
+      "items": ["Python", "Julia", "C", "MATLAB", "SQL"]
     },
     {
-      "title": "Analysis",
-      "items": [
-        "Machine Learning",
-        "Systems Biology",
-        "Dynamical Modelling"
-      ]
+      "title": "ML & modelling",
+      "items": ["Deep learning", "Mechanistic & dynamical modelling", "Whole-cell simulation", "Active learning / DoE"]
+    },
+    {
+      "title": "Frameworks",
+      "items": ["PyTorch", "TensorFlow", "scikit-learn", "Dash", "FastAPI", "SQLAlchemy"]
+    },
+    {
+      "title": "LLMs & agents",
+      "items": ["MCP", "Tool-calling agents", "Claude Code", "Codex", "Ollama", "OpenRouter"]
     },
     {
       "title": "Tools",
-      "items": [
-        "Git",
-        "SQL",
-        "Bash",
-        "PyTorch",
-        "TensorFlow",
-        "Ollama",
-        "OpenRouter",
-        "MCP"
-      ]
-    },
-    {
-      "title": "LLMs & Agents",
-      "items": [
-        "Claude Code",
-        "Codex"
-      ]
+      "items": ["Git", "Bash", "Docker"]
     }
   ],
   "projects": [
     {
-      "title": "Digital Twin for Myria Biosciences",
-      "description": "Developing an integrated data-modeling pipeline linking wet-lab automation, mass-spectrometry, and machine learning to enable end-to-end operational insight."
+      "title": "seq2yield-agent",
+      "tag": "In development",
+      "url": "https://github.com/evanniko1/seq2yield-agent",
+      "description": "A self-driving ML system that automatically builds, critiques, and improves models predicting expression or yield from short biological sequences — for any such dataset, not one hand-tuned model. An LLM council proposes approaches, reviewers challenge them, and a bounded ML-engineer loop validates each under fixed metrics. Already spans five public datasets (~1.12M sequences across E. coli, yeast, and human)."
     },
     {
-      "title": "Agentic NRPS Graph Assistant",
-      "description": "Built a Model Context Protocol (MCP) server exposing a graph of NRPS modules and their transition statistics. Enables LLM-driven exploration of module connectivity, motif discovery, and path scoring, forming a foundation for agentic, ML-guided NRPS design."
+      "title": "wcEcoli Platform & Coli Agent",
+      "tag": "In development",
+      "url": "https://github.com/MohammedNagdi/wcEcoli/tree/feature/wcecoli-platform",
+      "description": "A platform that opens a molecular-resolution whole-cell E. coli model (~1,592 genes) to a natural-language agent: design knockout and media-shift experiments, launch batch simulations, and analyse results by conversation, with human approval for any state change — putting whole-cell modelling in the hands of experimental biologists and students, not just computational specialists."
     },
     {
-      "title": "Learning the Koopman Operator with Attention-Free Transformers",
-      "description": "Introduced an attention-free latent memory and adaptive re-encoding to stabilize long-horizon Koopman forecasts across nonlinear dynamical systems."
+      "title": "The Well, for the Cell",
+      "tag": "In development",
+      "url": "",
+      "description": "A public ML benchmark of whole-cell dynamics — the biology counterpart to Polymathic AI's The Well. A large, standardized corpus of whole-cell E. coli simulation trajectories (fully observable, causally perturbed, dynamic) with benchmark tasks, leakage-free splits, and baselines: model-derived data that complements the sparse, noisy snapshots of experimental omics. The wcEcoli platform generates the corpus; the Coli agent is its grounded query interface."
     },
     {
-      "title": "Deep Learning for Protein Expression",
-      "description": "Built neural models predicting protein expression levels from DNA sequences, guiding construct optimization in synthetic biology."
+      "title": "Cellarium",
+      "tag": "Hackathon · 2026",
+      "url": "https://github.com/evanniko1/cellarium",
+      "description": "A grounded, guardrailed Claude copilot over a whole-cell E. coli simulation, built for the Built with Claude: Life Sciences hackathon. It answers only from real simulation data and enforces biosecurity and scientific guardrails — refusing experiments outside the model's validated envelope and withholding non-viable results rather than laundering them into clean-looking numbers."
+    }
+  ],
+  "news": [
+    {
+      "date": "Jul 2026",
+      "text": "Selected (1 of 500) for the Built with Claude: Life Sciences hackathon; building Cellarium, a guardrailed copilot over a whole-cell E. coli model.",
+      "href": "https://cerebralvalley.ai/e/built-with-claude-life-sciences"
     },
     {
-      "title": "Growth Defects in Synthetic Circuits",
-      "description": "Quantified cellular burden using host-circuit models; explored non-linear feedback in E. coli expression systems."
+      "date": "2026",
+      "text": "New preprint: Learning the Koopman Operator using Attention-Free Transformers.",
+      "href": "https://arxiv.org/abs/2606.23957"
     },
     {
-      "title": "Mechanistic Models of Bacterial Growth",
-      "description": "Implemented Julia-based dynamical models linking ribosome allocation and nutrient uptake."
+      "date": "2025",
+      "text": "Perspective in Trends in Biotechnology: Can protein expression be 'solved'?",
+      "href": "https://www.cell.com/trends/biotechnology/fulltext/S0167-7799(25)00166-0"
+    },
+    {
+      "date": "Nov 2024",
+      "text": "Joined Myria Biosciences as Head of AI.",
+      "href": "https://www.myria.bio/"
+    },
+    {
+      "date": "2024",
+      "text": "Completed my PhD in Quantitative Biology at the University of Edinburgh.",
+      "href": ""
     }
   ],
   "publications": [
@@ -99,7 +109,7 @@
       "url": "https://www.sciencedirect.com/science/article/pii/S0958166923000514",
       "venue": "Current Opinion in Biotechnology",
       "venuePrefix": "",
-      "details": "81: 102941."
+      "details": " 81: 102941."
     },
     {
       "authors": "Nikolados E.-M., Wongprommoon A., Mac Aodha Ó., Cambray G., Oyarzún D. A.",
@@ -108,7 +118,7 @@
       "url": "https://www.nature.com/articles/s41467-022-34902-5",
       "venue": "Nature Communications",
       "venuePrefix": "",
-      "details": "13(1): 7755."
+      "details": " 13(1): 7755."
     },
     {
       "authors": "Nikolados E.-M., Weiße A. Y., Oyarzún D. A.",
@@ -126,7 +136,7 @@
       "url": "https://pubs.acs.org/doi/full/10.1021/acssynbio.8b00531",
       "venue": "ACS Synthetic Biology",
       "venuePrefix": "",
-      "details": "8(6): 1231–1240."
+      "details": " 8(6): 1231–1240."
     }
   ]
 }

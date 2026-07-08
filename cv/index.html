@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>CV — Evangelos-Marios Nikolados</title>
+  <meta name="author" content="Evangelos-Marios Nikolados" />
+  <link rel="canonical" href="https://emnikolados.dev/cv/" />
+  <link rel="icon" href="../images/favicon.ico" sizes="any" />
+  <link rel="manifest" href="../site.webmanifest" />
+  <meta id="theme-color" name="theme-color" content="#fbfaf7" />
+
+  <script>
+    (() => {
+      let theme = 'light';
+      try {
+        const stored = localStorage.getItem('theme');
+        theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      } catch (_) {
+        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../main.css" />
+
+  <meta name="description" content="Curriculum vitae of Evangelos-Marios Nikolados — Head of AI at Myria Biosciences; AI for biology, whole-cell modelling, and agentic ML." />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta property="og:type" content="profile" />
+  <meta property="og:site_name" content="Evangelos-Marios Nikolados" />
+  <meta property="og:title" content="CV — Evangelos-Marios Nikolados" />
+  <meta property="og:description" content="Curriculum vitae — Head of AI at Myria Biosciences; AI for biology, whole-cell modelling, agentic ML." />
+  <meta property="og:url" content="https://emnikolados.dev/cv/" />
+  <meta property="og:image" content="https://emnikolados.dev/images/profile.jpg" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="CV — Evangelos-Marios Nikolados" />
+  <meta name="twitter:description" content="Curriculum vitae — Head of AI at Myria Biosciences." />
+  <meta name="twitter:image" content="https://emnikolados.dev/images/profile.jpg" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "url": "https://emnikolados.dev/cv/",
+    "name": "CV — Evangelos-Marios Nikolados",
+    "about": { "@type": "Person", "name": "Evangelos-Marios Nikolados", "url": "https://emnikolados.dev/" }
+  }
+  </script>
+</head>
+
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="side-name"><a href="../index.html">Evangelos-Marios Nikolados</a></div>
+      <p class="side-role">Head of AI,
+        <a href="https://www.myria.bio/" target="_blank" rel="noopener noreferrer">Myria Biosciences</a>
+      </p>
+
+      <nav class="navlist" aria-label="Pages">
+        <ul>
+          <li><a href="../index.html">About</a></li>
+          <li><a href="../publications/index.html">Publications</a></li>
+          <li><a href="index.html" aria-current="page">CV</a></li>
+        </ul>
+      </nav>
+
+      <ul class="side-links">
+        <li><a class="ext" href="https://github.com/evanniko1" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        <li><a class="ext" href="https://scholar.google.com/citations?user=H8fc2JgAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
+        <li><a class="ext" href="https://www.linkedin.com/in/emnikolados/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a class="ext" href="https://orcid.org/0000-0003-2303-0889" target="_blank" rel="noopener noreferrer">ORCID</a></li>
+        <li><a href="mailto:vm.nikolados@gmail.com">Email</a></li>
+      </ul>
+
+      <a class="btn-cv" href="../EvangelosMarios_Nikolados_CV.pdf" target="_blank" rel="noopener">Download CV ↓</a>
+
+      <button id="theme-toggle" aria-label="Toggle dark mode" aria-pressed="false">Dark mode</button>
+    </aside>
+
+    <main class="main">
+      <div class="cv-top-row">
+        <h1 class="cv-title">Curriculum Vitae</h1>
+        <a class="btn-cv" href="../EvangelosMarios_Nikolados_CV.pdf" download>Download PDF ↓</a>
+      </div>
+
+      <!-- Experience -->
+      <section>
+        <h2 class="sec-h">Experience</h2>
+        <div class="cv-item">
+          <div class="cv-head"><span class="cv-role">Head of AI — Myria Biosciences AG</span><span class="cv-place">Edinburgh, UK · Basel HQ</span></div>
+          <div class="cv-sub">Nov 2024 – Present · Full-time</div>
+          <ul>
+            <li>Built <b>MyriaLoop</b>, an end-to-end closed-loop data platform (Python, Dash) unifying LC-MS peptide discovery with NRPS combinatorial-biosynthesis design.</li>
+            <li>Built the platform's ML engine predicting NRPS construct functionality and used it to guide the wet lab, moving the team from combinatorial screening to targeted, model-guided design.</li>
+            <li>Turned experiment planning into an active-learning loop so each round is chosen to be maximally informative.</li>
+          </ul>
+        </div>
+        <div class="cv-item">
+          <div class="cv-head"><span class="cv-role">Research Assistant — Weiße Group, University of Edinburgh</span><span class="cv-place">Edinburgh, UK</span></div>
+          <div class="cv-sub">Jun 2023 – Nov 2023</div>
+          <ul><li>Developed and validated mechanistic bacterial-growth models in Julia, linking ribosome allocation and nutrient uptake to whole-cell physiology.</li></ul>
+        </div>
+        <div class="cv-item">
+          <div class="cv-head"><span class="cv-role">Project Supervisor — University of Edinburgh</span><span class="cv-place">Edinburgh, UK</span></div>
+          <div class="cv-sub">2020 – 2023</div>
+          <ul><li>Supervised undergraduate and PhD students on ML-for-biology projects — data preparation, dimensionality reduction, and image-analysis pipelines for classifying neural stem cells.</li></ul>
+        </div>
+      </section>
+
+      <!-- Education -->
+      <section>
+        <h2 class="sec-h">Education</h2>
+        <div class="cv-item">
+          <div class="cv-head"><span class="cv-role">PhD, Quantitative Biology, Biochemistry &amp; Biotechnology</span><span class="cv-place">Edinburgh, UK</span></div>
+          <div class="cv-sub">University of Edinburgh · 2019–2024</div>
+          <ul><li>Thesis: "Next-generation computational optimization of protein expression systems." Supervisors: Dr Diego Oyarzún, Prof. Meriem El Karoui.</li></ul>
+        </div>
+        <div class="cv-item">
+          <div class="cv-head"><span class="cv-role">Master of Research (MRes), Systems &amp; Synthetic Biology</span><span class="cv-place">London, UK</span></div>
+          <div class="cv-sub">Imperial College London · 2017–2018 · Distinction</div>
+          <ul><li>Thesis: "Growth defects and loss-of-function in synthetic gene circuits." Supervisors: Dr Diego Oyarzún, Dr John Heap.</li></ul>
+        </div>
+        <div class="cv-item">
+          <div class="cv-head"><span class="cv-role">Bachelor of Liberal Arts (ALB), Biology</span><span class="cv-place">Cambridge, MA</span></div>
+          <div class="cv-sub">Harvard University, Extension School · 2015–2017 · GPA 3.87</div>
+          <ul><li>Thesis: "Intrusion Prevention &amp; Detection Models for DNA Data Storage Systems." Supervisor: Edward G. Freedman.</li></ul>
+        </div>
+        <div class="cv-item">
+          <div class="cv-head"><span class="cv-role">BSc studies, Molecular Biology &amp; Genetics</span><span class="cv-place">Alexandroupolis, GR</span></div>
+          <div class="cv-sub">Democritus University of Thrace · 2011–2013 · transferred to Harvard</div>
+        </div>
+      </section>
+
+      <!-- Talks & Presentations -->
+      <section>
+        <h2 class="sec-h">Talks &amp; Presentations</h2>
+        <ul class="cv-list">
+          <li><span class="d">2023</span><span><b>Talk</b> — Darwin Trust Symposium, Edinburgh. "Deep learning models of protein expression."</span></li>
+          <li><span class="d">2023</span><span><b>Talk</b> — Turing Workshop on AI, Engineering Biology &amp; Beyond, Edinburgh.</span></li>
+          <li><span class="d">2022</span><span><b>Talk</b> — ICSB Satellite: "Synthetic Biology in the Age of Machine Learning", Berlin.</span></li>
+          <li><span class="d">2021</span><span><b>Talk</b> — Synthetic Biology UK, Nottingham.</span></li>
+          <li><span class="d">2022</span><span><b>Poster</b> — Microbes22, Leuven, Belgium (flash talk &amp; poster).</span></li>
+          <li><span class="d">2022</span><span><b>Poster</b> — MOMI22, INRIA Sophia Antipolis (<i>Best Poster Award</i>).</span></li>
+          <li><span class="d">2022</span><span><b>Poster</b> — EMBO Workshop on Codon Usage, Edinburgh.</span></li>
+          <li><span class="d">2019</span><span><b>Poster</b> — Control Engineering &amp; Synthetic Biology, University of Oxford.</span></li>
+          <li><span class="d">2018</span><span><b>Poster</b> — Synthetic Biology UK, Bristol.</span></li>
+        </ul>
+      </section>
+
+      <!-- Awards -->
+      <section>
+        <h2 class="sec-h">Awards &amp; Recognition</h2>
+        <ul class="award-list">
+          <li>Selected participant (1 of 500) — Built with Claude: Life Sciences, Cerebral Valley (2026)</li>
+          <li>Principal's Career Development Scholarship, University of Edinburgh</li>
+          <li>Darwin Trust PhD Studentship in Biology &amp; Biomedical Sciences</li>
+          <li>DDE Venture Builder Incubator grant (£2,000) — KOIOS, a cause-and-effect discovery NLP pipeline</li>
+          <li>Centenary Prize for MSc, Imperial College London</li>
+          <li>Best Poster Award — MOMI22 (2022)</li>
+          <li>Alpha Sigma Lambda (ΑΣΛ) Honor Society; Dean's List — Harvard Extension</li>
+          <li>State Scholarship Foundation excellence award (Greece)</li>
+        </ul>
+      </section>
+
+      <!-- Skills -->
+      <section>
+        <h2 class="sec-h">Skills</h2>
+        <!-- CONTENT:SKILLS:START -->
+        <div class="skill">
+          <span class="skill-label">Languages</span>
+          <span class="skill-items">Python · Julia · C · MATLAB · SQL</span>
+        </div>
+        <div class="skill">
+          <span class="skill-label">ML &amp; modelling</span>
+          <span class="skill-items">Deep learning · Mechanistic &amp; dynamical modelling · Whole-cell simulation · Active learning / DoE</span>
+        </div>
+        <div class="skill">
+          <span class="skill-label">Frameworks</span>
+          <span class="skill-items">PyTorch · TensorFlow · scikit-learn · Dash · FastAPI · SQLAlchemy</span>
+        </div>
+        <div class="skill">
+          <span class="skill-label">LLMs &amp; agents</span>
+          <span class="skill-items">MCP · Tool-calling agents · Claude Code · Codex · Ollama · OpenRouter</span>
+        </div>
+        <div class="skill">
+          <span class="skill-label">Tools</span>
+          <span class="skill-items">Git · Bash · Docker</span>
+        </div>
+        <!-- CONTENT:SKILLS:END -->
+      </section>
+
+      <footer>
+        © 2026 Evangelos-Marios Nikolados · Built with HTML &amp; CSS · Hosted on
+        <a href="https://pages.github.com/">GitHub Pages</a>
+      </footer>
+    </main>
+  </div>
+
+  <script src="../scripts/theme.js"></script>
+</body>
+</html>

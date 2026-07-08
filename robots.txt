@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
+# CV
+Allow: /cv/
+Allow: /EvangelosMarios_Nikolados_CV.pdf
+
 Sitemap: https://emnikolados.dev/sitemap.xml

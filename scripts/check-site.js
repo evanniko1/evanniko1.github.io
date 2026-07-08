@@ -6,6 +6,8 @@ const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
 const html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
+const pubHtml = fs.readFileSync(path.join(ROOT, "publications", "index.html"), "utf8");
+const cvHtml = fs.readFileSync(path.join(ROOT, "cv", "index.html"), "utf8");
 const css = fs.readFileSync(path.join(ROOT, "main.css"), "utf8");
 const site = JSON.parse(fs.readFileSync(path.join(ROOT, "content", "site.json"), "utf8"));
 const citations = JSON.parse(fs.readFileSync(path.join(ROOT, "content", "citations.json"), "utf8"));
@@ -23,6 +25,8 @@ for (const file of [
   "robots.txt",
   "sitemap.xml",
   "site.webmanifest",
+  "publications/index.html",
+  "cv/index.html",
   "thankyou.html",
   "editor.css",
   "scripts/content-editor.js",
@@ -32,21 +36,26 @@ for (const file of [
   assert(fs.existsSync(path.join(ROOT, file)), "Missing required file: " + file);
 }
 
-for (const marker of ["SKILLS", "PROJECTS", "PUBLICATIONS", "CITATIONS"]) {
+for (const marker of ["PROJECTS", "NEWS"]) {
   assert(html.includes("<!-- CONTENT:" + marker + ":START -->"), "Missing " + marker + " start marker.");
   assert(html.includes("<!-- CONTENT:" + marker + ":END -->"), "Missing " + marker + " end marker.");
 }
+assert(pubHtml.includes("<!-- CONTENT:PUBLICATIONS:START -->"), "Missing PUBLICATIONS start marker on publications page.");
+assert(pubHtml.includes("<!-- CONTENT:PUBLICATIONS:END -->"), "Missing PUBLICATIONS end marker on publications page.");
+assert(cvHtml.includes("<!-- CONTENT:SKILLS:START -->"), "Missing SKILLS start marker on CV page.");
+assert(cvHtml.includes("<!-- CONTENT:SKILLS:END -->"), "Missing SKILLS end marker on CV page.");
 
 assert(!html.includes("images/gscholar.png"), "The raster Google Scholar icon is still referenced.");
 assert(!html.includes("favicon-32.png"), "The old broken favicon path is still present.");
 assert(html.includes("dataset.theme = theme"), "Early theme initialization is missing.");
-assert(css.includes("google-scholar.svg"), "The vector Google Scholar icon is not wired in CSS.");
-assert(html.includes(citations.totalCitations.toLocaleString("en-GB")), "Citation count is not rendered.");
-assert(html.includes(site.skills[site.skills.length - 1].items[0]), "LLM skills are not rendered.");
+assert(cvHtml.includes(site.skills[site.skills.length - 1].items[0]), "Skills are not rendered on the CV page.");
 assert(html.includes(site.projects[0].title), "Projects are not rendered.");
-assert(html.includes(site.publications[0].title), "Publications are not rendered.");
-assert(html.includes('<div class="profile-links">'), "Profile icons and citation metric are not grouped.");
-const activityCssRule = css.match(/\.github-activity-image\s*\{([^}]*)\}/);
+assert(html.includes(site.news[0].text), "News items are not rendered.");
+assert(pubHtml.includes(site.publications[0].title), "Publications are not rendered on the publications page.");
+assert(html.includes('class="sidebar"'), "Sidebar is missing.");
+assert(html.includes('class="side-links"'), "Sidebar profile links are missing.");
+assert(html.includes('class="about-photo"'), "About photo is missing.");
+const activityCssRule = css.match(/\.gh-visual img\s*\{([^}]*)\}/);
 assert(activityCssRule && !activityCssRule[1].includes("border-top:"), "GitHub activity container still has a highlighted top border.");
 assert(!activityLight.includes('height="4" rx="10"'), "Light GitHub activity SVG still has an accent bar.");
 assert(!activityDark.includes('height="4" rx="10"'), "Dark GitHub activity SVG still has an accent bar.");

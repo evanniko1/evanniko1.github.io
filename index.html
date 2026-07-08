@@ -2,14 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-  />
-  <title>Evangelos-Marios Nikolados – Head of AI, Myria Biosciences | Computational Biology & AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Evangelos-Marios Nikolados — AI for Biology | Head of AI, Myria Biosciences</title>
   <meta name="author" content="Evangelos-Marios Nikolados" />
 
-  <!-- Canonical domain -->
   <link rel="canonical" href="https://emnikolados.dev/" />
 
   <!-- Favicons / PWA basics -->
@@ -18,7 +14,7 @@
   <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <meta id="theme-color" name="theme-color" content="#fafafa" />
+  <meta id="theme-color" name="theme-color" content="#fbfaf7" />
 
   <script>
     (() => {
@@ -33,29 +29,22 @@
     })();
   </script>
 
-  <!-- Fonts -->
+  <!-- Fonts: serif prose + mono labels -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
-  <!-- CSS -->
   <link rel="stylesheet" href="main.css" />
 
   <!-- SEO -->
-  <meta
-    name="description"
-    content="Evangelos-Marios Nikolados—Head of AI at Myria Biosciences. Computational biologist building a full digital twin for R&D and operations; synthetic biology, modelling, and AI."
-  />
+  <meta name="description" content="Evangelos-Marios Nikolados — Head of AI at Myria Biosciences. Machine learning & computational scientist at the intersection of AI and biology: whole-cell modelling, mechanistic + ML, and agentic systems." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Evangelos-Marios Nikolados" />
-  <meta property="og:title" content="Evangelos-Marios Nikolados · Head of AI at Myria Biosciences" />
-  <meta
-    property="og:description"
-    content="Computational biologist leading AI at Myria Biosciences. Digital twins for wet-lab to analytics; synthetic biology, modelling, and AI."
-  />
+  <meta property="og:title" content="Evangelos-Marios Nikolados · AI for Biology" />
+  <meta property="og:description" content="Head of AI at Myria Biosciences. Fusing mechanistic modelling and machine learning — whole-cell simulation, agentic systems, and the AI-driven virtual cell." />
   <meta property="og:url" content="https://emnikolados.dev/" />
   <meta property="og:image" content="https://emnikolados.dev/images/profile.jpg" />
   <meta property="og:image:width" content="960" />
@@ -64,11 +53,8 @@
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Evangelos Nikolados · Head of AI at Myria Biosciences" />
-  <meta
-    name="twitter:description"
-    content="Computational biologist leading AI at Myria Biosciences. Digital twins for wet-lab to analytics; synthetic biology, modelling, and AI."
-  />
+  <meta name="twitter:title" content="Evangelos-Marios Nikolados · AI for Biology" />
+  <meta name="twitter:description" content="Head of AI at Myria Biosciences. Mechanistic modelling × machine learning, whole-cell simulation, and agentic systems." />
   <meta name="twitter:image" content="https://emnikolados.dev/images/profile.jpg" />
   <meta name="twitter:image:alt" content="Portrait of Evangelos-Marios Nikolados" />
 
@@ -82,24 +68,14 @@
         "@id": "https://emnikolados.dev/#person",
         "name": "Evangelos-Marios Nikolados",
         "jobTitle": "Head of AI",
-        "description": "Computational biologist working across synthetic biology, mechanistic modelling, machine learning, and agentic AI systems.",
-        "worksFor": {
-          "@type": "Organization",
-          "name": "Myria Biosciences",
-          "url": "https://www.myria.bio/"
-        },
+        "description": "Machine learning and computational scientist working at the intersection of AI and biology: whole-cell modelling, mechanistic and data-driven models, and agentic systems.",
+        "worksFor": { "@type": "Organization", "name": "Myria Biosciences", "url": "https://www.myria.bio/" },
         "alumniOf": [
           { "@type": "CollegeOrUniversity", "name": "University of Edinburgh" },
           { "@type": "CollegeOrUniversity", "name": "Imperial College London" },
           { "@type": "CollegeOrUniversity", "name": "Harvard University" }
         ],
-        "knowsAbout": [
-          "Computational biology",
-          "Synthetic biology",
-          "Machine learning",
-          "Dynamical systems",
-          "Large language models"
-        ],
+        "knowsAbout": ["AI for biology", "Whole-cell modelling", "Machine learning", "Dynamical systems", "Synthetic biology", "LLM agents"],
         "url": "https://emnikolados.dev/",
         "image": "https://emnikolados.dev/images/profile.jpg",
         "sameAs": [
@@ -132,270 +108,145 @@
 </head>
 
 <body>
-  <div class="content">
-    <!-- ===== HEADER ===== -->
-    <header>
-      <h1>Evangelos-Marios Nikolados</h1>
-      <h2>Head of AI · Myria Biosciences</h2>
+  <div class="layout">
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar">
+      <div class="side-name">Evangelos-Marios Nikolados</div>
+      <p class="side-role">Head of AI,
+        <a href="https://www.myria.bio/" target="_blank" rel="noopener noreferrer">Myria Biosciences</a>
+      </p>
+
+      <nav class="navlist" aria-label="Pages">
+        <ul>
+          <li><a href="index.html" aria-current="page">About</a></li>
+          <li><a href="publications/index.html">Publications</a></li>
+          <li><a href="cv/index.html">CV</a></li>
+        </ul>
+      </nav>
+
+      <ul class="side-links">
+        <li><a class="ext" href="https://github.com/evanniko1" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        <li><a class="ext" href="https://scholar.google.com/citations?user=H8fc2JgAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
+        <li><a class="ext" href="https://www.linkedin.com/in/emnikolados/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a class="ext" href="https://orcid.org/0000-0003-2303-0889" target="_blank" rel="noopener noreferrer">ORCID</a></li>
+        <li><a href="mailto:vm.nikolados@gmail.com">Email</a></li>
+      </ul>
+
+      <a class="btn-cv" href="EvangelosMarios_Nikolados_CV.pdf" target="_blank" rel="noopener">Download CV ↓</a>
+
       <button id="theme-toggle" aria-label="Toggle dark mode" aria-pressed="false">Dark mode</button>
-    </header>
+    </aside>
 
-    <!-- ===== INTRO ===== -->
-    <section class="intro">
-      <div class="intro-text">
-        <p>
-          Hi, I’m <strong>Evangelos</strong>, Head of AI at
-          <a href="https://www.myria.bio/" target="_blank" rel="noopener noreferrer">Myria Biosciences</a>.
-          I lead the development of a full digital twin for the company’s R&amp;D and operational pipeline—
-          integrating every layer from wet-lab automation and mass-spectrometry analytics to
-          machine-learning-ready datasets.
-        </p>
-        <p>
-          My work bridges <b>synthetic biology, computational modelling, and AI-driven discovery</b>
-          to accelerate biotechnology innovation and improve the predictive power of biological models.
-        </p>
-        <p>
-          Previously, I completed my PhD at the <b>University of Edinburgh</b>,
-          focusing on <em>mechanistic and data-driven models of protein expression and cellular growth</em>.
-          I also hold degrees from <b>Imperial College London</b> and <b>Harvard University</b>.
-        </p>
-        <p>
-          If you want to get in touch, <a href="#contact">send me an email</a>.
-        </p>
+    <!-- ===== MAIN ===== -->
+    <main class="main">
+      <!-- Intro / About -->
+      <section id="about" class="about">
+        <p class="kicker main-kicker">AI × Biology · Whole-cell models · Agentic ML</p>
+        <img class="about-photo" src="images/profile.jpg" alt="Portrait of Evangelos-Marios Nikolados"
+             width="190" height="220" loading="eager" fetchpriority="high" decoding="async" />
+        <p>I'm Head of AI at <a href="https://www.myria.bio/" target="_blank" rel="noopener noreferrer">Myria
+          Biosciences</a>, where AI-designed microbes produce macrocyclic-peptide therapeutics. I lead the
+          <b>machine-learning and data platforms</b> that turn the company's discovery and design data into
+          decisions.</p>
+        <p>I build the models and platforms that make living cells predictable — and, ultimately, programmable.</p>
+        <p>More broadly, my work spans the two halves of biological modelling that rarely meet:
+          <b>mechanistic, mathematical models</b> of how cells work — whole-cell simulation, dynamical systems,
+          resource allocation — and <b>machine learning</b> that predicts biological function directly from sequence
+          and data. I believe the next advance in AI-for-biology comes from fusing the two, wrapped in autonomous
+          agents that design and run their own experiments — toward an AI-driven <b>virtual cell</b> you can query,
+          steer, and trust.</p>
+        <p>Previously I earned my PhD at the University of Edinburgh (deep learning for protein expression), with
+          earlier degrees from Imperial College London and Harvard.</p>
+      </section>
 
-        <div class="profile-links">
-          <nav class="social-icons" aria-label="Professional profiles">
-            <a href="https://github.com/evanniko1" aria-label="GitHub" title="GitHub" target="_blank" rel="noopener noreferrer">
-              <span class="social-icon social-icon--github" aria-hidden="true"></span>
-            </a>
-            <a href="https://www.linkedin.com/in/emnikolados/" aria-label="LinkedIn" title="LinkedIn" target="_blank" rel="noopener noreferrer">
-              <span class="social-icon social-icon--linkedin" aria-hidden="true"></span>
-            </a>
-            <a href="https://scholar.google.com/citations?user=H8fc2JgAAAAJ" aria-label="Google Scholar" title="Google Scholar" target="_blank" rel="noopener noreferrer">
-              <span class="social-icon social-icon--scholar" aria-hidden="true"></span>
-            </a>
-          </nav>
-
-        <!-- CONTENT:CITATIONS:START -->
-        <a class="scholar-metric"
-           href="https://scholar.google.com/citations?user=H8fc2JgAAAAJ"
-           target="_blank" rel="noopener noreferrer"
-           aria-label="247 total Google Scholar citations, updated 3 Jul 2026">
-          <span class="scholar-metric__count">247</span>
-          <span class="scholar-metric__label">
-            Total citations
-            <small>Google Scholar · Updated 3 Jul 2026</small>
-          </span>
-        </a>
-        <!-- CONTENT:CITATIONS:END -->
+      <!-- GitHub activity -->
+      <section id="activity">
+        <h2 class="sec-h">GitHub activity</h2>
+        <div class="gh-visual">
+          <img class="github-activity-image github-activity-image--light" src="images/github-activity-light.svg"
+               alt="GitHub contributions calendar" width="782" height="148" loading="lazy" decoding="async">
+          <img class="github-activity-image github-activity-image--dark" src="images/github-activity-dark.svg"
+               alt="GitHub contributions calendar" width="782" height="148" loading="lazy" decoding="async">
         </div>
-      </div>
+      </section>
 
-      <div class="intro-photo">
-        <img
-          src="images/profile.jpg"
-          alt="Evangelos Nikolados portrait"
-          class="profile-pic"
-          loading="eager"
-          fetchpriority="high"
-          decoding="async"
-        />
-      </div>
-    </section>
+      <!-- News -->
+      <section id="news">
+        <h2 class="sec-h">News</h2>
+        <!-- CONTENT:NEWS:START -->
+        <div class="news-item">
+          <span class="news-date">Jul 2026</span>
+          <span class="news-text"><a class="ext" href="https://cerebralvalley.ai/e/built-with-claude-life-sciences" target="_blank" rel="noopener noreferrer">Selected (1 of 500) for the Built with Claude: Life Sciences hackathon; building Cellarium, a guardrailed copilot over a whole-cell E. coli model.</a></span>
+        </div>
+        <div class="news-item">
+          <span class="news-date">2026</span>
+          <span class="news-text"><a class="ext" href="https://arxiv.org/abs/2606.23957" target="_blank" rel="noopener noreferrer">New preprint: Learning the Koopman Operator using Attention-Free Transformers.</a></span>
+        </div>
+        <div class="news-item">
+          <span class="news-date">2025</span>
+          <span class="news-text"><a class="ext" href="https://www.cell.com/trends/biotechnology/fulltext/S0167-7799(25)00166-0" target="_blank" rel="noopener noreferrer">Perspective in Trends in Biotechnology: Can protein expression be &#39;solved&#39;?</a></span>
+        </div>
+        <div class="news-item">
+          <span class="news-date">Nov 2024</span>
+          <span class="news-text"><a class="ext" href="https://www.myria.bio/" target="_blank" rel="noopener noreferrer">Joined Myria Biosciences as Head of AI.</a></span>
+        </div>
+        <div class="news-item">
+          <span class="news-date">2024</span>
+          <span class="news-text">Completed my PhD in Quantitative Biology at the University of Edinburgh.</span>
+        </div>
+        <!-- CONTENT:NEWS:END -->
+      </section>
 
-    <!-- ===== SKILLS ===== -->
-    <section class="skills">
-      <h3>Data Science &amp; Biology Skills</h3>
-      <div class="skills-columns">
-        <!-- CONTENT:SKILLS:START -->
-        <article class="skill-card">
-          <h4>Languages</h4>
-          <p>Python · Julia · C · MATLAB</p>
-        </article>
-        <article class="skill-card">
-          <h4>Analysis</h4>
-          <p>Machine Learning · Systems Biology · Dynamical Modelling</p>
-        </article>
-        <article class="skill-card">
-          <h4>Tools</h4>
-          <p>Git · SQL · Bash · PyTorch · TensorFlow · Ollama · OpenRouter · MCP</p>
-        </article>
-        <article class="skill-card">
-          <h4>LLMs &amp; Agents</h4>
-          <p>Claude Code · Codex</p>
-        </article>
-        <!-- CONTENT:SKILLS:END -->
-      </div>
-    </section>
-
-    <!-- ===== GITHUB ACTIVITY ===== -->
-    <section id="github-activity">
-      <h3>GitHub Activity</h3>
-      <div class="github-activity-visual">
-        <img class="github-activity-image github-activity-image--light"
-             src="images/github-activity-light.svg"
-             alt="GitHub contributions calendar for Evangelos Nikolados"
-             width="782" height="148" loading="lazy" decoding="async">
-        <img class="github-activity-image github-activity-image--dark"
-             src="images/github-activity-dark.svg"
-             alt="GitHub contributions calendar for Evangelos Nikolados"
-             width="782" height="148" loading="lazy" decoding="async">
-      </div>
-    </section>
-
-    <!-- ===== EDUCATION & EXPERIENCE ===== -->
-    <section class="edu-exp">
-      <div class="column">
-        <h3>Education</h3>
-        <p><b>Ph.D., Quantitative Biology, Biochemistry, and Biotechnology</b><br />
-          <em>University of Edinburgh</em> · 2019–2024<br />
-          “Next-generation computational optimization of protein expression systems.”</p>
-
-        <p><b>M.Res., Systems &amp; Synthetic Biology (Distinction)</b><br />
-          <em>Imperial College London</em> · 2017–2018<br />
-          Project: Growth defects and loss-of-function in synthetic gene circuits.</p>
-
-        <p><b>B.L.A., Biological Sciences (GPA: 3.87)</b><br />
-          <em>Harvard University, Extension School</em> · 2015–2017<br />
-          Thesis: Intrusion Prevention &amp; Detection Models for DNA Data Storage Systems.</p>
-
-        <p><b>B.Sc., Molecular Biology &amp; Genetics</b><br />
-          <em>Democritus University of Thrace</em> · 2011–2013<br />
-          Transferred to Harvard after four semesters.</p>
-      </div>
-
-      <div class="column">
-        <h3>Experience</h3>
-        <p><b>Head of AI</b><br />
-          <em>Myria Biosciences</em> · Nov 2024 – Present<br />
-          Building the company’s AI and data infrastructure, creating a digital twin of wet-lab and
-          analytical processes to streamline design-build-test-learn loops.</p>
-
-        <p><b>Research Assistant</b><br />
-          <em>Weiße Group, University of Edinburgh</em> · Jun 2023 – Nov 2023<br />
-          Implemented mechanistic bacterial growth models in Julia and validated simulation codebases.</p>
-
-        <p><b>Project Supervisor</b><br />
-          <em>University of Edinburgh</em> · 2020 – 2023<br />
-          Guided undergraduate and PhD students in data preparation, dimensionality reduction, and
-          ML pipelines for biological imaging.</p>
-
-        <p><b>Tutor</b><br />
-          <em>Quickhelp, Inc. (Boston, MA)</em> · 2016 – 2017<br />
-          Provided academic tutoring and mentoring in biology and quantitative sciences.</p>
-
-        <p><b>Teaching Assistant</b><br />
-          <em>Democritus Univ. of Thrace</em> · 2012 – 2013<br />
-          Assisted in Computational &amp; Structural Biology; supervised lab work.</p>
-      </div>
-    </section>
-
-    <!-- ===== PROJECTS ===== -->
-    <section class="projects">
-      <h3>Selected Projects</h3>
-      <div class="projects-grid">
+      <!-- Selected work -->
+      <section id="work">
+        <h2 class="sec-h">Selected work <span class="sec-note">independent of my role at Myria</span></h2>
         <!-- CONTENT:PROJECTS:START -->
-        <article class="project-card">
-          <h4>Digital Twin for Myria Biosciences</h4>
-          <p>Developing an integrated data-modeling pipeline linking wet-lab automation, mass-spectrometry, and machine learning to enable end-to-end operational insight.</p>
+        <article class="work-item">
+          <div class="work-head">
+            <span class="work-title">seq2yield-agent <span class="tag">In development</span></span>
+            <a class="work-link" href="https://github.com/evanniko1/seq2yield-agent" target="_blank" rel="noopener noreferrer">github.com/evanniko1/seq2yield-agent</a>
+          </div>
+          <p class="work-desc">A self-driving ML system that automatically builds, critiques, and improves models predicting expression or yield from short biological sequences — for any such dataset, not one hand-tuned model. An LLM council proposes approaches, reviewers challenge them, and a bounded ML-engineer loop validates each under fixed metrics. Already spans five public datasets (~1.12M sequences across E. coli, yeast, and human).</p>
         </article>
-        <article class="project-card">
-          <h4>Agentic NRPS Graph Assistant</h4>
-          <p>Built a Model Context Protocol (MCP) server exposing a graph of NRPS modules and their transition statistics. Enables LLM-driven exploration of module connectivity, motif discovery, and path scoring, forming a foundation for agentic, ML-guided NRPS design.</p>
+        <article class="work-item">
+          <div class="work-head">
+            <span class="work-title">wcEcoli Platform &amp; Coli Agent <span class="tag">In development</span></span>
+            <a class="work-link" href="https://github.com/MohammedNagdi/wcEcoli/tree/feature/wcecoli-platform" target="_blank" rel="noopener noreferrer">github.com/MohammedNagdi/wcEcoli/tree/feature/wcecoli-platform</a>
+          </div>
+          <p class="work-desc">A platform that opens a molecular-resolution whole-cell E. coli model (~1,592 genes) to a natural-language agent: design knockout and media-shift experiments, launch batch simulations, and analyse results by conversation, with human approval for any state change — putting whole-cell modelling in the hands of experimental biologists and students, not just computational specialists.</p>
         </article>
-        <article class="project-card">
-          <h4>Learning the Koopman Operator with Attention-Free Transformers</h4>
-          <p>Introduced an attention-free latent memory and adaptive re-encoding to stabilize long-horizon Koopman forecasts across nonlinear dynamical systems.</p>
+        <article class="work-item">
+          <div class="work-head">
+            <span class="work-title">The Well, for the Cell <span class="tag">In development</span></span>
+            
+          </div>
+          <p class="work-desc">A public ML benchmark of whole-cell dynamics — the biology counterpart to Polymathic AI&#39;s The Well. A large, standardized corpus of whole-cell E. coli simulation trajectories (fully observable, causally perturbed, dynamic) with benchmark tasks, leakage-free splits, and baselines: model-derived data that complements the sparse, noisy snapshots of experimental omics. The wcEcoli platform generates the corpus; the Coli agent is its grounded query interface.</p>
         </article>
-        <article class="project-card">
-          <h4>Deep Learning for Protein Expression</h4>
-          <p>Built neural models predicting protein expression levels from DNA sequences, guiding construct optimization in synthetic biology.</p>
-        </article>
-        <article class="project-card">
-          <h4>Growth Defects in Synthetic Circuits</h4>
-          <p>Quantified cellular burden using host-circuit models; explored non-linear feedback in E. coli expression systems.</p>
-        </article>
-        <article class="project-card">
-          <h4>Mechanistic Models of Bacterial Growth</h4>
-          <p>Implemented Julia-based dynamical models linking ribosome allocation and nutrient uptake.</p>
+        <article class="work-item">
+          <div class="work-head">
+            <span class="work-title">Cellarium <span class="tag">Hackathon · 2026</span></span>
+            <a class="work-link" href="https://github.com/evanniko1/cellarium" target="_blank" rel="noopener noreferrer">github.com/evanniko1/cellarium</a>
+          </div>
+          <p class="work-desc">A grounded, guardrailed Claude copilot over a whole-cell E. coli simulation, built for the Built with Claude: Life Sciences hackathon. It answers only from real simulation data and enforces biosecurity and scientific guardrails — refusing experiments outside the model&#39;s validated envelope and withholding non-viable results rather than laundering them into clean-looking numbers.</p>
         </article>
         <!-- CONTENT:PROJECTS:END -->
-      </div>
-    </section>
+      </section>
 
-    <!-- ===== PUBLICATIONS ===== -->
-    <section id="publications">
-      <h3 class="section-title">
-        Selected Publications
-        <a href="https://orcid.org/0000-0003-2303-0889"
-           aria-label="View ORCID profile"
-           target="_blank" rel="noopener noreferrer">
-          <img class="orcid-icon" src="images/orcid.logo.icon.svg" alt="" width="18" height="18" />
-        </a>
-      </h3>
+      <!-- Contact -->
+      <section id="contact">
+        <h2 class="sec-h">Contact</h2>
+        <p class="contact-line">Reach me at
+          <a class="email-link" href="mailto:vm.nikolados@gmail.com">vm.nikolados@gmail.com</a>,
+          or on any of the profiles in the sidebar.</p>
+      </section>
 
-      <!-- CONTENT:PUBLICATIONS:START -->
-      <article class="pub-card compact">
-        <p><strong>Mohammed Nagdi, Evangelos-Marios Nikolados, Alexey Yermakov, Mars Gao, Nathan Kutz, Filippo Menolascina</strong> (2026). <em><a href="https://arxiv.org/abs/2606.23957" target="_blank" rel="noopener noreferrer">Learning the Koopman Operator using Attention Free Transformers</a>.</em> <b>arXiv</b>.</p>
-      </article>
-      <article class="pub-card compact">
-        <p><strong>Bonfá G., Martino G., Sellitto A., Rinaldi A., Tedeschi F., Caliendo F., Melchiorri L., Perna D., Starkey F., Nikolados E. et al.</strong> (2025). <em><a href="https://www.biorxiv.org/content/10.1101/2025.01.09.632034v1.abstract" target="_blank" rel="noopener noreferrer">Design of novel synthetic promoters to tune gene expression in T cells</a>.</em> <b>bioRxiv</b>.</p>
-      </article>
-      <article class="pub-card compact">
-        <p><strong>Baranowski C., Martin H. G., Oyarzún D. A., Spinner A., Desai B., Petzold C. J., Nikolados E.-M., Jaaks-Kraatz S., Gaber A., Chalkley R. J. et al.</strong> (2025). <em><a href="https://www.cell.com/trends/biotechnology/fulltext/S0167-7799(25)00166-0" target="_blank" rel="noopener noreferrer">Can protein expression be ‘solved’?</a></em> <b>Trends in Biotechnology</b>.</p>
-      </article>
-      <article class="pub-card compact">
-        <p><strong>Nikolados E.-M., Oyarzún D. A.</strong> (2023). <em><a href="https://www.sciencedirect.com/science/article/pii/S0958166923000514" target="_blank" rel="noopener noreferrer">Deep learning for optimization of protein expression</a>.</em> <b>Current Opinion in Biotechnology</b>81: 102941.</p>
-      </article>
-      <article class="pub-card compact">
-        <p><strong>Nikolados E.-M., Wongprommoon A., Mac Aodha Ó., Cambray G., Oyarzún D. A.</strong> (2022). <em><a href="https://www.nature.com/articles/s41467-022-34902-5" target="_blank" rel="noopener noreferrer">Accuracy and data efficiency in deep learning models of protein expression</a>.</em> <b>Nature Communications</b>13(1): 7755.</p>
-      </article>
-      <article class="pub-card compact">
-        <p><strong>Nikolados E.-M., Weiße A. Y., Oyarzún D. A.</strong> (2021). <em><a href="https://link.springer.com/protocol/10.1007/978-1-0716-1032-9_13" target="_blank" rel="noopener noreferrer">Prediction of cellular burden with host–circuit models</a>.</em> In: <b>Synthetic Gene Circuits: Methods and Protocols</b>. Springer, pp. 267–291.</p>
-      </article>
-      <article class="pub-card compact">
-        <p><strong>Nikolados E.-M., Weiße A. Y., Ceroni F., Oyarzún D. A.</strong> (2019). <em><a href="https://pubs.acs.org/doi/full/10.1021/acssynbio.8b00531" target="_blank" rel="noopener noreferrer">Growth defects and loss-of-function in synthetic gene circuits</a>.</em> <b>ACS Synthetic Biology</b>8(6): 1231–1240.</p>
-      </article>
-        <!-- CONTENT:PUBLICATIONS:END -->
-    </section>
-
-    <!-- ===== CONTACT ===== -->
-    <section id="contact">
-      <h3>Contact</h3>
-      <form
-        action="https://formspree.io/f/xblzzayd"
-        method="POST"
-        accept-charset="UTF-8"
-        class="contact-form"
-        autocomplete="on"
-      >
-        <input type="hidden" name="_subject" value="New message from your website!" />
-        <input type="hidden" name="_next" value="https://emnikolados.dev/thankyou.html" />
-        <input type="hidden" name="_charset_" value="utf-8" />
-        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
-
-        <label for="name">Name</label>
-        <input id="name" type="text" name="name" autocomplete="name" required />
-
-        <label for="email">Email</label>
-        <input id="email" type="email" name="_replyto" autocomplete="email" required />
-
-        <label for="message">Message</label>
-        <textarea id="message" name="message" rows="5" autocomplete="off" required></textarea>
-
-        <button type="submit">Send Message</button>
-      </form>
-    </section>
-
-    <!-- ===== FOOTER ===== -->
-    <footer>
-      <p>© 2026 Evangelos Nikolados · Built with HTML &amp; CSS · Hosted on
+      <footer>
+        © 2026 Evangelos-Marios Nikolados · Built with HTML &amp; CSS · Hosted on
         <a href="https://pages.github.com/">GitHub Pages</a>
-      </p>
-    </footer>
+      </footer>
+    </main>
   </div>
 
-  <!-- ===== SCRIPTS ===== -->
   <script src="scripts/theme.js"></script>
 </body>
 </html>

@@ -1,49 +1,67 @@
 # emnikolados.dev
 
-Static GitHub Pages site for Evangelos-Marios Nikolados.
+Static GitHub Pages site for Evangelos-Marios Nikolados — a two-column, typographic
+personal site (serif headings + mono labels, teal accent, light/dark). No build framework;
+content is data-driven and injected into `index.html` by a small Node script.
 
-## Updating skills, projects, and publications
+## Layout
 
-Edit **content/site.json**. It contains three arrays:
+Three pages share one sidebar (name, role, a three-item page nav **About · Publications · CV**,
+profile links, **Download CV** button, light/dark toggle):
 
-- **skills** controls the Data Science & Biology Skills cards, including the LLMs & Agents card.
-- **projects** controls Selected Projects.
-- **publications** controls Selected Publications.
+- **About** (`index.html`) — keyword tagline, bio + floated photo, then **GitHub activity**,
+  **News**, **Selected work**, **Skills**, and **Contact** (email only).
+- **Publications** (`publications/index.html`) — the full publication list.
+- **CV** (`cv/index.html`) — an HTML CV (Experience, Education, Talks, Awards, Skills) with a
+  **Download PDF** button linking `EvangelosMarios_Nikolados_CV.pdf` at the repo root.
+
+Cross-page links are relative (`index.html`, `publications/index.html`, `cv/index.html`) so the
+site works both locally (file://) and on GitHub Pages.
+
+## Updating content
+
+Edit **content/site.json**. It contains four arrays:
+
+- **skills** — the Skills section (`title` + `items`).
+- **projects** — Selected work. Each item: `title`, optional `tag` (e.g. "In development"),
+  optional `url` (repo/link), and `description`.
+- **news** — the News feed. Each item: `date`, `text`, and optional `href` (makes it a link).
+- **publications** — the Publications list (`authors`, `year`, `title`, `url`, `venue`,
+  `venuePrefix`, `details`).
+
+The About/intro text and the keyword tagline are hardcoded in `index.html` (not data-driven).
 
 After editing locally, run:
 
     npm run build
     npm test
 
-Commit both **content/site.json** and the generated **index.html**. If the data file is edited directly on GitHub, the content-build workflow rebuilds and commits index.html automatically.
+Commit both **content/site.json** and the generated **index.html**. If the data file is edited
+directly on GitHub, the content-build workflow rebuilds and commits `index.html` automatically.
 
-Do not edit the HTML between CONTENT START and CONTENT END comments in index.html; those blocks are generated from the JSON data.
+Do not hand-edit the HTML between the CONTENT START/END comments: `scripts/build-site.js`
+generates `SKILLS`, `PROJECTS`, and `NEWS` into `index.html`, and `PUBLICATIONS` into
+`publications/index.html`, from the JSON.
 
 ## Private content editor
 
-The editor is deliberately not deployed to GitHub Pages. It runs on the loopback interface of your computer and uses a new unguessable session URL every time it starts.
+`npm run content:edit` runs a loopback-only editor with a fresh unguessable session URL. It
+currently exposes fields for **skills, projects, and publications**; the **news** feed and the
+new project `tag`/`url` fields are edited directly in `content/site.json` for now.
 
-From the repository directory, run:
-
-    npm run content:edit
-
-Open the URL printed in the terminal. The editor loads **content/site.json** and provides text fields for skills, models, projects, and publications. **Publish website** fetches **origin/main**, fast-forwards or rebases local commits when possible, validates the data, rebuilds **index.html**, commits both generated files, and pushes **main** using your existing local GitHub credentials. The GitHub Actions content-build workflow then republishes the site.
-
-Stop the editor with **Ctrl+C**. There is no public **/editor.html** route and no password or GitHub token is stored in frontend code.
+Stop the editor with **Ctrl+C**. There is no public `/editor.html` route and no password or
+GitHub token is stored in frontend code.
 
 ## Google Scholar citations
 
-The scholar-citations workflow runs every day at 17:17 UTC and can also be run manually from GitHub Actions. It updates **content/citations.json**, rebuilds index.html, and commits the result.
-
-Google Scholar blocks GitHub-hosted runners often enough that direct scraping is not a reliable automation strategy. The scheduled workflow therefore uses SerpApi's Google Scholar Author API and requires a repository secret named **SERPAPI_KEY**. If that secret is missing or the provider fails, the workflow fails visibly and leaves the last successfully recorded value on the website.
-
-Direct Scholar scraping remains available only for local/manual checks where your own network can access the profile.
-
-To refresh locally:
-
-    npm run citations:update
-    npm run build
+The on-page citation counter has been removed, so the scholar-citations workflow is optional.
+It still runs daily (updating `content/citations.json` via SerpApi and requiring the
+`SERPAPI_KEY` repository secret); disable the workflow if you no longer want it.
 
 ## SEO
 
-The site includes a canonical URL, description, Open Graph and Twitter metadata, Person and WebSite structured data, robots.txt, sitemap.xml, a web manifest, and corrected favicon links. Keep the canonical domain in index.html, robots.txt, and sitemap.xml aligned if the domain changes.
+Both pages ship a canonical URL, meta description, Open Graph + Twitter metadata, and JSON-LD
+structured data (`Person`/`WebSite` on the home page, `ProfilePage` on `/cv/`). `robots.txt`
+allows crawling and points to `sitemap.xml`, which lists `/` and `/cv/`. Keep the canonical
+domain aligned across `index.html`, `cv/index.html`, `robots.txt`, and `sitemap.xml` if the
+domain changes.
