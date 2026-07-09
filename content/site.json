@@ -54,14 +54,19 @@
       "href": "https://cerebralvalley.ai/e/built-with-claude-life-sciences"
     },
     {
-      "date": "2026",
+      "date": "Jun 2026",
       "text": "New preprint: Learning the Koopman Operator using Attention-Free Transformers.",
       "href": "https://arxiv.org/abs/2606.23957"
     },
     {
-      "date": "2025",
+      "date": "Apr 2025",
       "text": "Perspective in Trends in Biotechnology: Can protein expression be 'solved'?",
       "href": "https://www.cell.com/trends/biotechnology/fulltext/S0167-7799(25)00166-0"
+    },
+    {
+      "date": "Jan 2025",
+      "text": "New preprint: Design of novel synthetic promoters to tune gene expression in T cells.",
+      "href": "https://www.biorxiv.org/content/10.1101/2025.01.09.632034v1.abstract"
     },
     {
       "date": "Nov 2024",
@@ -85,20 +90,20 @@
       "details": "."
     },
     {
-      "authors": "Bonfá G., Martino G., Sellitto A., Rinaldi A., Tedeschi F., Caliendo F., Melchiorri L., Perna D., Starkey F., Nikolados E. et al.",
-      "year": 2025,
-      "title": "Design of novel synthetic promoters to tune gene expression in T cells",
-      "url": "https://www.biorxiv.org/content/10.1101/2025.01.09.632034v1.abstract",
-      "venue": "bioRxiv",
-      "venuePrefix": "",
-      "details": "."
-    },
-    {
       "authors": "Baranowski C., Martin H. G., Oyarzún D. A., Spinner A., Desai B., Petzold C. J., Nikolados E.-M., Jaaks-Kraatz S., Gaber A., Chalkley R. J. et al.",
       "year": 2025,
       "title": "Can protein expression be ‘solved’?",
       "url": "https://www.cell.com/trends/biotechnology/fulltext/S0167-7799(25)00166-0",
       "venue": "Trends in Biotechnology",
+      "venuePrefix": "",
+      "details": "."
+    },
+    {
+      "authors": "Bonfá G., Martino G., Sellitto A., Rinaldi A., Tedeschi F., Caliendo F., Melchiorri L., Perna D., Starkey F., Nikolados E. et al.",
+      "year": 2025,
+      "title": "Design of novel synthetic promoters to tune gene expression in T cells",
+      "url": "https://www.biorxiv.org/content/10.1101/2025.01.09.632034v1.abstract",
+      "venue": "bioRxiv",
       "venuePrefix": "",
       "details": "."
     },

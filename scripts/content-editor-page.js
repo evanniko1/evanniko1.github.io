@@ -54,22 +54,22 @@ module.exports = function renderEditorPage() {
     </div>
 
     <form id="content-form" novalidate>
-      <section class="editor-section" aria-labelledby="skills-heading">
+      <section class="editor-section" aria-labelledby="news-heading">
         <div class="editor-section__heading">
           <div>
-            <h2 id="skills-heading">Skills and models</h2>
-            <p>Enter one skill or model per line.</p>
+            <h2 id="news-heading">News &amp; updates</h2>
+            <p>Shown on the About page, newest first. Each item needs a date label and text; the link is optional.</p>
           </div>
-          <button class="editor-button editor-button--secondary" type="button" data-add="skill">Add skill group</button>
+          <button class="editor-button editor-button--secondary" type="button" data-add="news">Add news item</button>
         </div>
-        <div id="skills-list" class="editor-list"></div>
+        <div id="news-list" class="editor-list"></div>
       </section>
 
       <section class="editor-section" aria-labelledby="projects-heading">
         <div class="editor-section__heading">
           <div>
             <h2 id="projects-heading">Selected projects</h2>
-            <p>Each project needs a title and short description.</p>
+            <p>Shown on the About page. Title and description are required; tag and link are optional.</p>
           </div>
           <button class="editor-button editor-button--secondary" type="button" data-add="project">Add project</button>
         </div>
@@ -79,12 +79,23 @@ module.exports = function renderEditorPage() {
       <section class="editor-section" aria-labelledby="publications-heading">
         <div class="editor-section__heading">
           <div>
-            <h2 id="publications-heading">Selected publications</h2>
-            <p>Publication fields are converted into the existing citation layout.</p>
+            <h2 id="publications-heading">Publications</h2>
+            <p>Shown on the Publications page, newest first.</p>
           </div>
           <button class="editor-button editor-button--secondary" type="button" data-add="publication">Add publication</button>
         </div>
         <div id="publications-list" class="editor-list"></div>
+      </section>
+
+      <section class="editor-section" aria-labelledby="skills-heading">
+        <div class="editor-section__heading">
+          <div>
+            <h2 id="skills-heading">Skills &amp; tools</h2>
+            <p>Shown on the CV page. Enter one skill or tool per line.</p>
+          </div>
+          <button class="editor-button editor-button--secondary" type="button" data-add="skill">Add skill group</button>
+        </div>
+        <div id="skills-list" class="editor-list"></div>
       </section>
     </form>
 

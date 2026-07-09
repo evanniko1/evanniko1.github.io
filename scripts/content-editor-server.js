@@ -14,7 +14,9 @@ const PORT = Number(process.env.CONTENT_EDITOR_PORT || 4174);
 const TOKEN = crypto.randomBytes(32).toString("hex");
 const PREFIX = "/" + TOKEN;
 const CONTENT_PATH = path.join(ROOT, "content", "site.json");
-const INDEX_PATH = path.join(ROOT, "index.html");
+// HTML pages regenerated from content/site.json by build-site.js.
+const GENERATED_FILES = ["index.html", "publications/index.html", "cv/index.html"];
+const GENERATED_PATHS = GENERATED_FILES.map((relativePath) => path.join(ROOT, relativePath));
 const MAX_BODY_BYTES = 1024 * 1024;
 let publishing = false;
 
@@ -71,12 +73,28 @@ function validateString(value, label, optional) {
   }
 }
 
+function validateOptionalUrl(value, label) {
+  if (value === undefined || value === "") {
+    return;
+  }
+  validateString(value, label);
+  let parsed;
+  try {
+    parsed = new URL(value);
+  } catch (_) {
+    throw new Error(label + " is invalid.");
+  }
+  if (!["http:", "https:"].includes(parsed.protocol)) {
+    throw new Error(label + " must use HTTP or HTTPS.");
+  }
+}
+
 function validateContent(content) {
   if (!content || typeof content !== "object" || Array.isArray(content)) {
     throw new Error("Content must be a JSON object.");
   }
 
-  for (const section of ["skills", "projects", "publications"]) {
+  for (const section of ["news", "skills", "projects", "publications"]) {
     if (!Array.isArray(content[section]) || content[section].length === 0) {
       throw new Error(section + " must contain at least one entry.");
     }
@@ -84,6 +102,13 @@ function validateContent(content) {
       throw new Error(section + " contains too many entries.");
     }
   }
+
+  content.news.forEach((entry, index) => {
+    const label = "News item " + (index + 1);
+    validateString(entry.date, label + " date");
+    validateString(entry.text, label + " text");
+    validateOptionalUrl(entry.href, label + " link");
+  });
 
   content.skills.forEach((entry, index) => {
     validateString(entry.title, "Skill group " + (index + 1) + " title");
@@ -97,6 +122,8 @@ function validateContent(content) {
 
   content.projects.forEach((entry, index) => {
     validateString(entry.title, "Project " + (index + 1) + " title");
+    validateString(entry.tag, "Project " + (index + 1) + " tag", true);
+    validateOptionalUrl(entry.url, "Project " + (index + 1) + " link");
     validateString(entry.description, "Project " + (index + 1) + " description");
   });
 
@@ -261,7 +288,7 @@ async function publish(req, res) {
 
   publishing = true;
   let contentBackup = null;
-  let indexBackup = null;
+  let generatedBackup = null;
   let filesWritten = false;
 
   try {
@@ -282,7 +309,7 @@ async function publish(req, res) {
     }
 
     contentBackup = current.text;
-    indexBackup = fs.readFileSync(INDEX_PATH, "utf8");
+    generatedBackup = GENERATED_PATHS.map((filePath) => fs.readFileSync(filePath, "utf8"));
     const nextText = JSON.stringify(payload.content, null, 2) + "\n";
     fs.writeFileSync(CONTENT_PATH, nextText, "utf8");
     filesWritten = true;
@@ -291,20 +318,21 @@ async function publish(req, res) {
       runChecks();
     } catch (error) {
       fs.writeFileSync(CONTENT_PATH, contentBackup, "utf8");
-      fs.writeFileSync(INDEX_PATH, indexBackup, "utf8");
+      GENERATED_PATHS.forEach((filePath, index) => fs.writeFileSync(filePath, generatedBackup[index], "utf8"));
       filesWritten = false;
       throw new Error("Validation failed; no files were changed. " + error.message);
     }
 
-    const changed = spawnSync("git", ["diff", "--quiet", "--", "content/site.json", "index.html"], {
+    const trackedFiles = ["content/site.json", ...GENERATED_FILES];
+    const changed = spawnSync("git", ["diff", "--quiet", "--", ...trackedFiles], {
       cwd: ROOT,
       windowsHide: true,
     }).status !== 0;
 
     let commit = run("git", ["rev-parse", "--short", "HEAD"]);
     if (changed) {
-      run("git", ["add", "--", "content/site.json", "index.html"]);
-      run("git", ["commit", "--only", "-m", "content: update portfolio", "--", "content/site.json", "index.html"]);
+      run("git", ["add", "--", ...trackedFiles]);
+      run("git", ["commit", "--only", "-m", "content: update portfolio", "--", ...trackedFiles]);
       commit = run("git", ["rev-parse", "--short", "HEAD"]);
     }
 

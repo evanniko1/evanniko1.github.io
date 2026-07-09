@@ -74,12 +74,17 @@ assert(editorServer.includes('git", ["fetch", "origin", "main"]'), "Editor publi
 assert(editorServer.includes('git", ["merge", "--ff-only", "origin/main"]'), "Editor publishing must fast-forward when local main is behind.");
 assert(editorServer.includes('git", ["rebase", "origin/main"]'), "Editor publishing must rebase local commits when main diverges.");
 assert(editorServer.includes('git", ["push", "origin", "main"]'), "Editor publishing must push main.");
+assert(editorPage.includes('id="news-list"'), "News editor is missing.");
 assert(editorPage.includes('id="skills-list"'), "Skills editor is missing.");
 assert(editorPage.includes('id="projects-list"'), "Projects editor is missing.");
 assert(editorPage.includes('id="publications-list"'), "Publications editor is missing.");
 assert(editorPage.includes('id="publish-content"'), "Publish control is missing.");
+assert(editorServer.includes("content.news.forEach"), "Editor publishing must validate news entries.");
+assert(editorServer.includes('"publications/index.html"'), "Editor publishing must stage the rebuilt publications page.");
+assert(editorServer.includes('"cv/index.html"'), "Editor publishing must stage the rebuilt CV page.");
 const editorClient = fs.readFileSync(path.join(ROOT, "scripts", "content-editor.js"), "utf8");
-assert(editorClient.includes('kind === "project" || kind === "publication" ? "top" : "bottom"'), "New projects and publications must be inserted at the top.");
+assert(editorClient.includes('kind === "skill" ? "bottom" : "top"'), "New entries other than skills must be inserted at the top.");
+assert(editorClient.includes('containers.news'), "News entries must be collected on publish.");
 
 const jsonLdMatch = html.match(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/);
 assert(jsonLdMatch, "Structured data block is missing.");

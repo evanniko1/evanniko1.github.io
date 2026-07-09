@@ -7,6 +7,7 @@
   const publishButton = document.getElementById("publish-content");
   const sessionBase = window.location.pathname.replace(/\/+$/, "");
   const containers = {
+    news: document.getElementById("news-list"),
     skill: document.getElementById("skills-list"),
     project: document.getElementById("projects-list"),
     publication: document.getElementById("publications-list"),
@@ -126,6 +127,18 @@
     const fields = document.createElement("div");
     fields.className = "editor-fields";
 
+    if (kind === "news") {
+      fields.append(
+        createField("Date label", "date", data.date, { placeholder: "Jun 2026" }),
+        createField("Link (optional)", "href", data.href, {
+          type: "url",
+          required: false,
+          placeholder: "https://arxiv.org/abs/...",
+        }),
+        createField("Text", "text", data.text, { multiline: true, wide: true })
+      );
+    }
+
     if (kind === "skill") {
       fields.append(
         createField("Group name", "title", data.title, { placeholder: "LLMs & Agents" }),
@@ -140,6 +153,15 @@
     if (kind === "project") {
       fields.append(
         createField("Project title", "title", data.title, { wide: true }),
+        createField("Tag (optional)", "tag", data.tag, {
+          required: false,
+          placeholder: "In development",
+        }),
+        createField("Link (optional)", "url", data.url, {
+          type: "url",
+          required: false,
+          placeholder: "https://github.com/...",
+        }),
         createField("Short description", "description", data.description, {
           multiline: true,
           wide: true,
@@ -172,6 +194,7 @@
   function renumber(container) {
     const cards = Array.from(container.children);
     const labels = {
+      news: "News item",
       skill: "Skill group",
       project: "Project",
       publication: "Publication",
@@ -203,11 +226,14 @@
   }
 
   function defaultEntry(kind) {
+    if (kind === "news") {
+      return { date: "", text: "", href: "" };
+    }
     if (kind === "skill") {
       return { title: "", items: [] };
     }
     if (kind === "project") {
-      return { title: "", description: "" };
+      return { title: "", tag: "", url: "", description: "" };
     }
     return {
       authors: "",
@@ -221,20 +247,27 @@
   }
 
   function renderData(data, sourceName) {
-    if (!data || !Array.isArray(data.skills) || !Array.isArray(data.projects) || !Array.isArray(data.publications)) {
+    if (
+      !data ||
+      !Array.isArray(data.news) ||
+      !Array.isArray(data.skills) ||
+      !Array.isArray(data.projects) ||
+      !Array.isArray(data.publications)
+    ) {
       throw new Error("The selected file does not use the expected site.json structure.");
     }
-    if (!data.skills.length || !data.projects.length || !data.publications.length) {
-      throw new Error("Skills, projects, and publications must each contain at least one entry.");
+    if (!data.news.length || !data.skills.length || !data.projects.length || !data.publications.length) {
+      throw new Error("News, skills, projects, and publications must each contain at least one entry.");
     }
 
     Object.values(containers).forEach((container) => {
       container.replaceChildren();
     });
 
-    data.skills.forEach((entry) => appendCard("skill", entry, false));
+    data.news.forEach((entry) => appendCard("news", entry, false));
     data.projects.forEach((entry) => appendCard("project", entry, false));
     data.publications.forEach((entry) => appendCard("publication", entry, false));
+    data.skills.forEach((entry) => appendCard("skill", entry, false));
 
     dirty = false;
     sourceLabel.textContent = sourceName;
@@ -257,6 +290,12 @@
       throw new Error("Complete the highlighted required fields.");
     }
 
+    const news = Array.from(containers.news.children).map((card) => ({
+      date: requiredValue(card, "date", "News date label"),
+      text: requiredValue(card, "text", "News text"),
+      href: card.querySelector('[data-field="href"]').value.trim(),
+    }));
+
     const skills = Array.from(containers.skill.children).map((card, index) => {
       const itemsControl = card.querySelector('[data-field="items"]');
       const items = itemsControl.value.split(/\r?\n/).map((item) => item.trim()).filter(Boolean);
@@ -273,6 +312,8 @@
 
     const projects = Array.from(containers.project.children).map((card) => ({
       title: requiredValue(card, "title", "Project title"),
+      tag: card.querySelector('[data-field="tag"]').value.trim(),
+      url: card.querySelector('[data-field="url"]').value.trim(),
       description: requiredValue(card, "description", "Project description"),
     }));
 
@@ -292,7 +333,7 @@
       };
     });
 
-    return { skills, projects, publications };
+    return { skills, projects, news, publications };
   }
 
   function jsonText() {
@@ -358,7 +399,7 @@
   document.querySelectorAll("[data-add]").forEach((button) => {
     button.addEventListener("click", () => {
       const kind = button.dataset.add;
-      const position = kind === "project" || kind === "publication" ? "top" : "bottom";
+      const position = kind === "skill" ? "bottom" : "top";
       appendCard(kind, defaultEntry(kind), true, position);
     });
   });
