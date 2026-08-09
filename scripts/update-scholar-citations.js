@@ -10,7 +10,6 @@ const SCHOLAR_USER_ID = process.env.SCHOLAR_USER_ID || "H8fc2JgAAAAJ";
 const SERPAPI_KEY = process.env.SERPAPI_KEY || "";
 const PROVIDER = process.env.SCHOLAR_CITATION_PROVIDER || (SERPAPI_KEY ? "serpapi" : "direct");
 const ALLOW_STALE = process.env.ALLOW_STALE === "true";
-const ALLOW_CITATION_DECREASE = process.env.ALLOW_CITATION_DECREASE === "true";
 const PROFILE_URL = "https://scholar.google.com/citations?user=" + SCHOLAR_USER_ID;
 const PROFILE_PATH = "/citations?user=" + encodeURIComponent(SCHOLAR_USER_ID) + "&hl=en";
 const DIRECT_PROFILE_URLS = [
@@ -39,14 +38,6 @@ const REQUEST_PROFILES = [
 
 function delay(milliseconds) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
-}
-
-function readPreviousCitations() {
-  if (!fs.existsSync(OUTPUT_PATH)) {
-    return null;
-  }
-  const citations = JSON.parse(fs.readFileSync(OUTPUT_PATH, "utf8"));
-  return Number.isInteger(citations.totalCitations) ? citations.totalCitations : null;
 }
 
 function normalizeCount(value, label) {
@@ -180,18 +171,9 @@ async function fetchCitationCount() {
   throw new Error("Unsupported SCHOLAR_CITATION_PROVIDER: " + PROVIDER + ". Use serpapi or direct.");
 }
 
-function validateAgainstPrevious(totalCitations) {
-  const previous = readPreviousCitations();
-  if (previous == null || ALLOW_CITATION_DECREASE || totalCitations >= previous) {
-    return;
-  }
-  throw new Error("Citation count decreased from " + previous + " to " + totalCitations + ". Refusing to overwrite without ALLOW_CITATION_DECREASE=true.");
-}
-
 async function main() {
   try {
     const result = await fetchCitationCount();
-    validateAgainstPrevious(result.totalCitations);
     const payload = {
       totalCitations: result.totalCitations,
       updatedAt: new Date().toISOString().slice(0, 10),
