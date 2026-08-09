@@ -5,9 +5,14 @@ on:
   schedule:
     - cron: "7 2 * * *"   # daily at 02:07 UTC (off-peak)
   push:
+    branches: [main]
     paths:
       - ".github/workflows/github-activity.yml"
       - "scripts/generate-gh-contribs.js"
+
+concurrency:
+  group: generated-main-writer
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -58,7 +63,21 @@ jobs:
             git config user.name  "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git commit -m "chore(gh-activity): refresh contributions calendar SVGs"
-            git push
+            for attempt in 1 2 3; do
+              git fetch origin main
+              if ! git rebase origin/main; then
+                git rebase --abort || true
+                echo "Unable to rebase the generated commit onto origin/main." >&2
+                exit 1
+              fi
+              if git push origin HEAD:main; then
+                exit 0
+              fi
+              echo "Push attempt ${attempt} lost a race; retrying."
+              sleep 2
+            done
+            echo "Failed to push the generated contribution calendars after 3 attempts." >&2
+            exit 1
           else
             echo "No changes to commit"
           fi

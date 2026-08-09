@@ -10,6 +10,10 @@ on:
       - ".github/workflows/scholar-citations.yml"
       - "scripts/update-scholar-citations.js"
 
+concurrency:
+  group: generated-main-writer
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
@@ -46,7 +50,21 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git commit -m "chore(scholar): refresh citation count"
-            git push
+            for attempt in 1 2 3; do
+              git fetch origin main
+              if ! git rebase origin/main; then
+                git rebase --abort || true
+                echo "Unable to rebase the generated commit onto origin/main." >&2
+                exit 1
+              fi
+              if git push origin HEAD:main; then
+                exit 0
+              fi
+              echo "Push attempt ${attempt} lost a race; retrying."
+              sleep 2
+            done
+            echo "Failed to push the refreshed citation count after 3 attempts." >&2
+            exit 1
           else
             echo "Citation count is already current"
           fi
