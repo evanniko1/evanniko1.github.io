@@ -174,6 +174,11 @@
         createField("Publication title", "title", data.title, { wide: true }),
         createField("Year", "year", data.year, { type: "number", min: 1900, max: 2100 }),
         createField("Publication URL", "url", data.url, { type: "url" }),
+        createField("Preprint URL (optional)", "preprintUrl", data.preprintUrl, {
+          type: "url",
+          required: false,
+          placeholder: "https://www.biorxiv.org/...",
+        }),
         createField("Authors", "authors", data.authors, { multiline: true, wide: true }),
         createField("Venue", "venue", data.venue),
         createField("Venue prefix", "venuePrefix", data.venuePrefix, {
@@ -243,6 +248,7 @@
       venue: "",
       venuePrefix: "",
       details: ".",
+      preprintUrl: "",
     };
   }
 
@@ -322,7 +328,7 @@
       if (!Number.isInteger(year) || year < 1900 || year > 2100) {
         throw new Error("Publication year must be between 1900 and 2100.");
       }
-      return {
+      const pub = {
         authors: requiredValue(card, "authors", "Publication authors"),
         year,
         title: requiredValue(card, "title", "Publication title"),
@@ -331,6 +337,11 @@
         venuePrefix: card.querySelector('[data-field="venuePrefix"]').value,
         details: requiredValue(card, "details", "Publication details"),
       };
+      const preprintUrl = card.querySelector('[data-field="preprintUrl"]').value.trim();
+      if (preprintUrl) {
+        pub.preprintUrl = preprintUrl;
+      }
+      return pub;
     });
 
     return { skills, projects, news, publications };

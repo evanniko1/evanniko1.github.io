@@ -107,6 +107,10 @@ function renderPublications(publications) {
       }
       const venue = escapeHtml(pub.venuePrefix || "") +
         "<b>" + escapeHtml(pub.venue) + "</b>" + escapeHtml(pub.details || ".");
+      const preprint = pub.preprintUrl
+        ? ' <a class="pub-preprint ext" href="' + escapeHtml(pub.preprintUrl) +
+          '" target="_blank" rel="noopener noreferrer">preprint</a>'
+        : "";
       return [
         '      <article class="pub">',
         '        <div class="pub-head">',
@@ -115,7 +119,7 @@ function renderPublications(publications) {
         '          <span class="pub-year">' + year + "</span>",
         "        </div>",
         '        <div class="pub-authors">' + escapeHtml(pub.authors) + "</div>",
-        '        <div class="pub-venue">' + venue + "</div>",
+        '        <div class="pub-venue">' + venue + preprint + "</div>",
         "      </article>",
       ].join("\n");
     })
